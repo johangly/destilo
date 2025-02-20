@@ -1,0 +1,715 @@
+{
+  "modelName": "proyecto-universidad",
+  "collections": [
+    {
+      "GUID": "3fb6e731-af09-41fc-8221-e747ae70f19b",
+      "collectionName": "clientes",
+      "type": "object",
+      "properties": [
+        {
+          "name": "cliente",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "03d8c63f-819e-4e9c-a034-234065d031c5",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "cedula",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "primaryKey": false,
+          "childType": "number",
+          "type": "numeric",
+          "error": {
+            "name": false
+          },
+          "GUID": "3d5fdf1e-9a1d-48cf-8bed-18d6306ecc60"
+        },
+        {
+          "name": "ciudad",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "1961b82d-e36e-406c-9cf5-069916dc5a07",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "direccion",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "properties": [],
+          "additionalProperties": false,
+          "childType": "object",
+          "type": "document",
+          "documentId": false,
+          "containerLevelKey": false,
+          "hasERDDivider": false,
+          "error": {
+            "name": false
+          },
+          "GUID": "8b37d431-b361-46f5-9fae-a45ccc9152fa"
+        },
+        {
+          "name": "empresa",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "52173e36-c2d7-4544-8554-20408103a8ba",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "rif",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "680aa9f1-facd-4dc1-b9ea-9db430d219d4",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "email",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "1682c12a-2f90-466e-9946-2fcbb5b18504",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "telefono",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "primaryKey": false,
+          "childType": "number",
+          "type": "numeric",
+          "error": {
+            "name": false
+          },
+          "GUID": "d227ba96-74b8-49c4-8cd7-7bab43827298"
+        },
+        {
+          "name": "fechaRegistro",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "1cab2ba0-ef8f-4f5b-b970-b13f17e0443c",
+          "error": {
+            "name": false
+          }
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "33cee8c5-706f-4fa8-a363-844ccf3d7384"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "collectionUsers": [],
+      "bucketId": "d615eaa8-acc6-4b89-b9d5-323a44abae86"
+    },
+    {
+      "GUID": "1028ab84-237f-4169-a6bf-ddf2ff4caf3a",
+      "collectionName": "proveedores",
+      "type": "object",
+      "properties": [
+        {
+          "name": "nombre",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "a39f1980-4173-4fd0-bd73-f0578dc0e7c1",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "cargo",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "a11506f1-dd36-45d3-b8a0-790765fbe58b",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "razonSocial",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "90638819-38f0-4149-a342-1c3005b8ed2a",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "rif",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "8e263870-abe2-4cb5-be29-570fb9f74f76",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "direccion",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "properties": [],
+          "additionalProperties": false,
+          "childType": "object",
+          "type": "document",
+          "documentId": false,
+          "containerLevelKey": false,
+          "hasERDDivider": false,
+          "error": {
+            "name": false
+          },
+          "GUID": "2b8e2046-84be-4e40-a475-3451f82a0a7a"
+        },
+        {
+          "name": "productos",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "b4751f97-7ebf-48f5-9567-5e0cfc274712",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "servicios",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "7e04cd8f-75c4-4dbc-8d69-e287a89fc39d",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "webrrss",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "e8687268-8bce-48fe-99ff-a80c3cbbf6e1",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "email",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "9dcf114e-0bb5-48bd-b206-6fb11d98d078",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "telefono",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "primaryKey": false,
+          "childType": "number",
+          "type": "numeric",
+          "error": {
+            "name": false
+          },
+          "GUID": "097a1389-4a30-46ae-967c-c7cba0e8bec8"
+        },
+        {
+          "name": "fechaRegistro",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "timestamp",
+          "error": {
+            "name": false
+          },
+          "GUID": "36ea5618-a485-4703-93eb-568127c5682a"
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "fdb7099e-19b7-4da9-916e-ecdd09d130be"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "collectionUsers": [],
+      "bucketId": "d615eaa8-acc6-4b89-b9d5-323a44abae86"
+    },
+    {
+      "GUID": "81884daa-0dad-4957-8273-e12e0836e3c4",
+      "collectionName": "ventas",
+      "type": "object",
+      "properties": [
+        {
+          "name": "fecha",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "timestamp",
+          "error": {
+            "name": false
+          },
+          "GUID": "7c6c4beb-90a5-4323-bc3b-5f9644fbf352"
+        },
+        {
+          "name": "id_factura",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "primaryKey": false,
+          "childType": "number",
+          "type": "numeric",
+          "error": {
+            "name": false
+          },
+          "GUID": "44a949a6-598c-4f79-83c9-6e9a23f3dbec"
+        },
+        {
+          "name": "productos",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "properties": [
+            {
+              "name": "nombre",
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "primaryKey": false,
+              "type": "string",
+              "GUID": "fb379c25-3813-4dfb-a21f-6e79ec901ce7",
+              "error": {
+                "name": false
+              }
+            },
+            {
+              "name": "cantidad",
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "exclusiveMinimum": false,
+              "exclusiveMaximum": false,
+              "primaryKey": false,
+              "childType": "number",
+              "type": "numeric",
+              "error": {
+                "name": false
+              },
+              "GUID": "b785f255-fadf-4691-aa2f-3a0ef7a6267c"
+            },
+            {
+              "name": "precioUnitario",
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "exclusiveMinimum": false,
+              "exclusiveMaximum": false,
+              "primaryKey": false,
+              "childType": "number",
+              "type": "numeric",
+              "error": {
+                "name": false
+              },
+              "GUID": "827e4d6c-cd6f-44aa-8170-31a4b9128ed1"
+            },
+            {
+              "name": "precioTotal",
+              "hackoladeMeta": {},
+              "isActivated": true,
+              "exclusiveMinimum": false,
+              "exclusiveMaximum": false,
+              "primaryKey": false,
+              "childType": "number",
+              "type": "numeric",
+              "error": {
+                "name": false
+              },
+              "GUID": "536936c8-17cb-4d9f-82fa-cc2ec79bb6a0"
+            }
+          ],
+          "additionalProperties": false,
+          "childType": "object",
+          "type": "document",
+          "documentId": false,
+          "containerLevelKey": false,
+          "hasERDDivider": false,
+          "error": {
+            "name": false
+          },
+          "GUID": "cf134068-3045-436e-84e5-9c1ac2542140"
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "8a654cb2-e746-4f50-87fd-ac8413149eff"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "collectionUsers": [],
+      "bucketId": "d615eaa8-acc6-4b89-b9d5-323a44abae86"
+    },
+    {
+      "GUID": "b79df3fb-4650-47d6-8dde-3b59dc6dae8a",
+      "collectionName": "inventario",
+      "type": "object",
+      "properties": [
+        {
+          "name": "producto",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "primaryKey": false,
+          "type": "string",
+          "GUID": "3dc91c15-1c09-4107-b0ae-d8d62bffded2",
+          "error": {
+            "name": false
+          }
+        },
+        {
+          "name": "cantidad",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "primaryKey": false,
+          "childType": "number",
+          "type": "numeric",
+          "error": {
+            "name": false
+          },
+          "GUID": "8babbe54-33f7-4c02-886d-7d673aa7fe51"
+        },
+        {
+          "name": "precioUnitario",
+          "hackoladeMeta": {},
+          "isActivated": true,
+          "exclusiveMinimum": false,
+          "exclusiveMaximum": false,
+          "primaryKey": false,
+          "childType": "number",
+          "type": "numeric",
+          "error": {
+            "name": false
+          },
+          "GUID": "1a0a4bd8-0f1c-4fbe-9350-3b113dc57d63"
+        }
+      ],
+      "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "ffb6d8c9-b899-4671-9bd9-7cfa56eef982"
+      },
+      "isActivated": true,
+      "additionalProperties": false,
+      "collectionUsers": [],
+      "bucketId": "d615eaa8-acc6-4b89-b9d5-323a44abae86"
+    }
+  ],
+  "buckets": [
+    {
+      "name": "destilo_db",
+      "type": "bucket",
+      "collectionIds": [
+        "3fb6e731-af09-41fc-8221-e747ae70f19b",
+        "1028ab84-237f-4169-a6bf-ddf2ff4caf3a",
+        "81884daa-0dad-4957-8273-e12e0836e3c4",
+        "b79df3fb-4650-47d6-8dde-3b59dc6dae8a"
+      ],
+      "backgroundColor": {
+        "r": 216,
+        "g": 0,
+        "b": 115,
+        "a": 1
+      },
+      "show": true,
+      "isActivated": true,
+      "indexes": [],
+      "GUID": "d615eaa8-acc6-4b89-b9d5-323a44abae86",
+      "documentIdName": "^[a-zA-Z0-9_.-]{20}$",
+      "documentIdType": "object"
+    }
+  ],
+  "views": [],
+  "relationships": [],
+  "users": [],
+  "diagramViews": [
+    {
+      "GUID": "08534ee3-2256-46ae-bde0-16a97444a209",
+      "name": "New Diagram View",
+      "buckets": [
+        "d615eaa8-acc6-4b89-b9d5-323a44abae86"
+      ],
+      "comments": "",
+      "description": "",
+      "entities": [
+        "3fb6e731-af09-41fc-8221-e747ae70f19b",
+        "1028ab84-237f-4169-a6bf-ddf2ff4caf3a",
+        "81884daa-0dad-4957-8273-e12e0836e3c4",
+        "b79df3fb-4650-47d6-8dde-3b59dc6dae8a"
+      ]
+    }
+  ],
+  "idToNameHashTable": {
+    "d615eaa8-acc6-4b89-b9d5-323a44abae86": "destilo_db",
+    "3fb6e731-af09-41fc-8221-e747ae70f19b": "clientes",
+    "03d8c63f-819e-4e9c-a034-234065d031c5": "cliente",
+    "3d5fdf1e-9a1d-48cf-8bed-18d6306ecc60": "cedula",
+    "1961b82d-e36e-406c-9cf5-069916dc5a07": "ciudad",
+    "8b37d431-b361-46f5-9fae-a45ccc9152fa": "direccion",
+    "52173e36-c2d7-4544-8554-20408103a8ba": "empresa",
+    "680aa9f1-facd-4dc1-b9ea-9db430d219d4": "rif",
+    "d227ba96-74b8-49c4-8cd7-7bab43827298": "telefono",
+    "1cab2ba0-ef8f-4f5b-b970-b13f17e0443c": "fechaRegistro",
+    "1028ab84-237f-4169-a6bf-ddf2ff4caf3a": "proveedores",
+    "a39f1980-4173-4fd0-bd73-f0578dc0e7c1": "nombre",
+    "a11506f1-dd36-45d3-b8a0-790765fbe58b": "cargo",
+    "90638819-38f0-4149-a342-1c3005b8ed2a": "razonSocial",
+    "8e263870-abe2-4cb5-be29-570fb9f74f76": "rif",
+    "2b8e2046-84be-4e40-a475-3451f82a0a7a": "direccion",
+    "b4751f97-7ebf-48f5-9567-5e0cfc274712": "productos",
+    "7e04cd8f-75c4-4dbc-8d69-e287a89fc39d": "servicios",
+    "e8687268-8bce-48fe-99ff-a80c3cbbf6e1": "webrrss",
+    "1682c12a-2f90-466e-9946-2fcbb5b18504": "email",
+    "9dcf114e-0bb5-48bd-b206-6fb11d98d078": "email",
+    "097a1389-4a30-46ae-967c-c7cba0e8bec8": "telefono",
+    "36ea5618-a485-4703-93eb-568127c5682a": "fechaRegistro",
+    "81884daa-0dad-4957-8273-e12e0836e3c4": "ventas",
+    "7c6c4beb-90a5-4323-bc3b-5f9644fbf352": "fecha",
+    "44a949a6-598c-4f79-83c9-6e9a23f3dbec": "id_factura",
+    "cf134068-3045-436e-84e5-9c1ac2542140": "productos",
+    "fb379c25-3813-4dfb-a21f-6e79ec901ce7": "nombre",
+    "b785f255-fadf-4691-aa2f-3a0ef7a6267c": "cantidad",
+    "827e4d6c-cd6f-44aa-8170-31a4b9128ed1": "precioUnitario",
+    "536936c8-17cb-4d9f-82fa-cc2ec79bb6a0": "precioTotal",
+    "b79df3fb-4650-47d6-8dde-3b59dc6dae8a": "inventario",
+    "3dc91c15-1c09-4107-b0ae-d8d62bffded2": "producto",
+    "8babbe54-33f7-4c02-886d-7d673aa7fe51": "cantidad",
+    "1a0a4bd8-0f1c-4fbe-9350-3b113dc57d63": "precioUnitario",
+    "08534ee3-2256-46ae-bde0-16a97444a209": "New Diagram View"
+  },
+  "definitions": {
+    "type": "definitions",
+    "properties": [],
+    "GUID": "fa352bba-835a-4f19-847e-1cf3824c4e5c"
+  },
+  "polyglotDefinitions": {
+    "type": "polyglotDefinitions",
+    "properties": [],
+    "GUID": "e907a1a2-bc1e-487a-9c92-a7a8e1fd2c47"
+  },
+  "externalDefinitions": {
+    "type": "externalDefinitions",
+    "properties": [],
+    "GUID": "94f1de0a-9c61-4438-824b-71de2788135e"
+  },
+  "sources": [],
+  "decorativeSymbols": [],
+  "dbVendor": "Cloud Firestore",
+  "appTarget": "FIRESTORE",
+  "creationTS": "2025-02-17T22:30:43.232Z",
+  "GUID": "09f37c3f-8529-4e03-8a51-aebe0646e114",
+  "isLineageEnabled": false,
+  "hackoladeMeta": {
+    "validationErrors": {}
+  },
+  "lastModifTS": "2025-02-18T00:37:47.430Z",
+  "persistenceSchemaVersion": "8",
+  "isCreatedByPlugin": true,
+  "pluginInformation": {
+    "pluginName": "Firestore",
+    "pluginVersion": "0.2.1",
+    "pluginEngineVersion": "1.0.0"
+  },
+  "applicationInformation": {
+    "version": "8.0.1"
+  },
+  "settings": {
+    "centralPane": {
+      "dbLevel": {
+        "erd": [
+          {
+            "GUID": "3fb6e731-af09-41fc-8221-e747ae70f19b",
+            "x": 1084,
+            "y": 569,
+            "width": 187,
+            "height": 190,
+            "color": {
+              "hex": "#00bcd5"
+            }
+          },
+          {
+            "GUID": "1028ab84-237f-4169-a6bf-ddf2ff4caf3a",
+            "x": 1285,
+            "y": 570,
+            "width": 211,
+            "height": 231,
+            "color": {}
+          },
+          {
+            "GUID": "81884daa-0dad-4957-8273-e12e0836e3c4",
+            "x": 1507,
+            "y": 570,
+            "width": 229,
+            "height": 159,
+            "color": {}
+          },
+          {
+            "GUID": "b79df3fb-4650-47d6-8dde-3b59dc6dae8a",
+            "x": 1507,
+            "y": 740,
+            "width": 232,
+            "height": 91,
+            "color": {}
+          }
+        ],
+        "erdDefinitions": {
+          "erd": [],
+          "rootPath": [],
+          "entities": [],
+          "decorativeSymbols": []
+        },
+        "buckets": [
+          {
+            "x": 1044,
+            "y": 529,
+            "GUID": "d615eaa8-acc6-4b89-b9d5-323a44abae86"
+          }
+        ],
+        "collapsedNodes": [],
+        "activeRelationship": "",
+        "activeRelationshipFields": {
+          "childField": [],
+          "parentField": []
+        },
+        "selectedCollections": [],
+        "displayColorPicker": false,
+        "graphView": {
+          "erd": [],
+          "buckets": [],
+          "decorativeSymbols": [],
+          "forceLayout": true,
+          "defaultLinkLength": 300
+        },
+        "diagramViews": [
+          {
+            "GUID": "08534ee3-2256-46ae-bde0-16a97444a209",
+            "entities": [
+              {
+                "GUID": "3fb6e731-af09-41fc-8221-e747ae70f19b",
+                "x": 1298,
+                "y": 1278,
+                "width": 197,
+                "height": 191,
+                "color": {
+                  "hex": "#00bcd5"
+                }
+              },
+              {
+                "GUID": "1028ab84-237f-4169-a6bf-ddf2ff4caf3a",
+                "x": 1015,
+                "y": 1253,
+                "width": 197,
+                "height": 227,
+                "color": {}
+              },
+              {
+                "GUID": "81884daa-0dad-4957-8273-e12e0836e3c4",
+                "x": 1317,
+                "y": 1105,
+                "width": 221,
+                "height": 155,
+                "color": {}
+              },
+              {
+                "GUID": "b79df3fb-4650-47d6-8dde-3b59dc6dae8a",
+                "x": 1025,
+                "y": 1126,
+                "width": 201,
+                "height": 83,
+                "color": {}
+              }
+            ],
+            "buckets": [
+              {
+                "x": 975,
+                "y": 1065,
+                "GUID": "d615eaa8-acc6-4b89-b9d5-323a44abae86"
+              }
+            ],
+            "graphView": {
+              "erd": [],
+              "buckets": [],
+              "decorativeSymbols": [],
+              "forceLayout": true,
+              "defaultLinkLength": 300
+            },
+            "displayOptions": {}
+          }
+        ],
+        "decorativeSymbols": [],
+        "nestedCollectionsLayout": "horizontal",
+        "options": [
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "3fb6e731-af09-41fc-8221-e747ae70f19b"
+          },
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "1028ab84-237f-4169-a6bf-ddf2ff4caf3a"
+          },
+          {
+            "autoWidth": false,
+            "autoHeight": false,
+            "GUID": "b79df3fb-4650-47d6-8dde-3b59dc6dae8a"
+          }
+        ],
+        "relationshipUpdateDisabled": false
+      },
+      "collectionLevel": {},
+      "changed": false
+    },
+    "dtDiagram": {
+      "collapsedNodes": [],
+      "shouldDistributeCollections": false
+    }
+  }
+}

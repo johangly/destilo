@@ -1,0 +1,61 @@
+/* Home.module.css */
+.container
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f7f7f7;
+    padding: 20px;
+}
+
+.container h1
+{
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.linkContainer
+{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.link
+{
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    width: 200px;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.link:hover
+{
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+}
+
+.logoutButton
+{
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logoutButton:hover
+{
+    background-color: #cc0000;
+}

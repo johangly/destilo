@@ -1,0 +1,176 @@
+.serviceContainer
+{
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.homeLink
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 20px;
+    transition: color 0.3s ease-in-out;
+}
+
+.homeLink:hover
+{
+    color: #0056b3;
+}
+
+.title
+{
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Botón para mostrar/ocultar formulario */
+.toggleButton
+{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 15px;
+    transition: background 0.3s ease-in-out;
+}
+
+.toggleButton:hover
+{
+    background: #218838;
+}
+
+/* Formulario con animación */
+.formContainer
+{
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.formContainer.show
+{
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.input
+{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.input:focus
+{
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.addButton
+{
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.addButton:hover
+{
+    background: #0056b3;
+}
+
+.table
+{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th,
+.table td
+{
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.table th
+{
+    background: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+}
+
+.actionButtons
+{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.editButton
+{
+    padding: 8px 12px;
+    background: #ffc107;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.editButton:hover
+{
+    background: #e0a800;
+}
+
+.deleteButton
+{
+    padding: 8px 12px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.deleteButton:hover
+{
+    background: #c82333;
+}

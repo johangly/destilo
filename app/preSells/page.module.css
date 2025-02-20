@@ -1,0 +1,157 @@
+.container
+{
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.heading
+{
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.table
+{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table th,
+.table td
+{
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+.table th
+{
+    background-color: #4caf50;
+    color: white;
+}
+
+.table tr:nth-child(even)
+{
+    background-color: #f2f2f2;
+}
+
+.table tr:hover
+{
+    background-color: #e0f7fa;
+}
+
+.deleteButton
+{
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover
+{
+    background-color: #c62828;
+}
+
+.actions
+{
+    display: flex;
+    gap: 10px;
+}
+
+.button
+{
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.clearButton
+{
+    background-color: #ffa000;
+    color: white;
+}
+
+.clearButton:hover
+{
+    background-color: #ff8f00;
+}
+
+.processButton
+{
+    background-color: #4caf50;
+    color: white;
+}
+
+.processButton:hover
+{
+    background-color: #388e3c;
+}
+
+.WithoutItemsContainer
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Para centrar en toda la pantalla */
+    text-align: center;
+    /* Fondo suave */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.WithoutItemsContainer p
+{
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: 500;
+    margin-top: 15px;
+}
+
+.WithoutItemsContainer a
+{
+    display: inline-block;
+    background-color: #007BFF;
+    /* Botón azul */
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.WithoutItemsContainer a:hover
+{
+    background-color: #0056b3;
+    /* Cambio de color al pasar el cursor */
+}
+
+.WithoutItemsContainer svg
+{
+    width: 40px;
+    /* Tamaño del ícono */
+    height: 40px;
+    fill: #007BFF;
+    /* Color del ícono */
+    transition: transform 0.3s ease;
+}
+
+.WithoutItemsContainer svg:hover
+{
+    transform: scale(1.1);
+    /* Efecto hover para el ícono */
+}

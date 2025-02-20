@@ -1,0 +1,85 @@
+/* Contenedor principal */
+.formContainer
+{
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Título del formulario */
+.title
+{
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Estilo del formulario */
+.formContainer form
+{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Campos de entrada */
+.formContainer form input
+{
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.formContainer form input:focus
+{
+    border-color: #1a73e8;
+    outline: none;
+}
+
+/* Botón de envío */
+.submitButton
+{
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #1a73e8;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submitButton:hover
+{
+    background-color: #155bb5;
+}
+
+/* Efectos responsivos */
+@media (max-width: 768px)
+{
+    .formContainer
+    {
+        padding: 1.5rem;
+    }
+
+    .title
+    {
+        font-size: 1.5rem;
+    }
+
+    .formContainer form input,
+    .submitButton
+    {
+        font-size: 0.9rem;
+    }
+}

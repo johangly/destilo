@@ -1,0 +1,95 @@
+/* Login.module.css */
+.container
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f7f7f7;
+  padding: 20px;
+}
+
+.formWrapper
+{
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.container h1
+{
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.container form
+{
+  display: flex;
+  flex-direction: column;
+}
+
+.container form div
+{
+  margin-bottom: 15px;
+}
+
+.container label
+{
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.container input
+{
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.container button
+{
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.container button:hover
+{
+  background-color: #45a049;
+}
+
+.message
+{
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #d9534f;
+}
+
+.link
+{
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.link:hover
+{
+  text-decoration: underline;
+}
