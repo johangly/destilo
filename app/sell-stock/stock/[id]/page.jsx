@@ -4,13 +4,16 @@ import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { HomeIcon } from '@/components/Icons';
+import React from 'react';
 
 async function obtenerProductos() {
 	try {
 		const response = await fetch('/api/getStocksData');
+
 		if (!response.ok) throw new Error('Error al obtener los productos');
 		const data = await response.json();
-		return data;
+		console.log('/api/getStocksData',data)
+		return data.datos;
 	} catch (error) {
 		console.error('Error al obtener los productos:', error);
 		return [];
@@ -42,7 +45,7 @@ async function editarProducto(id, producto) {
 }
 
 function EditProduct({ params }) {
-	const { id } = params;
+	const { id } = React.use(params);
 
 	const [productos, setProductos] = useState([]);
 	const [producto, setProducto] = useState({
@@ -55,9 +58,12 @@ function EditProduct({ params }) {
 
 	useEffect(() => {
 		obtenerProductos().then((data) => {
+			console.log('data',data)
+			console.log('id',id)
 			setProductos(data);
-			const productoEncontrado = data.find((p) => p.id === id);
+			const productoEncontrado = data.find((p) => p.id.toString() === id.toString());
 			if (productoEncontrado) {
+				console.log('productoEncontrado',productoEncontrado,id)
 				setProducto(productoEncontrado);
 			}
 		});

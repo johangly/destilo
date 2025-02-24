@@ -1,14 +1,20 @@
-import { db } from '@/lib/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { api } from '@/lib/apiClient';
 
 export async function GET(request) {
 	try {
-		const collectionRef = collection(db, 'sells');
-		const snapshot = await getDocs(collectionRef);
-		const ventas = snapshot.docs.map((doc) => ({
-			id: doc.id, // Incluye el ID del documento
-			...doc.data(), // Incluye los datos del documento
-		}));
+		// Obtener todas las ventas usando la nueva API
+		const ventas = await api.getSells();
+		console.log(ventas)
+		// Verificar si se obtuvieron las ventas correctamente
+		if (!ventas) {
+			return new Response(
+				JSON.stringify({ error: 'No se pudieron obtener las ventas' }),
+				{
+					status: 404,
+					headers: { 'Content-Type': 'application/json' },
+				}
+			);
+		}
 
 		return new Response(JSON.stringify(ventas), {
 			status: 200,

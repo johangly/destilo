@@ -6,21 +6,23 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 function ProductPage({ params }) {
+	const { id } = React.use(params);
+
 	const [product, setProduct] = useState(null);
 	const [cedula, setCedula] = useState('');
 	const [nombre, setNombre] = useState('');
 	const [metodoPago, setMetodoPago] = useState('');
 	const [fechaPago, setFechaPago] = useState('');
 	const [metodoEntrega, setMetodoEntrega] = useState('');
-
+	
 	// Obtener el producto específico basado en el ID
 	const obtenerProducto = async () => {
 		try {
 			const response = await fetch('/api/getSellsData');
 			if (!response.ok) throw new Error('Error al obtener las ventas');
-			const ventas = await response.json();
-			const productoEncontrado = ventas.find(
-				(venta) => String(venta.id) === String(params.id)
+			const { datos } = await response.json();
+			const productoEncontrado = datos.find((venta) => (
+				String(venta.id) === String(id))
 			);
 			setProduct(productoEncontrado);
 		} catch (error) {
@@ -30,12 +32,13 @@ function ProductPage({ params }) {
 
 	// Llamar a la función obtenerProducto cada vez que el ID cambie
 	useEffect(() => {
-		obtenerProducto();
-	}, [params.id]);
+		obtenerProducto(); 
+	}, [id]);
 
+	console.log('product',product)
 	// Calcular la suma total de la compra
 	const totalCompra = product
-		? product.productos.reduce((total, prod) => {
+		? product.items.reduce((total, prod) => {
 				return total + prod.cantidad * parseFloat(prod.precioUnitario);
 		  }, 0)
 		: 0;
@@ -147,7 +150,7 @@ function ProductPage({ params }) {
 						</tr>
 					</thead>
 					<tbody>
-						{product.productos.map((prod, index) => (
+						{product.items.map((prod, index) => (
 							<tr key={index}>
 								<td>{prod.nombre}</td>
 								<td>{prod.cantidad}</td>

@@ -13,9 +13,10 @@ function ListaProveedores() {
 	// Función para obtener proveedores desde Firebase
 	const getSuppliers = async () => {
 		try {
-			const response = await fetch('/api/getSuppliers', { method: 'GET' });
+			const response = await fetch('/api/getSuppliers');
 			if (!response.ok) throw new Error('Error al obtener los proveedores');
-			const data = await response.json();
+			const { data } = await response.json();
+			console.log('getSuppliers',data)
 			setSuppliers(data); // Actualiza el estado con los datos filtrados
 			setAllSuppliers(data); // Almacena todos los proveedores en un estado separado
 		} catch (error) {

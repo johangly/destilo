@@ -14,16 +14,20 @@ function Page() {
 		try {
 			const response = await fetch('/api/getSellsData', { method: 'GET' });
 			if (!response.ok) throw new Error('Error al obtener las ventas');
-			const data = await response.json();
+			const {datos} = await response.json();
 
 			// Ordenar por fecha (más reciente primero)
-			const ventasOrdenadas = data.sort(
+			const ventasOrdenadas = datos.sort(
 				(a, b) => new Date(b.fecha) - new Date(a.fecha)
 			);
 
 			setVentas(ventasOrdenadas);
 		} catch (error) {
-			console.error(error.message);
+			console.error('Error obteniendo ventas:', {
+				message: error.message || 'Error desconocido',
+				stack: error.stack,
+				response: error.response?.datos
+			});
 		}
 	};
 
@@ -43,7 +47,7 @@ function Page() {
 	const ventasFiltradas = ventas.filter((venta) =>
 		venta.id_factura.toString().includes(busqueda.trim())
 	);
-
+	console.log(ventasFiltradas)
 	return (
 		<div className={styles.container}>
 			<Link
@@ -91,7 +95,7 @@ function Page() {
 							<tr key={venta.id}>
 								<td>{venta.id_factura}</td>
 								<td>{fechaFormateada}</td>
-								<td>${calcularMontoTotal(venta.productos).toFixed(2)}</td>
+								<td>${calcularMontoTotal(venta.items).toFixed(2)}</td>
 								<td>
 									<Link href={`/sells/${venta.id}`}>
 										<button className={styles.actionButton}>

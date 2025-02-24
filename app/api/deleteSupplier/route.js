@@ -1,5 +1,4 @@
-import { db } from '@/lib/firebase';
-import { doc, deleteDoc } from 'firebase/firestore';
+import { api } from '@/lib/apiClient';
 
 export async function DELETE(request) {
 	try {
@@ -15,7 +14,8 @@ export async function DELETE(request) {
 			);
 		}
 
-		await deleteDoc(doc(db, 'proveedores', id));
+		// Eliminar el proveedor
+		await api.deleteSupplier(id);
 
 		return new Response(
 			JSON.stringify({ message: 'Proveedor eliminado con éxito' }),

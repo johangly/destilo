@@ -13,8 +13,8 @@ function Page() {
 		try {
 			const response = await fetch('/api/getStocksData', { method: 'GET' });
 			if (!response.ok) throw new Error('Error al obtener los productos');
-			const data = await response.json();
-			setProductos(data); // Actualiza el estado con los datos obtenidos
+			const { datos } = await response.json();
+			setProductos(datos); // Actualiza el estado con los datos obtenidos
 		} catch (error) {
 			console.error(error.message);
 		}

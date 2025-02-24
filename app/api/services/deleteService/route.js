@@ -1,6 +1,5 @@
 // /api/deleteData/route.js
-import { db } from '@/lib/firebase';
-import { doc, deleteDoc } from 'firebase/firestore';
+import { api } from '@/lib/apiClient';
 
 export async function DELETE(request) {
 	try {
@@ -14,15 +13,12 @@ export async function DELETE(request) {
 			});
 		}
 
-		// Referencia al documento específico en Firestore
-		const documentRef = doc(db, 'services', id);
-
-		// Eliminar el documento de Firestore
-		await deleteDoc(documentRef);
+		// Eliminar el servicio usando la nueva API
+		await api.deleteService(id);
 
 		return new Response(
 			JSON.stringify({
-				message: `Producto con ID ${id} eliminado correctamente.`,
+				message: `Servicio con ID ${id} eliminado correctamente.`,
 			}),
 			{
 				status: 200,
@@ -30,9 +26,9 @@ export async function DELETE(request) {
 			}
 		);
 	} catch (error) {
-		console.error('Error eliminando documento de Firestore:', error);
+		console.error('Error eliminando servicio:', error);
 		return new Response(
-			JSON.stringify({ error: 'Error al eliminar el documento' }),
+			JSON.stringify({ error: 'Error al eliminar el servicio' }),
 			{
 				status: 500,
 				headers: { 'Content-Type': 'application/json' },

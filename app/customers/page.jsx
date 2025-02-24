@@ -15,7 +15,8 @@ function ListaClientes() {
 		try {
 			const response = await fetch('/api/getCustomers', { method: 'GET' });
 			if (!response.ok) throw new Error('Error al obtener los clientes');
-			const data = await response.json();
+			const { data } = await response.json();
+			console.log('getCustomers',data)
 			setCustomers(data);
 			setAllCustomers(data);
 		} catch (error) {
@@ -122,7 +123,7 @@ function ListaClientes() {
 								<strong>Cédula:</strong> {cliente.cedula}
 							</p>
 							<p className={styles.detail}>
-								<strong>Teléfono:</strong> {cliente.teléfono || 'No disponible'}
+								<strong>Teléfono:</strong> {cliente.telefono || 'No disponible'}
 							</p>
 							<p className={styles.detail}>
 								<strong>Email:</strong>{' '}

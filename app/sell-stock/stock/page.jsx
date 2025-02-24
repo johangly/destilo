@@ -36,10 +36,10 @@ function Page() {
 		try {
 			const response = await fetch('/api/getStocksData', { method: 'GET' });
 			if (!response.ok) throw new Error('Error al obtener las ventas');
-			const data = await response.json();
+			const {datos} = await response.json();
 
 			// Ordenar los productos alfabéticamente antes de guardarlos en el estado
-			const ventasOrdenadas = data.sort((a, b) =>
+			const ventasOrdenadas = datos.sort((a, b) =>
 				a.producto.localeCompare(b.producto)
 			);
 			setVentas(ventasOrdenadas);

@@ -12,7 +12,7 @@ function SellsAndStock() {
 			const response = await fetch('/api/getSellsData', { method: 'GET' });
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const data = await response.json();
-			setVentas(data);
+			setVentas(data.datos);
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -25,7 +25,7 @@ function SellsAndStock() {
 	// Extraer solo los primeros 6 productos en total
 	const productosLimitados = [];
 	for (const venta of ventas) {
-		for (const producto of venta.productos) {
+		for (const producto of venta.items) {
 			if (productosLimitados.length < 6) {
 				productosLimitados.push(producto);
 			} else {
@@ -41,9 +41,9 @@ function SellsAndStock() {
 				<Link href='/sell-stock/sell'>
 					<h2>Vender</h2>
 				</Link>
-				<Link href='/sell-stock/stock'>
+				{/* <Link href='/sell-stock/stock'>
 					<h2>Inventario</h2>
-				</Link>
+				</Link> */}
 			</div>
 			<div>
 				<h3>Ventas recientes</h3>

@@ -14,7 +14,7 @@ function SellStockPage() {
 			const response = await fetch('/api/getStocksData', { method: 'GET' });
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const data = await response.json();
-			setVentas(data);
+			setVentas(data.datos);
 		} catch (error) {
 			console.error(error.message);
 		}

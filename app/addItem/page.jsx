@@ -7,6 +7,7 @@ import { HomeIcon } from '@/components/Icons';
 
 async function agregarVenta(venta) {
 	try {
+		console.log('venta:', venta)
 		const response = await fetch('/api/addData', {
 			method: 'POST',
 			headers: {
@@ -50,7 +51,13 @@ function AddVentaComponent() {
 			return;
 		}
 		await agregarVenta(venta); // Llama a la función para agregar la venta
-		setVenta({ producto: '', cantidad: '', precioUnitario: '' }); // Limpia los campos
+		setVenta({
+			producto: '',
+			cantidad: '',
+			precioUnitario: '',
+			codigo: '',
+			proveedor: ''
+		}); // Limpia los campos
 	};
 
 	return (

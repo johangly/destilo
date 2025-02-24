@@ -4,12 +4,13 @@ import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { HomeIcon } from '@/components/Icons';
+import React from 'react';
 
 async function obtenerProductos() {
 	try {
 		const response = await fetch('/api/getServices');
 		if (!response.ok) throw new Error('Error al obtener los servicios');
-		const data = await response.json();
+		const { data } = await response.json();
 		return data;
 	} catch (error) {
 		console.error('Error al obtener los servicios:', error);
@@ -42,7 +43,7 @@ async function editarProducto(id, producto) {
 }
 
 function EditProduct({ params }) {
-	const { id } = params;
+	const { id } = React.use(params);
 
 	const [productos, setProductos] = useState([]);
 	const [producto, setProducto] = useState({
@@ -54,7 +55,7 @@ function EditProduct({ params }) {
 	useEffect(() => {
 		obtenerProductos().then((data) => {
 			setProductos(data);
-			const productoEncontrado = data.find((p) => p.id === id);
+			const productoEncontrado = data.find((p) => p.id.toString() === id.toString());
 			if (productoEncontrado) {
 				setProducto(productoEncontrado);
 			}

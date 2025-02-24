@@ -1,45 +1,37 @@
-import { db } from '@/lib/firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { api } from '@/lib/apiClient';
 
 export async function PUT(request) {
-	try {
-		const body = await request.json();
-		const { id, servicio, descripcion, precio } = body;
+    try {
+        const body = await request.json();
+        const { id, servicio, descripcion, precio } = body;
 
-		if (!id) {
-			return new Response(
-				JSON.stringify({ error: 'ID de producto no proporcionado' }),
-				{ status: 400, headers: { 'Content-Type': 'application/json' } }
-			);
-		}
+        // Validaciones originales
+        if (!id || !servicio || !descripcion || !precio) {
+            return new Response(
+                JSON.stringify({ error: 'Todos los campos son obligatorios' }),
+                { status: 400, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
 
-		const docRef = doc(db, 'services', id);
-		const docSnap = await getDoc(docRef);
+        // Actualizar servicio usando la nueva API
+        const updatedService = await api.updateService(id, {
+            servicio,
+            descripcion,
+            precio: parseFloat(precio)
+        });
 
-		if (!docSnap.exists()) {
-			return new Response(
-				JSON.stringify({ error: 'El producto no existe en la base de datos' }),
-				{ status: 404, headers: { 'Content-Type': 'application/json' } }
-			);
-		}
-
-		await updateDoc(docRef, {
-			servicio,
-			descripcion,
-			precio: parseFloat(precio),
-		});
-
-		console.log('Producto actualizado con ID:', id);
-
-		return new Response(
-			JSON.stringify({ message: 'Producto actualizado con éxito.' }),
-			{ status: 200, headers: { 'Content-Type': 'application/json' } }
-		);
-	} catch (error) {
-		console.error('Error al procesar la solicitud:', error);
-		return new Response(
-			JSON.stringify({ error: 'Error al actualizar el producto' }),
-			{ status: 500, headers: { 'Content-Type': 'application/json' } }
-		);
-	}
+        return new Response(
+            JSON.stringify({
+                message: 'Servicio actualizado exitosamente',
+                id: updatedService.id
+            }),
+            { status: 200, headers: { 'Content-Type': 'application/json' } }
+        );
+    } catch (error) {
+        console.error('Error actualizando servicio:', error);
+        return new Response(
+            JSON.stringify({ error: 'Error al actualizar el servicio' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+    }
 }

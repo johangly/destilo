@@ -1,19 +1,23 @@
 // /api/getStocksData/route.js
-import { db } from '@/lib/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { api } from '@/lib/apiClient';
 
 export async function GET() {
 	try {
-		const collectionRef = collection(db, 'stocks');
-		const snapshot = await getDocs(collectionRef);
+		// Obtener todos los stocks usando la nueva API
+		const stocks = await api.getStocks();
 
-		// Agregar el ID del documento a los datos
-		const data = snapshot.docs.map((doc) => ({
-			id: doc.id, // Incluye el ID de Firestore
-			...doc.data(),
-		}));
+		// Verificar si se obtuvieron los stocks correctamente
+		if (!stocks) {
+			return new Response(
+				JSON.stringify({ error: 'No se pudieron obtener los datos del inventario' }),
+				{
+					status: 404,
+					headers: { 'Content-Type': 'application/json' },
+				}
+			);
+		}
 
-		return new Response(JSON.stringify(data), {
+		return new Response(JSON.stringify(stocks), {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' },
 		});

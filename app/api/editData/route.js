@@ -1,47 +1,52 @@
-import { db } from '@/lib/firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { api } from '@/lib/apiClient';
 
 export async function PUT(request) {
-	try {
-		const body = await request.json();
-		const { id, producto, cantidad, precioUnitario, codigo, proveedor } = body;
+    try {
+        const body = await request.json();
+        const { id, producto, cantidad, precioUnitario, codigo, proveedor } = body;
 
-		if (!id) {
-			return new Response(
-				JSON.stringify({ error: 'ID de producto no proporcionado' }),
-				{ status: 400, headers: { 'Content-Type': 'application/json' } }
-			);
-		}
+        if (!id) {
+            return new Response(
+                JSON.stringify({ error: 'ID de producto no proporcionado' }),
+                { status: 400, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
 
-		const docRef = doc(db, 'stocks', id);
-		const docSnap = await getDoc(docRef);
+        // Verificar si el producto existe
+        // const existingProduct = await api.getStock(id);
+        // if (!existingProduct) {
+        //     return new Response(
+        //         JSON.stringify({ error: 'El producto no existe en la base de datos' }),
+        //         { status: 404, headers: { 'Content-Type': 'application/json' } }
+        //     );
+        // }
 
-		if (!docSnap.exists()) {
-			return new Response(
-				JSON.stringify({ error: 'El producto no existe en la base de datos' }),
-				{ status: 404, headers: { 'Content-Type': 'application/json' } }
-			);
-		}
+        // Actualizar el producto
+        try {
+            await api.updateStockById(id, {
+                producto,
+                cantidad,
+                precioUnitario,
+                codigo,
+                proveedor,
+            });
+        } catch (error) {
+            console.error('Error al actualizar el producto:', error);
+            return new Response(
+                JSON.stringify({ error: 'Error al actualizar el producto' }),
+                { status: 500, headers: { 'Content-Type': 'application/json' } }
+            );
+        }
 
-		await updateDoc(docRef, {
-			producto,
-			cantidad,
-			precioUnitario,
-			codigo,
-			proveedor,
-		});
-
-		console.log('Producto actualizado con ID:', id);
-
-		return new Response(
-			JSON.stringify({ message: 'Producto actualizado con éxito.' }),
-			{ status: 200, headers: { 'Content-Type': 'application/json' } }
-		);
-	} catch (error) {
-		console.error('Error al procesar la solicitud:', error);
-		return new Response(
-			JSON.stringify({ error: 'Error al actualizar el producto' }),
-			{ status: 500, headers: { 'Content-Type': 'application/json' } }
-		);
-	}
+        return new Response(
+            JSON.stringify({ message: 'Producto actualizado con éxito.' }),
+            { status: 200, headers: { 'Content-Type': 'application/json' } }
+        );
+    } catch (error) {
+        console.error('Error al procesar la solicitud:', error);
+        return new Response(
+            JSON.stringify({ error: 'Error al actualizar el producto' }),
+            { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+    }
 }

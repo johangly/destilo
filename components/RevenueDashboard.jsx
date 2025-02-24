@@ -11,7 +11,7 @@ function RevenueDashboard() {
 			const response = await fetch('/api/getSellsData', { method: 'GET' });
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const data = await response.json();
-			setVentas(data); // Actualiza el estado con los datos obtenidos
+			setVentas(data.datos); // Actualiza el estado con los datos obtenidos
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -20,11 +20,11 @@ function RevenueDashboard() {
 	useEffect(() => {
 		obtenerVentas();
 	}, []);
-
+	console.log('ventas',ventas)
 	// Sumar el precio total de cada venta
 	const sumaPrecioTotal = ventas.reduce((acumulador, venta) => {
 		// Sumar el precio total de todos los productos dentro de una venta
-		const totalVenta = venta.productos.reduce((total, producto) => {
+		const totalVenta = venta.items.reduce((total, producto) => {
 			return total + parseFloat(producto.precioTotal);
 		}, 0);
 		return acumulador + totalVenta;
@@ -41,12 +41,12 @@ function RevenueDashboard() {
 					<strong>Total de ventas:</strong> $ {sumaPrecioTotal.toFixed(2)}
 				</p>
 			</span>
-			<Image
+			{/* <Image
 				src='/slogan.jpeg'
 				alt='slogan'
 				width={250}
 				height={250}
-			/>
+			/> */}
 		</div>
 	);
 }

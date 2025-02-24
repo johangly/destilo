@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useListaCompras } from '@/context/sellsContext';
 
 function ProductPage({ params }) {
+	const { id } = React.use(params);
+
 	const [cantidad, setCantidad] = useState(1);
 	const { agregarProducto } = useListaCompras();
 	const [product, setProduct] = useState(null);
@@ -14,8 +16,8 @@ function ProductPage({ params }) {
 		try {
 			const response = await fetch('/api/getStocksData', { method: 'GET' });
 			if (!response.ok) throw new Error('Error al obtener las ventas');
-			const data = await response.json();
-			setVentas(data);
+			const { datos } = await response.json();
+			setVentas(datos);
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -27,7 +29,6 @@ function ProductPage({ params }) {
 
 	useEffect(() => {
 		if (ventas.length > 0) {
-			const id = params.id;
 			const productoEncontrado = ventas.find(
 				(p) => String(p.id) === String(id)
 			);
@@ -66,10 +67,10 @@ function ProductPage({ params }) {
 			alert('Error: Precio unitario no es válido');
 			return;
 		}
-
 		const productoParaAgregar = {
 			id: product.id,
 			nombre: product.producto,
+			codigo: product.codigo,
 			cantidad: cantidad,
 			precioUnitario: precioUnitarioNumber.toFixed(2),
 			precioTotal: (cantidad * precioUnitarioNumber).toFixed(2),

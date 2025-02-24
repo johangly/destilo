@@ -1,27 +1,33 @@
-import { db } from '@/lib/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { api } from '@/lib/apiClient';
 
 export async function GET(request) {
-	try {
-		const collectionRef = collection(db, 'proveedores');
-		const snapshot = await getDocs(collectionRef);
-		const ventas = snapshot.docs.map((doc) => ({
-			id: doc.id, // Incluye el ID del documento
-			...doc.data(), // Incluye los datos del documento
-		}));
+    try {
+        // Obtener todos los proveedores usando la nueva API
+        const proveedores = await api.getSuppliers();
 
-		return new Response(JSON.stringify(ventas), {
-			status: 200,
-			headers: { 'Content-Type': 'application/json' },
-		});
-	} catch (error) {
-		console.error('Error al obtener las ventas:', error);
-		return new Response(
-			JSON.stringify({ error: 'Error al obtener las ventas' }),
-			{
-				status: 500,
-				headers: { 'Content-Type': 'application/json' },
-			}
-		);
-	}
+        // Verificar si se obtuvieron los proveedores correctamente
+        if (!proveedores) {
+            return new Response(
+                JSON.stringify({ error: 'No se pudieron obtener los proveedores' }),
+                {
+                    status: 404,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
+        return new Response(JSON.stringify(proveedores), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    } catch (error) {
+        console.error('Error al obtener los proveedores:', error);
+        return new Response(
+            JSON.stringify({ error: 'Error al obtener los proveedores' }),
+            {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' },
+            }
+        );
+    }
 }

@@ -16,8 +16,8 @@ function ListaCompras() {
 		try {
 			const response = await fetch('/api/getStocksData', { method: 'GET' });
 			if (!response.ok) throw new Error('Error al obtener las ventas');
-			const data = await response.json();
-			setStock(data); // Actualiza el estado con los datos obtenidos
+			const { datos } = await response.json();
+			setStock(datos); // Actualiza el estado con los datos obtenidos
 		} catch (error) {
 			console.error('Error al cargar ventas:', error.message);
 		}
@@ -83,7 +83,7 @@ function ListaCompras() {
 				id_factura: Math.floor(Math.random() * 100000000000),
 				productos: listaCompras,
 			};
-
+			console.log('coimpra:',compra)
 			// Enviar el objeto completo a la API
 			const response = await fetch('/api/addSells', {
 				method: 'POST',
@@ -99,7 +99,7 @@ function ListaCompras() {
 			alert('Compra procesada con éxito.');
 
 			// Llamar a la función para actualizar las cantidades en stock
-			await actualizarCantidades();
+			// await actualizarCantidades();
 			limpiarLista(); // Limpiar lista después de procesar la compra
 		} catch (error) {
 			console.error('Error al procesar la compra:', error);
@@ -113,7 +113,7 @@ function ListaCompras() {
 			// Creamos un arreglo de promesas de actualizaciones
 			const promises = listaCompras.map(async (producto) => {
 				// Buscar el producto en el stock
-				const productoEnStock = stock.find((item) => item.id === producto.id);
+				const productoEnStock = stock.find((item) => item.id.toString() === producto.id.toString());
 
 				if (!productoEnStock) {
 					throw new Error(

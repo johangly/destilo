@@ -18,7 +18,8 @@ function Page() {
 		try {
 			const response = await fetch('/api/getServices');
 			if (!response.ok) throw new Error('Error al obtener los servicios');
-			const data = await response.json();
+			const { data } = await response.json();
+			console.log('getServices',data)
 			setServices(data);
 		} catch (error) {
 			console.error(error.message);

@@ -69,7 +69,7 @@ function AddCustomerForm() {
 			provincia: formData.provincia || '',
 			pais: formData.pais || '',
 		};
-
+		console.log('dataToSend',dataToSend)
 		try {
 			const response = await fetch('/api/addCustomer', {
 				method: 'POST',

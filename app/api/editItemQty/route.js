@@ -1,45 +1,45 @@
-import { db } from '@/lib/firebase'; // Asegúrate de que 'db' está correctamente importado
-import { doc, updateDoc } from 'firebase/firestore';
+import { api } from '@/lib/apiClient';
 
 export async function PUT(request) {
-	try {
-		const body = await request.json();
-		const { id, nuevaCantidad } = body;
+    try {
+        const url = new URL(request.url);
+        const id = url.pathname.split('/').pop();
+        const { quantity } = await request.json();
 
-		if (isNaN(nuevaCantidad) || nuevaCantidad < 0) {
-			return new Response(
-				JSON.stringify({ error: 'Cantidad inválida o negativa.' }),
-				{ status: 400, headers: { 'Content-Type': 'application/json' } }
-			);
-		}
+        // Validación de cantidad
+        if (quantity === undefined || quantity < 0) {
+            return new Response(
+                JSON.stringify({
+                    error: 'La cantidad debe ser un número válido y no puede ser negativa.',
+                }),
+                {
+                    status: 400,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
 
-		// Obtener referencia al documento en Firestore
-		const docRef = doc(db, 'stocks', id);
+        const result = await api.updateStockQuantity(id, quantity);
 
-		// Actualizar la cantidad en Firestore
-		await updateDoc(docRef, {
-			cantidad: nuevaCantidad,
-		});
-
-		console.log(
-			`Producto con ID ${id} actualizado con la nueva cantidad: ${nuevaCantidad}`
-		);
-
-		return new Response(
-			JSON.stringify({ message: 'Cantidad actualizada exitosamente.' }),
-			{
-				status: 200,
-				headers: { 'Content-Type': 'application/json' },
-			}
-		);
-	} catch (error) {
-		console.error('Error al procesar la solicitud:', error);
-		return new Response(
-			JSON.stringify({ error: 'Error al actualizar el producto' }),
-			{
-				status: 500,
-				headers: { 'Content-Type': 'application/json' },
-			}
-		);
-	}
+        return new Response(
+            JSON.stringify({
+                message: 'Cantidad actualizada exitosamente',
+                id: result.id,
+                quantity: quantity
+            }),
+            {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+            }
+        );
+    } catch (error) {
+        console.error('Error al actualizar la cantidad:', error);
+        return new Response(
+            JSON.stringify({ error: 'Error al actualizar la cantidad' }),
+            {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' },
+            }
+        );
+    }
 }
