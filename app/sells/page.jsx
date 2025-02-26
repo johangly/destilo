@@ -4,15 +4,27 @@ import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { HomeIcon } from '@/components/Icons';
+import { useAuth } from '@/context/AuthContext';
 
 function Page() {
 	const [ventas, setVentas] = useState([]); // Estado para almacenar las ventas
 	const [busqueda, setBusqueda] = useState(''); // Estado para la búsqueda
-
+	const { user } = useAuth();
 	// Obtener ventas desde la API
 	const obtenerVentas = async () => {
 		try {
-			const response = await fetch('/api/getSellsData', { method: 'GET' });
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getSellsData', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
+
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const {datos} = await response.json();
 
@@ -32,8 +44,10 @@ function Page() {
 	};
 
 	useEffect(() => {
-		obtenerVentas();
-	}, []);
+		if(user){
+			obtenerVentas();
+		}
+	}, [user]);
 
 	// Calcular el monto total de cada venta (sumar precios totales de los productos)
 	const calcularMontoTotal = (productos) => {

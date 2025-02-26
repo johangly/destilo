@@ -1,0 +1,128 @@
+/* Contenedor principal */
+.itemContainer
+{
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Título principal */
+.title
+{
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+/* Nombre del producto */
+.productName
+{
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #555555;
+}
+
+.productName span
+{
+    font-weight: bold;
+    color: #333333;
+}
+
+/* Precio del producto */
+.price
+{
+    font-size: 16px;
+    color: #444444;
+    margin-bottom: 10px;
+}
+
+.price span
+{
+    font-weight: bold;
+    color: #000000;
+}
+
+/* Control de cantidad */
+.quantityControl
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.decrementButton,
+.incrementButton
+{
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.decrementButton:hover,
+.incrementButton:hover
+{
+    background-color: #e63946;
+}
+
+.quantity
+{
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* Botón agregar */
+.addButton
+{
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.addButton:hover
+{
+    background-color: #388e3c;
+}
+
+/* Contenedor de enlaces */
+.linkContainer
+{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.link
+{
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.link:hover
+{
+    color: #0056b3;
+    text-decoration: underline;
+}

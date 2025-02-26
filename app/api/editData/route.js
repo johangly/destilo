@@ -2,6 +2,17 @@ import { api } from '@/lib/apiClient';
 
 export async function PUT(request) {
     try {
+        const userId = request.headers.get('X-User-Id');
+        if (!userId) {
+            return new Response(
+                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                {
+                    status: 401,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
         const body = await request.json();
         const { id, producto, cantidad, precioUnitario, codigo, proveedor } = body;
 
@@ -12,18 +23,9 @@ export async function PUT(request) {
             );
         }
 
-        // Verificar si el producto existe
-        // const existingProduct = await api.getStock(id);
-        // if (!existingProduct) {
-        //     return new Response(
-        //         JSON.stringify({ error: 'El producto no existe en la base de datos' }),
-        //         { status: 404, headers: { 'Content-Type': 'application/json' } }
-        //     );
-        // }
-
         // Actualizar el producto
         try {
-            await api.updateStockById(id, {
+            await api.updateStockById(userId,id, {
                 producto,
                 cantidad,
                 precioUnitario,

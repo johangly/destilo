@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { HomeIcon } from '@/components/Icons';
+import { useAuth } from '@/context/AuthContext';
 
 function Page() {
 	const [services, setServices] = useState([]);
@@ -12,14 +13,26 @@ function Page() {
 		precio: '',
 	});
 	const [showForm, setShowForm] = useState(false); // Estado para mostrar/ocultar formulario
+	const { user,loading } = useAuth();
 
 	// Obtener servicios desde la API
 	const obtenerServicios = async () => {
 		try {
-			const response = await fetch('/api/getServices');
+
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getServices', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
+
 			if (!response.ok) throw new Error('Error al obtener los servicios');
 			const { data } = await response.json();
-			console.log('getServices',data)
 			setServices(data);
 		} catch (error) {
 			console.error(error.message);
@@ -27,8 +40,10 @@ function Page() {
 	};
 
 	useEffect(() => {
-		obtenerServicios();
-	}, []);
+		if(user){
+			obtenerServicios();
+		}
+	}, [user]);
 
 	// Manejar cambios en los inputs
 	const handleChange = (e) => {
@@ -39,11 +54,21 @@ function Page() {
 	// Agregar nuevo servicio
 	const agregarServicio = async () => {
 		try {
+
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
 			const response = await fetch('/api/services/addService', {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			},
 				body: JSON.stringify(newService),
+
 			});
+
 			if (!response.ok) throw new Error('Error al agregar el servicio');
 
 			alert('✅ Servicio agregado con éxito');
@@ -60,10 +85,17 @@ function Page() {
 	const eliminarServicio = async (id) => {
 		if (!confirm('⚠️ ¿Está seguro de eliminar este servicio?')) return;
 
+		if (!user || !user.uid) {
+			throw new Error('No hay sesión activa');
+		}
+		
 		try {
 			const response = await fetch('/api/services/deleteService', {
 				method: 'DELETE',
-				headers: { 'Content-Type': 'application/json' },
+				headers: { 
+					'Content-Type': 'application/json',
+					'X-User-Id': user.uid ? user.uid.toString() : ''
+				 },
 				body: JSON.stringify({ id }),
 			});
 			if (!response.ok) throw new Error('Error al eliminar el servicio');
@@ -123,7 +155,7 @@ function Page() {
 					className={styles.input}
 				/>
 				<button
-					onClick={agregarServicio}
+					onClick={() => { agregarServicio() }}
 					className={styles.addButton}
 				>
 					Agregar Servicio

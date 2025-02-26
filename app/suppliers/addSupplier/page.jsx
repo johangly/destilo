@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 import { HomeIcon } from '@/components/Icons';
 
 function FormularioProveedor() {
@@ -26,6 +27,8 @@ function FormularioProveedor() {
 		webrrss: '',
 	});
 
+
+	const { user,loading } = useAuth();
 	const router = useRouter();
 
 	const handleChange = (e) => {
@@ -58,7 +61,10 @@ function FormularioProveedor() {
 		try {
 			const response = await fetch('/api/addSupplier', {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			},
 				body: JSON.stringify(formData),
 			});
 

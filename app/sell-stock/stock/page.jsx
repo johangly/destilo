@@ -4,13 +4,21 @@ import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { DeleteIcon, EditIcon, HomeIcon } from '@/components/Icons';
+import { useAuth } from '@/context/AuthContext';
 
 // Función para eliminar un producto en Firestore
-async function eliminarProducto(id) {
+async function eliminarProducto(id,user) {
 	try {
+		if (!user || !user.uid) {
+			throw new Error('No hay sesión activa');
+		}
+
 		const response = await fetch('/api/deleteData', {
 			method: 'DELETE',
-			headers: { 'Content-Type': 'application/json' },
+			headers: {
+				'X-User-Id': user.uid ? user.uid.toString() : '',
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify({ id }),
 		});
 
@@ -30,11 +38,24 @@ async function eliminarProducto(id) {
 function Page() {
 	const [ventas, setVentas] = useState([]);
 	const [busqueda, setBusqueda] = useState('');
+	const { user,loading } = useAuth();
 
 	// Obtener la lista de ventas desde Firestore
 	const obtenerVentas = async () => {
 		try {
-			const response = await fetch('/api/getStocksData', { method: 'GET' });
+
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getStocksData', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
+
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const {datos} = await response.json();
 
@@ -54,7 +75,7 @@ function Page() {
 			'¿Seguro que deseas eliminar este producto?'
 		);
 		if (confirmDelete) {
-			const success = await eliminarProducto(id);
+			const success = await eliminarProducto(id,user);
 			if (success) {
 				// Actualiza la lista después de la eliminación
 				setVentas((prevVentas) =>
@@ -74,8 +95,10 @@ function Page() {
 		.sort((a, b) => a.producto.localeCompare(b.producto));
 
 	useEffect(() => {
-		obtenerVentas();
-	}, []);
+		if(user){
+			obtenerVentas();
+		}
+	}, [user]);
 
 	return (
 		<div className={styles.page}>

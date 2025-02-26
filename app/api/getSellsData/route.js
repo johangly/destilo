@@ -1,9 +1,20 @@
 import { api } from '@/lib/apiClient';
 
 export async function GET(request) {
+    const userId = request.headers.get('X-User-Id');
+    if (!userId) {
+        return new Response(
+            JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+            {
+                status: 401,
+                headers: { 'Content-Type': 'application/json' },
+            }
+        );
+    }
+
 	try {
 		// Obtener todas las ventas usando la nueva API
-		const ventas = await api.getSells();
+		const ventas = await api.getSells(userId);
 		console.log(ventas)
 		// Verificar si se obtuvieron las ventas correctamente
 		if (!ventas) {

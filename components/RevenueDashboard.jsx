@@ -2,14 +2,30 @@
 import React, { useEffect, useState } from 'react';
 import styles from './RevenueDashboard.module.css';
 import Image from 'next/image';
-
+import { useAuth } from '@/context/AuthContext';
 function RevenueDashboard() {
 	const [ventas, setVentas] = useState([]); // Define el estado en el componente
-
+	const { user } = useAuth();
+	// console.log('userrrr',user)
+	// console.log('Información del usuario antes de la petición:', {
+	// 	userObject: user,
+	// 	userId: user ? user.uid.toString() : '',
+	// 	userIdType: user ? typeof user.uid : '' 
+	// });
+	// console.log('user: RevenueDashboard:',user)
 	const obtenerVentas = async () => {
 		try {
-			const response = await fetch('/api/getSellsData', { method: 'GET' });
-			if (!response.ok) throw new Error('Error al obtener las ventas');
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getSellsData', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
 			const data = await response.json();
 			setVentas(data.datos); // Actualiza el estado con los datos obtenidos
 		} catch (error) {
@@ -18,8 +34,10 @@ function RevenueDashboard() {
 	};
 
 	useEffect(() => {
-		obtenerVentas();
-	}, []);
+		if(user){
+			obtenerVentas();
+		}
+	}, [user]);
 	console.log('ventas',ventas)
 	// Sumar el precio total de cada venta
 	const sumaPrecioTotal = ventas.reduce((acumulador, venta) => {

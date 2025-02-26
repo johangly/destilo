@@ -5,16 +5,29 @@ import { useListaCompras } from '@/context/sellsContext';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { HomeIcon } from '@/components/Icons';
+import { useAuth } from '@/context/AuthContext';
 
 function ListaCompras() {
 	const { listaCompras, eliminarProducto, limpiarLista } = useListaCompras();
 	const [stock, setStock] = useState([]);
 	const [tasa, setTasa] = useState(''); // Estado para la tasa de cambio
-
+	const { user,loading } = useAuth();
 	// Obtener la lista de inventario desde Firestore
 	const obtenerStock = async () => {
 		try {
-			const response = await fetch('/api/getStocksData', { method: 'GET' });
+
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getStocksData', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
+
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const { datos } = await response.json();
 			setStock(datos); // Actualiza el estado con los datos obtenidos
@@ -24,9 +37,11 @@ function ListaCompras() {
 	};
 
 	useEffect(() => {
-		obtenerStock();
-	}, []);
-
+		if(user){
+			obtenerStock();
+		}
+	}, [user]);
+	console.log(listaCompras,'listaCompras')
 	// Calcular el total final en USD
 	const totalFinal = listaCompras.reduce(
 		(total, producto) => parseFloat(total) + parseFloat(producto.precioTotal),
@@ -83,11 +98,13 @@ function ListaCompras() {
 				id_factura: Math.floor(Math.random() * 100000000000),
 				productos: listaCompras,
 			};
-			console.log('coimpra:',compra)
 			// Enviar el objeto completo a la API
 			const response = await fetch('/api/addSells', {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			},
 				body: JSON.stringify(compra),
 			});
 
@@ -222,6 +239,24 @@ function ListaCompras() {
 								</button>
 							</td>
 						</tr>
+					))}
+					{listaCompras.map((producto) => (
+						producto.productosAsociado.map((asociado, index) => (
+							<tr key={index}>
+								<td>{asociado.producto}</td>
+								<td>{asociado.cantidadInput}</td>
+								<td>${asociado.precioUnitario}</td>
+								<td>${Number(asociado.cantidadInput) * Number(asociado.precioUnitario)}</td>
+								<td>
+									<button
+										className={styles.deleteButton}
+										onClick={() => eliminarProducto(index)}
+									>
+										Eliminar
+									</button>
+								</td>
+							</tr>
+						))
 					))}
 				</tbody>
 			</table>

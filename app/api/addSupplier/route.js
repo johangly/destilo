@@ -2,6 +2,16 @@ import { api } from '@/lib/apiClient';
 
 export async function POST(request) {
     try {
+        const userId = request.headers.get('X-User-Id');
+        if (!userId) {
+            return new Response(
+                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                {
+                    status: 401,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
         const body = await request.json();
         const {
             nombre,
@@ -28,7 +38,7 @@ export async function POST(request) {
             );
         }
 
-        const result = await api.createSupplier({
+        const result = await api.createSupplier(userId,{
             nombre,
             razonSocial,
             rif,

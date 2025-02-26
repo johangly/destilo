@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { useListaCompras } from '@/context/sellsContext';
+import { useAuth } from '@/context/AuthContext';
 
 function ProductPage({ params }) {
 	const { id } = React.use(params);
@@ -11,10 +12,21 @@ function ProductPage({ params }) {
 	const { agregarProducto } = useListaCompras();
 	const [product, setProduct] = useState(null);
 	const [ventas, setVentas] = useState([]);
-
+	const { user,loading } = useAuth();
 	const obtenerVentas = async () => {
 		try {
-			const response = await fetch('/api/getStocksData', { method: 'GET' });
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getStocksData', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
+
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const { datos } = await response.json();
 			setVentas(datos);
@@ -24,8 +36,10 @@ function ProductPage({ params }) {
 	};
 
 	useEffect(() => {
-		obtenerVentas();
-	}, []);
+		if(user){
+			obtenerVentas();
+		}
+	}, [user]);
 
 	useEffect(() => {
 		if (ventas.length > 0) {

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { HomeIcon } from '@/components/Icons';
+import { useAuth } from '@/context/AuthContext';
 
 function AddCustomerForm() {
 	const [formData, setFormData] = useState({
@@ -24,6 +25,8 @@ function AddCustomerForm() {
 	const [message, setMessage] = useState(null);
 	const [empresa, setEmpresa] = useState(false);
 
+
+	const { user } = useAuth();
 	const handleChange = (e) => {
 		const { id, value } = e.target;
 		let newValue = value;
@@ -69,11 +72,19 @@ function AddCustomerForm() {
 			provincia: formData.provincia || '',
 			pais: formData.pais || '',
 		};
-		console.log('dataToSend',dataToSend)
+
 		try {
+
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
 			const response = await fetch('/api/addCustomer', {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			},
 				body: JSON.stringify(dataToSend), // Enviar todos los campos
 			});
 

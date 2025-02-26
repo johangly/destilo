@@ -1,10 +1,22 @@
 // /api/getStocksData/route.js
 import { api } from '@/lib/apiClient';
 
-export async function GET() {
+export async function GET(req) {
 	try {
+		
+		const userId = req.headers.get('X-User-Id');
+		if (!userId) {
+			return new Response(
+				JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+				{
+					status: 401,
+					headers: { 'Content-Type': 'application/json' },
+				}
+			);
+		}
+	
 		// Obtener todos los stocks usando la nueva API
-		const stocks = await api.getStocks();
+		const stocks = await api.getStocks(userId);
 
 		// Verificar si se obtuvieron los stocks correctamente
 		if (!stocks) {

@@ -5,10 +5,22 @@ import styles from './page.module.css';
 import Link from 'next/link';
 import { HomeIcon } from '@/components/Icons';
 import React from 'react';
+import { useAuth } from '@/context/AuthContext';
 
-async function obtenerProductos() {
+async function obtenerProductos(user) {
 	try {
-		const response = await fetch('/api/getServices');
+		if (!user || !user.uid) {
+			throw new Error('No hay sesión activa');
+		}
+
+		const response = await fetch('/api/getServices', {
+			method: 'GET',
+			headers: {
+				'X-User-Id': user.uid ? user.uid.toString() : '',
+				'Content-Type': 'application/json'
+			}
+		});
+
 		if (!response.ok) throw new Error('Error al obtener los servicios');
 		const { data } = await response.json();
 		return data;
@@ -18,14 +30,19 @@ async function obtenerProductos() {
 	}
 }
 
-async function editarProducto(id, producto) {
+async function editarProducto(id, producto, user) {
 	try {
+		if (!user || !user.uid) {
+			throw new Error('No hay sesión activa');
+		}
 		const response = await fetch('/api/services/editService', {
 			method: 'PUT',
 			headers: {
-				'Content-Type': 'application/json',
+				'X-User-Id': user.uid ? user.uid.toString() : '',
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({ id, ...producto }),
+
 		});
 
 		if (!response.ok) {
@@ -44,6 +61,7 @@ async function editarProducto(id, producto) {
 
 function EditProduct({ params }) {
 	const { id } = React.use(params);
+	const { user,loading } = useAuth();
 
 	const [productos, setProductos] = useState([]);
 	const [producto, setProducto] = useState({
@@ -53,14 +71,16 @@ function EditProduct({ params }) {
 	});
 
 	useEffect(() => {
-		obtenerProductos().then((data) => {
-			setProductos(data);
-			const productoEncontrado = data.find((p) => p.id.toString() === id.toString());
-			if (productoEncontrado) {
-				setProducto(productoEncontrado);
-			}
-		});
-	}, [id]);
+		if(user){
+			obtenerProductos(user).then((data) => {
+				setProductos(data);
+				const productoEncontrado = data.find((p) => p.id.toString() === id.toString());
+				if (productoEncontrado) {
+					setProducto(productoEncontrado);
+				}
+			});
+		}
+	}, [user,id]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -78,7 +98,7 @@ function EditProduct({ params }) {
 		}
 
 		try {
-			await editarProducto(id, producto);
+			await editarProducto(id, producto, user);
 			alert('Servicio actualizado exitosamente');
 		} catch (error) {
 			alert('Error al actualizar el Servicio');

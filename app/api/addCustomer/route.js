@@ -2,6 +2,18 @@ import { api } from '@/lib/apiClient';
 
 export async function POST(request) {
     try {
+        const userId = request.headers.get('X-User-Id');
+
+        if (!userId) {
+            return new Response(
+                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                {
+                    status: 401,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
         const body = await request.json();
         const {
             cliente,
@@ -29,8 +41,8 @@ export async function POST(request) {
                 }
             );
         }
-        console.log('body', body)
-        const result = await api.createCustomer({
+
+        const result = await api.createCustomer(userId,{
             ...body,
             fechaRegistro: new Date().toISOString(),
         });

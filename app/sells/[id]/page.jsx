@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAuth } from '@/context/AuthContext';
 
 function ProductPage({ params }) {
 	const { id } = React.use(params);
@@ -14,11 +15,22 @@ function ProductPage({ params }) {
 	const [metodoPago, setMetodoPago] = useState('');
 	const [fechaPago, setFechaPago] = useState('');
 	const [metodoEntrega, setMetodoEntrega] = useState('');
+	const { user,loading } = useAuth();
 	
 	// Obtener el producto específico basado en el ID
 	const obtenerProducto = async () => {
 		try {
-			const response = await fetch('/api/getSellsData');
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getSellsData', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const { datos } = await response.json();
 			const productoEncontrado = datos.find((venta) => (
@@ -32,10 +44,11 @@ function ProductPage({ params }) {
 
 	// Llamar a la función obtenerProducto cada vez que el ID cambie
 	useEffect(() => {
-		obtenerProducto(); 
-	}, [id]);
+		if(user){
+			obtenerProducto(); 
+		}
+	}, [id,user]);
 
-	console.log('product',product)
 	// Calcular la suma total de la compra
 	const totalCompra = product
 		? product.items.reduce((total, prod) => {
@@ -43,6 +56,12 @@ function ProductPage({ params }) {
 		  }, 0)
 		: 0;
 
+
+	if(loading){
+		return <div style={{width:'100%',minHeight:'80vh',display:'flex',justifyContent:'center',alignItems:'center'}}>
+			<p>Cargando...</p>
+		</div>
+	}
 	if (!product) {
 		return <div>Compra no encontrada</div>;
 	}
@@ -53,7 +72,7 @@ function ProductPage({ params }) {
 			<Image
 				src='/logo.png'
 				alt='Logo'
-				width={100}
+				width={150}
 				height={50}
 			/>
 

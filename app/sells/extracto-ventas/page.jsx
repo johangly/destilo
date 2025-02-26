@@ -5,28 +5,43 @@ import jsPDF from 'jspdf';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { HomeIcon } from '@/components/Icons';
+import { useAuth } from '@/context/AuthContext';
 
 function VentasFiltradas() {
 	const [ventas, setVentas] = useState([]); // Estado para todas las ventas
 	const [ventasFiltradas, setVentasFiltradas] = useState([]); // Estado para las ventas filtradas
 	const [fechaInicio, setFechaInicio] = useState('');
 	const [fechaFin, setFechaFin] = useState('');
+	const { user,loading } = useAuth();
 
 	// Obtener todas las ventas desde Firebase
 	const obtenerVentas = async () => {
 		try {
-			const response = await fetch('/api/getSellsData');
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getSellsData', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
+
 			if (!response.ok) throw new Error('Error al obtener las ventas');
-			const data = await response.json();
-			setVentas(data);
+			const { datos } = await response.json();
+			setVentas(datos);
 		} catch (error) {
 			console.error('Error al obtener ventas:', error);
 		}
 	};
 
 	useEffect(() => {
-		obtenerVentas();
-	}, []);
+		if(user){
+			obtenerVentas();
+		}
+	}, [user]);
 
 	// Filtrar ventas según el rango de fechas
 	const filtrarVentas = () => {
@@ -55,7 +70,7 @@ function VentasFiltradas() {
 		return ventasFiltradas.reduce((acc, venta) => {
 			return (
 				acc +
-				venta.productos.reduce((acc2, p) => {
+				venta.items.reduce((acc2, p) => {
 					// Aseguramos que precioTotal sea un número antes de sumarlo
 					const precioTotal = Number(p.precioTotal);
 					return acc2 + (isNaN(precioTotal) ? 0 : precioTotal);
@@ -85,7 +100,7 @@ function VentasFiltradas() {
 			doc.text(venta.id_factura.toString(), 20, yPosition);
 			doc.text(new Date(venta.fecha).toLocaleDateString(), 60, yPosition);
 			doc.text(
-				venta.productos
+				venta.items
 					.reduce((acc, p) => acc + (Number(p.precioTotal) || 0), 0)
 					.toFixed(2),
 				120,
@@ -156,7 +171,7 @@ function VentasFiltradas() {
 								<td>{new Date(venta.fecha).toLocaleDateString()}</td>
 								<td>
 									<ul>
-										{venta.productos.map((p, index) => (
+										{venta.items.map((p, index) => (
 											<li key={index}>
 												{p.nombre} (x{p.cantidad}) - ${p.precioUnitario}
 											</li>
@@ -165,7 +180,7 @@ function VentasFiltradas() {
 								</td>
 								<td>
 									$
-									{venta.productos
+									{venta.items
 										.reduce((acc, p) => {
 											// Aseguramos que precioTotal sea un número válido
 											const precioTotal = Number(p.precioTotal);

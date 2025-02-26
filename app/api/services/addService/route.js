@@ -4,7 +4,16 @@ export async function POST(request) {
     try {
         const body = await request.json();
         const { servicio, descripcion, precio } = body;
-
+        const userId = request.headers.get('X-User-Id');
+        if (!userId) {
+            return new Response(
+                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                {
+                    status: 401,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
         // Validación de campos obligatorios
         if (!servicio || !descripcion || !precio) {
             return new Response(
@@ -14,7 +23,7 @@ export async function POST(request) {
         }
 
         // Crear el servicio usando la nueva API
-        const result = await api.createService({
+        const result = await api.createService(userId,{
             servicio,
             descripcion,
             precio: parseFloat(precio),

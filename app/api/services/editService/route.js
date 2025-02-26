@@ -2,6 +2,17 @@ import { api } from '@/lib/apiClient';
 
 export async function PUT(request) {
     try {
+        const userId = request.headers.get('X-User-Id');
+        if (!userId) {
+            return new Response(
+                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                {
+                    status: 401,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
         const body = await request.json();
         const { id, servicio, descripcion, precio } = body;
 
@@ -14,7 +25,7 @@ export async function PUT(request) {
         }
 
         // Actualizar servicio usando la nueva API
-        const updatedService = await api.updateService(id, {
+        const updatedService = await api.updateService(userId,id, {
             servicio,
             descripcion,
             precio: parseFloat(precio)

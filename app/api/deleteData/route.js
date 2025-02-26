@@ -47,7 +47,17 @@ export async function DELETE(request) {
     try {
         const body = await request.json();
         const { id } = body;
+        const userId = request.headers.get('X-User-Id');
 
+        if (!userId) {
+               return new Response(
+                   JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                   {
+                       status: 401,
+                       headers: { 'Content-Type': 'application/json' },
+                   }
+               );
+           }
         // Validacion del id
         if (!id) {
             return new Response(
@@ -57,7 +67,7 @@ export async function DELETE(request) {
         }
 
         // Eliminar usando la nueva API
-        await api.deleteData(id);
+        await api.deleteData(userId,id);
 
         return new Response(
             JSON.stringify({ 

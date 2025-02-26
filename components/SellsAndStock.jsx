@@ -3,13 +3,25 @@ import React, { useEffect, useState } from 'react';
 import styles from './SellsAndStock.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAuth } from '@/context/AuthContext';
 
 function SellsAndStock() {
 	const [ventas, setVentas] = useState([]);
-
+	const { user } = useAuth();
+	console.log('SellsAndStock',user)
 	const obtenerVentas = async () => {
+
 		try {
-			const response = await fetch('/api/getSellsData', { method: 'GET' });
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+			const response = await fetch('/api/getSellsData', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid,
+					'Content-Type': 'application/json'
+    			}
+			});
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const data = await response.json();
 			setVentas(data.datos);
@@ -19,8 +31,10 @@ function SellsAndStock() {
 	};
 
 	useEffect(() => {
-		obtenerVentas();
-	}, []);
+		if(user){
+			obtenerVentas();
+		}
+	}, [user]);
 
 	// Extraer solo los primeros 6 productos en total
 	const productosLimitados = [];

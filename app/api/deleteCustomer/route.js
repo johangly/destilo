@@ -32,6 +32,17 @@ import { api } from '@/lib/apiClient';
 
 export async function DELETE(request) {
     try {
+        const userId = request.headers.get('X-User-Id');
+        if (!userId) {
+           return new Response(
+               JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+               {
+                   status: 401,
+                   headers: { 'Content-Type': 'application/json' },
+               }
+           );
+       }
+
         const body = await request.json();
         const { id } = body;
 
@@ -43,7 +54,7 @@ export async function DELETE(request) {
             );
         }
         
-        await api.deleteCustomer(id);
+        await api.deleteCustomer(userId,id);
 
         return new Response(
             JSON.stringify({ 

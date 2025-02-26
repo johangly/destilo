@@ -5,12 +5,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './page.module.css';
-
+import { useAuth } from '@/context/AuthContext';
 export default function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [message, setMessage] = useState('');
 	const router = useRouter();
+	const { login } = useAuth();
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
@@ -22,15 +23,16 @@ export default function Login() {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ email, password, action: 'login' }),
 			});
-
+			
 			const data = await response.json();
 			if (!response.ok) throw new Error(data.error);
-
+			console.log('Login usuario', data)
 			// 🔥 Guardar token en cookies para persistencia
-			document.cookie = `token=${data.token}; path=/; secure; samesite=strict`;
+			login(data.user.stsTokenManager.accessToken, data.user);
+			// document.cookie = `token=${data.user.uid}; path=/; secure; samesite=strict`;
 
 			setMessage('Inicio de sesión exitoso.');
-			router.push('/home'); // 🔥 Redirigir a /home tras el login
+			// router.push('/home'); // 🔥 Redirigir a /home tras el login
 		} catch (error) {
 			setMessage('Usuario o contraseña incorrectos.');
 		}

@@ -3,15 +3,27 @@ import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { HomeIcon } from '@/components/Icons';
+import { useAuth } from '@/context/AuthContext';
 
 function Page() {
 	const [productos, setProductos] = useState([]);
 	const [searchQuery, setSearchQuery] = useState(''); // Estado para la búsqueda
-
+	const { user,loading } = useAuth();
 	// Función para obtener productos desde la API
 	const obtenerProductos = async () => {
 		try {
-			const response = await fetch('/api/getStocksData', { method: 'GET' });
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getStocksData', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
+
 			if (!response.ok) throw new Error('Error al obtener los productos');
 			const { datos } = await response.json();
 			setProductos(datos); // Actualiza el estado con los datos obtenidos
@@ -22,8 +34,10 @@ function Page() {
 
 	// Llamada a obtener productos cuando el componente se monta
 	useEffect(() => {
-		obtenerProductos();
-	}, []);
+		if(user){
+			obtenerProductos();
+		}
+	}, [user]);
 
 	// Filtrar y ordenar productos alfabéticamente por nombre
 	const filteredAndSortedProducts = productos

@@ -4,19 +4,32 @@ import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { DeleteIcon, HomeIcon } from '@/components/Icons';
+import { useAuth } from '@/context/AuthContext';
+
 
 function ListaClientes() {
 	const [customers, setCustomers] = useState([]); // Clientes filtrados
 	const [allCustomers, setAllCustomers] = useState([]); // Todos los clientes
 	const [message, setMessage] = useState(null);
+	const { user,loading } = useAuth();
 
 	// Obtener clientes desde Firebase
 	const getCustomers = async () => {
 		try {
-			const response = await fetch('/api/getCustomers', { method: 'GET' });
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getCustomers', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
+
 			if (!response.ok) throw new Error('Error al obtener los clientes');
 			const { data } = await response.json();
-			console.log('getCustomers',data)
 			setCustomers(data);
 			setAllCustomers(data);
 		} catch (error) {
@@ -30,9 +43,16 @@ function ListaClientes() {
 			return;
 
 		try {
-			const response = await fetch(`/api/deleteCustomer`, {
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/deleteCustomer', {
 				method: 'DELETE',
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			},
 				body: JSON.stringify({ id }),
 			});
 
@@ -48,8 +68,10 @@ function ListaClientes() {
 	};
 
 	useEffect(() => {
-		getCustomers();
-	}, []);
+		if(user){
+			getCustomers();
+		}
+	}, [user]);
 
 	const handleSearch = (e) => {
 		const searchValue = e.target.value.trim().toLowerCase(); // Convertir a minúsculas

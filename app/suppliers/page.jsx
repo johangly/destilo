@@ -4,19 +4,30 @@ import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { DeleteIcon, HomeIcon } from '@/components/Icons';
+import { useAuth } from '@/context/AuthContext';
 
 function ListaProveedores() {
 	const [suppliers, setSuppliers] = useState([]); // Estado para los proveedores filtrados
 	const [allSuppliers, setAllSuppliers] = useState([]); // Estado para todos los proveedores
 	const [message, setMessage] = useState(null);
-
+	const { user,loading } = useAuth();
 	// Función para obtener proveedores desde Firebase
 	const getSuppliers = async () => {
 		try {
-			const response = await fetch('/api/getSuppliers');
+
+			if (!user || !user.uid) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getSuppliers', {
+				method: 'GET',
+				headers: {
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
 			if (!response.ok) throw new Error('Error al obtener los proveedores');
 			const { data } = await response.json();
-			console.log('getSuppliers',data)
 			setSuppliers(data); // Actualiza el estado con los datos filtrados
 			setAllSuppliers(data); // Almacena todos los proveedores en un estado separado
 		} catch (error) {
@@ -34,10 +45,17 @@ function ListaProveedores() {
 
 		if (!confirmDelete) return; // Si el usuario cancela, no se ejecuta la eliminación
 
+		if (!user || !user.uid) {
+			throw new Error('No hay sesión activa');
+		}
+		
 		try {
 			const response = await fetch('/api/deleteSupplier', {
 				method: 'DELETE',
-				headers: { 'Content-Type': 'application/json' },
+				headers: { 
+					'Content-Type': 'application/json',
+					'X-User-Id': user.uid ? user.uid.toString() : '',
+				},
 				body: JSON.stringify({ id }),
 			});
 
@@ -79,8 +97,10 @@ function ListaProveedores() {
 	};
 
 	useEffect(() => {
-		getSuppliers();
-	}, []);
+		if(user){
+			getSuppliers();
+		}
+	}, [user]);
 
 	return (
 		<div className={styles.suppliersContainer}>

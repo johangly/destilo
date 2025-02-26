@@ -2,7 +2,18 @@ import { api } from '@/lib/apiClient';
 
 export async function GET(request) {
     try {
-        const ventas = await api.getCustomers();
+        const userId = request.headers.get('X-User-Id');
+
+        if (!userId) {
+            return new Response(
+                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                {
+                    status: 401,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+        const ventas = await api.getCustomers(userId);
         return new Response(JSON.stringify(ventas), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },

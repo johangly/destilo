@@ -2,8 +2,18 @@ import { api } from '@/lib/apiClient';
 
 export async function GET(request) {
     try {
+        const userId = request.headers.get('X-User-Id');
+        if (!userId) {
+            return new Response(
+                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                {
+                    status: 401,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
         // Obtener todos los proveedores usando la nueva API
-        const proveedores = await api.getSuppliers();
+        const proveedores = await api.getSuppliers(userId);
 
         // Verificar si se obtuvieron los proveedores correctamente
         if (!proveedores) {
