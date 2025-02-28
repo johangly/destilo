@@ -107,6 +107,7 @@ function ProductPage({ params }) {
 			nombre: '',
 			codigo: '',
 			cantidad: 1,
+			type: 'stock',
 			precioUnitario: 0,
 			precioTotal: 0,
 			fecha:'',
@@ -118,7 +119,7 @@ function ProductPage({ params }) {
 		const nuevosProductos = [...productosAsociados];
 		nuevosProductos[index][campo] = valor;
 		const productoEncontrado = ventas.find((producto) => producto.id.toString() === valor.toString());
-		nuevosProductos[index] = {...productoEncontrado,cantidadInput:1}
+		nuevosProductos[index] = {...productoEncontrado,cantidadInput:1,type:'stock'}
 		setProductosAsociados(nuevosProductos);
 	};
 
@@ -135,34 +136,42 @@ function ProductPage({ params }) {
 		const nuevosProductos = productosAsociados.filter((_, i) => i !== index);
 		setProductosAsociados(nuevosProductos);
 	};
-	console.log('ventas PORRRRRRRRR',ventas)
+
 	const handleAgregarProducto = () => {
 		const precioPorUnidadDeServicio = parseFloat(product.precio);
 		if (isNaN(precioPorUnidadDeServicio)) {
 			alert('Error: Precio unitario no es válido');
 			return;
 		}
-	
+
+		const newProductosAsociados = [];
+		if (productosAsociados) {
+			productosAsociados.forEach(element => {
+				newProductosAsociados.push({
+					...element,
+					precioTotal: Number(element.precioUnitario) * Number(element.cantidadInput)
+				})
+			});
+		}
 		const productoParaAgregar = {
 			id: product.id,
 			nombre: product.servicio,
 			codigo: product.descripcion,
 			cantidad: cantidad,
+			type: 'service',
 			precioUnitario: precioPorUnidadDeServicio.toFixed(2),
 			precioTotal: (cantidad * precioPorUnidadDeServicio).toFixed(2),
 			fecha: new Date().toISOString(),
-			productosAsociado: [...productosAsociados]
+			productosAsociado: newProductosAsociados ? [...newProductosAsociados] : []
 		};
-		console.log('productoParaAgregar',productoParaAgregar)
 		agregarProducto(productoParaAgregar);
 		alert('Producto agregado a la lista de compras');
 	};
-
 	return (
 		<div className={styles.itemContainer}>
-			<h1 className={styles.title}>Detalles del Producto</h1>
+			<h1 className={styles.title}>Detalles del Servicio</h1>
 			<h3 className={styles.productName}>
-				Producto: <span>{product.producto}</span>
+				Servicio: <span>{product.servicio}</span>
 			</h3>
 			<div className={styles.itemQuantity}>
 				<p className={styles.price}>

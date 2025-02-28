@@ -23,20 +23,21 @@ function ProductPage({ params }) {
 			if (!user || !user.uid) {
 				throw new Error('No hay sesión activa');
 			}
-
-			const response = await fetch('/api/getSellsData', {
+			console.log('id antes de enviarlo a la API:',id)
+			const response = await fetch(`/api/getSellsDataById?id=${id}`, {
 				method: 'GET',
 				headers: {
 					'X-User-Id': user.uid ? user.uid.toString() : '',
 					'Content-Type': 'application/json'
-    			}
+				}
 			});
-			if (!response.ok) throw new Error('Error al obtener las ventas');
-			const { datos } = await response.json();
-			const productoEncontrado = datos.find((venta) => (
-				String(venta.id) === String(id))
-			);
-			setProduct(productoEncontrado);
+			if (!response.ok) {
+					console.error(`Error: ${response.status} - ${response.statusText}`)
+					throw new Error(`Error: ${response.status} - ${response.statusText}`);
+			}
+			const data = await response.json();
+			console.log('datos en sells',data)
+			setProduct(data);
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -50,12 +51,29 @@ function ProductPage({ params }) {
 	}, [id,user]);
 
 	// Calcular la suma total de la compra
-	const totalCompra = product
-		? product.items.reduce((total, prod) => {
-				return total + prod.cantidad * parseFloat(prod.precioUnitario);
-		  }, 0)
-		: 0;
+	// const totalCompra = product
+	// 	? product.items.reduce((total, prod) => {
+	// 			return total + prod.cantidad * parseFloat(prod.precioUnitario);
+	// 	  }, 0)
+	// 	: 0;
 
+	const totalCompra = product ? product.items.reduce(
+		(total, producto) => {
+			if (producto.type === 'stock') {
+				return parseFloat(total) + parseFloat(producto.precioTotal);
+			} else if (producto.type === 'service') {
+				if (!producto.items || producto.items.length === 0) {
+					return total;
+				}
+
+				const totalItems = parseFloat(total) + producto.items.reduce((subTotal, item) => parseFloat(subTotal) + parseFloat(item.precioTotal), 0);
+
+				return parseFloat(totalItems) + parseFloat(producto.precioTotal);
+			}
+			return total;
+		},
+		0
+	) : 0;
 
 	if(loading){
 		return <div style={{width:'100%',minHeight:'80vh',display:'flex',justifyContent:'center',alignItems:'center'}}>
@@ -72,7 +90,7 @@ function ProductPage({ params }) {
 			<Image
 				src='/logo.png'
 				alt='Logo'
-				width={150}
+				width={180}
 				height={50}
 			/>
 
@@ -159,30 +177,37 @@ function ProductPage({ params }) {
 					<strong>Método de Entrega:</strong> {metodoEntrega}
 				</p>
 
-				<table className={styles.table}>
-					<thead>
-						<tr>
-							<th>Producto</th>
-							<th>Cantidad</th>
-							<th>Precio Unitario</th>
-							<th>Precio Total</th>
-						</tr>
-					</thead>
-					<tbody>
-						{product.items.map((prod, index) => (
-							<tr key={index}>
-								<td>{prod.nombre}</td>
-								<td>{prod.cantidad}</td>
-								<td>${parseFloat(prod.precioUnitario).toFixed(2)}</td>
-								<td>
-									$
-									{(prod.cantidad * parseFloat(prod.precioUnitario)).toFixed(2)}
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
+				
+				<div className={styles.gridContainer}>
+				<div className={styles.gridRow}>
+					<div className={styles.gridHeader}>Producto</div>
+					<div className={styles.gridHeader}>Tipo</div>
+					<div className={styles.gridHeader}>Cantidad</div>
+					<div className={styles.gridHeader}>Precio Unitario</div>
+					<div className={styles.gridHeader}>Precio Total</div>
+				</div>
+				{product.items.map((producto, index) => (
+					<div style={{marginBottom: '-1px'}} key={index}>
+						<div className={styles.gridRow}>
+							<div className={styles.gridItem}>{producto.nombre}</div>
+							<div className={styles.gridItem}>{producto.type}</div>
+							<div className={styles.gridItem}>{producto.cantidad}</div>
+							<div className={styles.gridItem}>${producto.precioUnitario}</div>
+							<div className={styles.gridItem} style={{ borderRight: '1px solid #ddd' }}>${producto.precioTotal}</div>
+						</div>
+						{producto.items && producto.items.map((asociado, sub_index) => (
+							<div className={styles.gridSubRow} key={sub_index}>
+								<div className={styles.gridSubItem} style={{ backgroundColor: '#f0f0f0' }}>{asociado.nombre}</div>
+								<div className={styles.gridSubItem} style={{ backgroundColor: '#f0f0f0' }}>{asociado.type}</div>
+								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0' }}>{asociado.cantidad}</div>
+								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0' }}>${asociado.precioUnitario}</div>
+								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0', borderRight:'1px solid #ddd'}} >${asociado.precioTotal}</div>
 
+							</div>
+						))}
+					</div>
+				))}
+			</div>
 				<div className={styles.totalContainer}>
 					<h4 className={styles.totalText}>Total:</h4>
 					<span className={styles.totalAmount}>${totalCompra.toFixed(2)}</span>

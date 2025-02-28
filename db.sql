@@ -62,18 +62,26 @@ CREATE TABLE productos_vendidos (
     cantidad INT NOT NULL,
     fecha VARCHAR(50) NOT NULL,
     producto_id VARCHAR(50) NOT NULL,
+    service_id VARCHAR(50),
     nombre VARCHAR(100) NOT NULL,
     precioTotal DECIMAL(10, 2) NOT NULL,
     precioUnitario DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (sell_id) REFERENCES sells(id) ON DELETE CASCADE
+    FOREIGN KEY (service_id) REFERENCES servicios_vendidos(id) ON DELETE CASCADE
 );
 
--- Tabla services
-CREATE TABLE services (
-    id INT AUTO_INCREMENT PRIMARY KEY,      -- Identificador único del servicio
-    descripcion TEXT,                       -- Descripción del servicio (string)
-    precio DECIMAL(10, 2) NOT NULL,         -- Precio del servicio (number)
-    servicio VARCHAR(100) NOT NULL          -- Nombre del servicio (string)
+-- Tabla servicios_vendidos
+ CREATE TABLE servicios_vendidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sell_id INT NOT NULL,
+    cantidad INT NOT NULL,
+    fecha VARCHAR(50) NOT NULL,
+    service_id INT NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    precioTotal DECIMAL(10, 2) NOT NULL,
+    precioUnitario DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (sell_id) REFERENCES sells(id) ON DELETE CASCADE,
+    FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
 );
 
 -- Tabla stocks
@@ -85,3 +93,11 @@ CREATE TABLE stocks (
     producto VARCHAR(100) NOT NULL,         -- Nombre del producto (string)
     proveedor VARCHAR(100) NOT NULL         -- Nombre del proveedor (string)
 );
+
+-- para agregar service_id a productos_vendidos
+-- ALTER TABLE productos_vendidos
+-- ADD COLUMN service_id INT,
+-- ADD CONSTRAINT fk_service_id
+-- FOREIGN KEY (service_id)
+-- REFERENCES servicios_vendidos(id)
+-- ON DELETE CASCADE;

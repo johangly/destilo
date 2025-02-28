@@ -75,14 +75,15 @@ function SellsAndStock() {
 					))}
 				</ul>
 			</div>
-			<div className={styles.sellsAndStock__logo}>
-				<p>Stockven v1.0</p>
+			<div style={{ flex:'none',display: 'flex', alignItems: 'center',justifyContent:'center',gap:'5px',marginTop:'auto' }} className={styles.sellsAndStock__logo}>
 				<Image
-					src='/logo_dos.jpeg'
+					src='/logo-group-1.svg'
 					alt='Logo software'
-					width={60}
-					height={60}
+					width={150}
+					height={40}
+					style={{marginBottom:'8px'}}
 				/>
+				<p>v1.0</p>
 			</div>
 		</div>
 	);

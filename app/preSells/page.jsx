@@ -41,10 +41,22 @@ function ListaCompras() {
 			obtenerStock();
 		}
 	}, [user]);
-	console.log(listaCompras,'listaCompras')
 	// Calcular el total final en USD
 	const totalFinal = listaCompras.reduce(
-		(total, producto) => parseFloat(total) + parseFloat(producto.precioTotal),
+		(total, producto) => {
+			if (producto.type === 'stock') {
+				return parseFloat(total) + parseFloat(producto.precioTotal);
+			} else if (producto.type === 'service') {
+				if (!producto.productosAsociado || producto.productosAsociado.length === 0) {
+					return total;
+				}
+
+				const totalItems = parseFloat(total) + producto.productosAsociado.reduce((subTotal, item) => parseFloat(subTotal) + parseFloat(item.precioTotal), 0);
+
+				return parseFloat(totalItems) + parseFloat(producto.precioTotal);
+			}
+			return total;
+		},
 		0
 	);
 	// Redondear el total final a dos decimales
@@ -68,8 +80,19 @@ function ListaCompras() {
 			return;
 		}
 
+		// Crear una lista con los productos de stock de la lista de compras
+		const newLista = []
+		listaCompras.forEach(item => {
+			if(item.type === 'stock'){
+				newLista.push(item)
+			} else if(item.type === 'service'){
+				item.productosAsociado.forEach(producto => {
+					newLista.push(producto)
+				})
+			}
+		});
 		// Verificar si todos los productos tienen suficiente stock
-		const productosSinStock = listaCompras.filter((producto) => {
+		const productosSinStock = newLista.filter((producto) => {
 			const productoEnStock = stock.find((item) => item.id === producto.id);
 			return !productoEnStock || producto.cantidad > productoEnStock.cantidad;
 		});
@@ -213,53 +236,52 @@ function ListaCompras() {
 					step='any' // Permitir decimales
 				/>
 			</div>
-			<table className={styles.table}>
-				<thead>
-					<tr>
-						<th>Producto</th>
-						<th>Cantidad</th>
-						<th>Precio Unitario</th>
-						<th>Precio Total</th>
-						<th>Acción</th>
-					</tr>
-				</thead>
-				<tbody>
-					{listaCompras.map((producto, index) => (
-						<tr key={index}>
-							<td>{producto.nombre}</td>
-							<td>{producto.cantidad}</td>
-							<td>${producto.precioUnitario}</td>
-							<td>${producto.precioTotal}</td>
-							<td>
+			<div className={styles.gridContainer}>
+				<div className={styles.gridRow}>
+					<div className={styles.gridHeader}>Producto</div>
+					<div className={styles.gridHeader}>Tipo</div>
+					<div className={styles.gridHeader}>Cantidad</div>
+					<div className={styles.gridHeader}>Precio Unitario</div>
+					<div className={styles.gridHeader}>Precio Total</div>
+					<div className={styles.gridHeader}>Acción</div>
+				</div>
+				{listaCompras.map((producto, index) => (
+					<div key={index}>
+						<div className={styles.gridRow}>
+							<div className={styles.gridItem}>{producto.nombre}</div>
+							<div className={styles.gridItem}>{producto.type}</div>
+							<div className={styles.gridItem}>{producto.cantidad}</div>
+							<div className={styles.gridItem}>${producto.precioUnitario}</div>
+							<div className={styles.gridItem}>${producto.precioTotal}</div>
+							<div className={styles.gridItem} style={{ borderRight: '1px solid #ddd' }}>
 								<button
 									className={styles.deleteButton}
 									onClick={() => eliminarProducto(index)}
 								>
 									Eliminar
 								</button>
-							</td>
-						</tr>
-					))}
-					{listaCompras.map((producto) => (
-						producto.productosAsociado.map((asociado, index) => (
-							<tr key={index}>
-								<td>{asociado.producto}</td>
-								<td>{asociado.cantidadInput}</td>
-								<td>${asociado.precioUnitario}</td>
-								<td>${Number(asociado.cantidadInput) * Number(asociado.precioUnitario)}</td>
-								<td>
+							</div>
+						</div>
+						{producto.productosAsociado && producto.productosAsociado.map((asociado, sub_index) => (
+							<div className={styles.gridSubRow} key={sub_index}>
+								<div className={styles.gridSubItem} style={{ backgroundColor: '#f0f0f0' }}>{asociado.producto}</div>
+								<div className={styles.gridSubItem} style={{ backgroundColor: '#f0f0f0' }}>{asociado.type}</div>
+								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0' }}>{asociado.cantidadInput}</div>
+								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0' }}>${asociado.precioUnitario}</div>
+								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0' }}>${Number(asociado.cantidadInput) * Number(asociado.precioUnitario)}</div>
+								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0', borderRight:'1px solid #ddd'}}>
 									<button
 										className={styles.deleteButton}
-										onClick={() => eliminarProducto(index)}
+										onClick={() => eliminarProducto(index, sub_index)}
 									>
 										Eliminar
 									</button>
-								</td>
-							</tr>
-						))
-					))}
-				</tbody>
-			</table>
+								</div>
+							</div>
+						))}
+					</div>
+				))}
+			</div>
 			<div className={styles.total}>
 				<h3>Total Final (USD): ${totalFinalFormateado}</h3>
 				<h3>Total Final (Bs): Bs {totalFinalBs}</h3>

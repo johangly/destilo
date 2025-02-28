@@ -16,8 +16,23 @@ export const ListaComprasProvider = ({ children }) => {
 	};
 
 	// Eliminar un producto de la lista
-	const eliminarProducto = (index) => {
-		setListaCompras((prevLista) => prevLista.filter((_, i) => i !== index));
+	const eliminarProducto = (index=null,sub_index=null) => {
+
+		// al ser suministrados ambos indices, indica que se esta eliminando un producto que sta dentro de un servicio.
+		console.log('index:',index,'sub_index:',sub_index)
+		// console.log(index!=null && sub_index!=null)
+		if(index!=null && sub_index!=null){
+			console.log('listaCompras desde eliminar producto:',listaCompras)
+			setListaCompras((prevLista) => {
+				console.log('lista de compra con prevState',prevLista)
+				const updatedLista = [...prevLista];
+				const item = updatedLista[index].productosAsociado.splice(sub_index, 1);
+				updatedLista[index] = updatedLista[index];
+				return updatedLista;
+			});
+		} else {
+			setListaCompras((prevLista) => prevLista.filter((_, i) => i !== index));
+		}
 	};
 
 	// Limpiar la lista completa

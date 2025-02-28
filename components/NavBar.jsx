@@ -10,7 +10,7 @@ function NavBar() {
 				<nav>
 					<Link href='/'>
 						<Image
-							src='/logo.png'
+							src='/icon.svg'
 							alt='logo'
 							width={150}
 							height={40}

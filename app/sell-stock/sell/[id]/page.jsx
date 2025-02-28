@@ -13,6 +13,7 @@ function ProductPage({ params }) {
 	const [product, setProduct] = useState(null);
 	const [ventas, setVentas] = useState([]);
 	const { user,loading } = useAuth();
+	
 	const obtenerVentas = async () => {
 		try {
 			if (!user || !user.uid) {
@@ -86,6 +87,7 @@ function ProductPage({ params }) {
 			nombre: product.producto,
 			codigo: product.codigo,
 			cantidad: cantidad,
+			type: 'stock',
 			precioUnitario: precioUnitarioNumber.toFixed(2),
 			precioTotal: (cantidad * precioUnitarioNumber).toFixed(2),
 			fecha: new Date().toISOString(),

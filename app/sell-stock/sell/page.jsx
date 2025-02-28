@@ -114,10 +114,15 @@ function SellStockPage() {
 										}}
 									>
 										<h4 className={styles.productName} style={{color: product.cantidad > 4 ? "#333" : "#fff"}}>{product.producto}</h4>
-										<p className={styles.productPrice} style={{color: product.cantidad > 4 ? "#333" : "#fff"}}>
+										<p className={styles.productPrice} style={{color: product.cantidad > 4 ? "#333" : "#fff", marginBottom:'5px'}}>
 											Precio unitario:{' '}
 											<strong style={{color: product.cantidad > 4 ? "#333" : "#fff"}}>
 												${parseFloat(product.precioUnitario).toFixed(2)}
+											</strong>
+										</p>
+										<p className={styles.productPrice} style={{color: product.cantidad > 4 ? "#333" : "#fff"}}>Cantidad en inventario: 
+											<strong style={{color: product.cantidad > 4 ? "#333" : "#fff"}}>
+												{product.cantidad}
 											</strong>
 										</p>
 									</div>
