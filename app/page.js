@@ -43,7 +43,7 @@ export default function Login() {
 			<div className={styles.formWrapper}>
 				<h1>Inicio de Sesión</h1>
 				<Image
-					src='/logo.png'
+					src='/navbar-icon.svg'
 					alt='Logo'
 					width={200}
 					height={70}
