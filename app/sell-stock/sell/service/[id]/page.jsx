@@ -132,6 +132,16 @@ function ProductPage({ params }) {
 		}
 	};
 
+	const handleCantidadChangeAsociado = (e, id) => {
+		const newCantidad = e.target.value;
+		// Update the product quantity in the state
+		setProductosAsociados((prevProductos) =>
+			prevProductos.map((producto) =>
+				producto.id === id ? { ...producto, cantidadInput: newCantidad } : producto
+			)
+		);
+	};
+
 	const eliminarProductoAsociado = (index) => {
 		const nuevosProductos = productosAsociados.filter((_, i) => i !== index);
 		setProductosAsociados(nuevosProductos);
@@ -271,7 +281,7 @@ function ProductPage({ params }) {
 						<input
 							type='text'
 							value={producto.cantidadInput}
-							readOnly
+							onChange={(e) => handleCantidadChangeAsociado(e, producto.id)}
 							style={{
 								width: '50px',
 								textAlign: 'center',
