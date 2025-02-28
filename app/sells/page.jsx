@@ -27,7 +27,7 @@ function Page() {
 
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const {datos} = await response.json();
-
+			console.log('resultados de nueva funcion',datos)
 			// Ordenar por fecha (más reciente primero)
 			const ventasOrdenadas = datos.sort(
 				(a, b) => new Date(b.fecha) - new Date(a.fecha)
@@ -51,12 +51,20 @@ function Page() {
 
 	// Calcular el monto total de cada venta (sumar precios totales de los productos)
 	const calcularMontoTotal = (productos) => {
-		if (!Array.isArray(productos)) return 0;
-		return productos.reduce((total, producto) => {
-			const precioTotal = parseFloat(producto.precioTotal) || 0;
-			return total + precioTotal;
-		}, 0);
-	};
+        if (!Array.isArray(productos)) return 0;
+        return productos.reduce((total, producto) => {
+            if (producto.type === 'stock') {
+                return parseFloat(total) + parseFloat(producto.precioTotal);
+            } else if (producto.type === 'service') {
+                if (!producto.items || producto.items.length === 0) {
+                    return total;
+                }
+                const totalItems = producto.items.reduce((subTotal, item) => parseFloat(subTotal) + parseFloat(item.precioTotal), 0);
+                return parseFloat(total) + parseFloat(totalItems) + parseFloat(producto.precioTotal);
+            }
+            return total;
+        }, 0);
+    };
 
 	const ventasFiltradas = ventas.filter((venta) =>
 		venta.id_factura.toString().includes(busqueda.trim())
