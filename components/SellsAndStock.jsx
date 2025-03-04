@@ -8,17 +8,15 @@ import { useAuth } from '@/context/AuthContext';
 function SellsAndStock() {
 	const [ventas, setVentas] = useState([]);
 	const { user } = useAuth();
-	console.log('SellsAndStock',user)
 	const obtenerVentas = async () => {
-
 		try {
-			if (!user || !user.uid) {
+			if (!user || !user.role) {
 				throw new Error('No hay sesión activa');
 			}
 			const response = await fetch('/api/getSellsData', {
 				method: 'GET',
 				headers: {
-					'X-User-Id': user.uid,
+					'X-User-Role': user.role,
 					'Content-Type': 'application/json'
     			}
 			});

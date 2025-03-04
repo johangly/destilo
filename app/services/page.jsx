@@ -19,14 +19,14 @@ function Page() {
 	const obtenerServicios = async () => {
 		try {
 
-			if (!user || !user.uid) {
+			if (!user || !user.role) {
 				throw new Error('No hay sesión activa');
 			}
 
 			const response = await fetch('/api/getServices', {
 				method: 'GET',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			}
 			});
@@ -55,14 +55,14 @@ function Page() {
 	const agregarServicio = async () => {
 		try {
 
-			if (!user || !user.uid) {
+			if (!user || !user.role) {
 				throw new Error('No hay sesión activa');
 			}
 
 			const response = await fetch('/api/services/addService', {
 				method: 'POST',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			},
 				body: JSON.stringify(newService),
@@ -85,7 +85,7 @@ function Page() {
 	const eliminarServicio = async (id) => {
 		if (!confirm('⚠️ ¿Está seguro de eliminar este servicio?')) return;
 
-		if (!user || !user.uid) {
+		if (!user || !user.role) {
 			throw new Error('No hay sesión activa');
 		}
 		
@@ -94,7 +94,7 @@ function Page() {
 				method: 'DELETE',
 				headers: { 
 					'Content-Type': 'application/json',
-					'X-User-Id': user.uid ? user.uid.toString() : ''
+					'X-User-Role': user.role ? user.role.toString() : ''
 				 },
 				body: JSON.stringify({ id }),
 			});

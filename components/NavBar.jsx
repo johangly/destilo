@@ -1,9 +1,19 @@
-import React from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './NavBar.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 function NavBar() {
+	const { user,loading } = useAuth();
+	console.log('user desde el navbar',user)
+	const [username, setUsername] = useState('');
+	useEffect(() => {
+		if(user){
+			setUsername(user.username);
+		}
+	}, [user]);
 	return (
 		<div className={styles.navbar}>
 			<div className={styles.navContainer}>
@@ -23,7 +33,8 @@ function NavBar() {
 							alignItems: 'center',
 						}}
 					>
-						<Link
+						{!username && loading === false && (
+							<Link
 							href='/about'
 							style={{
 								display: 'flex',
@@ -37,7 +48,17 @@ function NavBar() {
 							{' '}
 							👀 Quienes somos?
 						</Link>
-						<Link href='/user'>
+						)}
+						<Link
+							href='/user'
+							style={{
+								display: 'flex',
+								flexDirection: 'row',
+								alignItems: 'center',
+								gap: '0.5rem',
+							}}
+						>
+							<span>{username}</span>
 							<Image
 								src='https://cdn-icons-png.flaticon.com/512/456/456212.png'
 								alt='user'

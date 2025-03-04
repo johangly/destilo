@@ -2,11 +2,10 @@ import { api } from '@/lib/apiClient';
 
 export async function POST(request) {
     try {
-        const userId = request.headers.get('X-User-Id');
-
-        if (!userId) {
+        const userRole = request.headers.get('X-User-Role');
+        if (!userRole) {
             return new Response(
-                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                JSON.stringify({ error: 'Rol no proporcionado o formato inválido' }),
                 {
                     status: 401,
                     headers: { 'Content-Type': 'application/json' },
@@ -42,7 +41,7 @@ export async function POST(request) {
             );
         }
 
-        const result = await api.createCustomer(userId,{
+        const result = await api.createCustomer(userRole,{
             ...body,
             fechaRegistro: new Date().toISOString(),
         });

@@ -15,14 +15,14 @@ function ListaProveedores() {
 	const getSuppliers = async () => {
 		try {
 
-			if (!user || !user.uid) {
+			if (!user || !user.role) {
 				throw new Error('No hay sesión activa');
 			}
 
 			const response = await fetch('/api/getSuppliers', {
 				method: 'GET',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			}
 			});
@@ -45,7 +45,7 @@ function ListaProveedores() {
 
 		if (!confirmDelete) return; // Si el usuario cancela, no se ejecuta la eliminación
 
-		if (!user || !user.uid) {
+		if (!user || !user.role) {
 			throw new Error('No hay sesión activa');
 		}
 		
@@ -54,7 +54,7 @@ function ListaProveedores() {
 				method: 'DELETE',
 				headers: { 
 					'Content-Type': 'application/json',
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 				},
 				body: JSON.stringify({ id }),
 			});

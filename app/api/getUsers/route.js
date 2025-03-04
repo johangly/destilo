@@ -1,6 +1,6 @@
 import { api } from '@/lib/apiClient';
 
-export async function DELETE(request) {
+export async function GET(request) {
 	try {
 		const userRole = request.headers.get('X-User-Role');
 		if (!userRole) {
@@ -12,32 +12,29 @@ export async function DELETE(request) {
 				}
 			);
 		}
-		const { id } = await request.json();
+		// Obtener todos los servicios usando la nueva API
+		const usuarios = await api.getUsers(userRole);
 
-		if (!id) {
+		
+		// Verificar si se obtuvieron los usuarios correctamente
+		if (!usuarios) {
 			return new Response(
-				JSON.stringify({ error: 'El ID del proveedor es obligatorio' }),
+				JSON.stringify({ error: 'No se pudieron obtener los usuarios' }),
 				{
-					status: 400,
+					status: 404,
 					headers: { 'Content-Type': 'application/json' },
 				}
 			);
 		}
 
-		// Eliminar el proveedor
-		await api.deleteSupplier(userRole,id);
-
-		return new Response(
-			JSON.stringify({ message: 'Proveedor eliminado con éxito' }),
-			{
-				status: 200,
-				headers: { 'Content-Type': 'application/json' },
-			}
-		);
+		return new Response(JSON.stringify(usuarios), {
+			status: 200,
+			headers: { 'Content-Type': 'application/json' },
+		});
 	} catch (error) {
-		console.error('Error al eliminar el proveedor:', error);
+		console.error('Error al obtener los usuarios:', error);
 		return new Response(
-			JSON.stringify({ error: 'Error al eliminar el proveedor' }),
+			JSON.stringify({ error: 'Error al obtener los usuarios' }),
 			{
 				status: 500,
 				headers: { 'Content-Type': 'application/json' },

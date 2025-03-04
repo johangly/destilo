@@ -8,14 +8,14 @@ import { useAuth } from '@/context/AuthContext';
 async function agregarVenta(venta,user) {
 	try {
 		console.log('venta:', venta)
-		if (!user || !user.uid) {
+		if (!user || !user.role) {
 			throw new Error('No hay sesión activa');
 		}
 
 		const response = await fetch('/api/addData', {
 			method: 'POST',
 			headers: {
-				'X-User-Id': user.uid ? user.uid.toString() : '',
+				'X-User-Role': user.role ? user.role.toString() : '',
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(venta),

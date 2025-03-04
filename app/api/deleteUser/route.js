@@ -19,24 +19,24 @@ export async function DELETE(request) {
         // Validaciones originales
         if (!id) {
             return new Response(
-                JSON.stringify({ error: 'ID de cliente no proporcionado' }),
+                JSON.stringify({ error: 'ID de usuario no proporcionado' }),
                 { status: 400, headers: { 'Content-Type': 'application/json' } }
             );
         }
         
-        await api.deleteCustomer(userRole,id);
+        await api.deleteUser(userRole,id);
 
         return new Response(
             JSON.stringify({ 
-                message: `Cliente ${id} eliminado exitosamente`,
+                message: `Usuario ${id} eliminado exitosamente`,
                 deletedId: id
             }),
             { status: 200, headers: { 'Content-Type': 'application/json' } }
         );
     } catch (error) {
-        console.error('Error eliminando cliente:', error);
+        console.error('Error eliminando usuario:', error);
         return new Response(
-            JSON.stringify({ error: 'Error al eliminar el cliente' }),
+            JSON.stringify({ error: 'Error al eliminar el usuario' }),
             { status: 500, headers: { 'Content-Type': 'application/json' } }
         );
     }

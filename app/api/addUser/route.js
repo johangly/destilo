@@ -14,22 +14,16 @@ export async function POST(request) {
         }
         const body = await request.json();
         const {
-            nombre,
-            razonSocial,
-            rif,
-            email,
-            telefono,
-            cargo,
-            productos,
-            servicios,
-            webrrss
+            username,
+            password,
+            role    
         } = body;
 
         // Validación de campos obligatorios
-        if (!nombre || !razonSocial || !rif) {
+        if (!username || !password || !role) {
             return new Response(
                 JSON.stringify({
-                    error: 'Los campos nombre, razón social y RIF son obligatorios.',
+                    error: 'Faltan campos obligatorios (nombre de usuario, contraseña, rol).',
                 }),
                 {
                     status: 400,
@@ -38,23 +32,16 @@ export async function POST(request) {
             );
         }
 
-        const result = await api.createSupplier(userRole,{
-            nombre,
-            razonSocial,
-            rif,
-            email: email || '',
-            telefono: telefono || '',
-            cargo: cargo || '',
-            productos: productos || [],
-            servicios: servicios || [],
-            webrrss: webrrss || '',
-            fechaRegistro: new Date().toISOString(),
+        const result = await api.createUser(userRole,{
+            username,
+            password,
+            role
         });
 
         return new Response(
             JSON.stringify({
                 id: result.id,
-                message: 'Proveedor agregado exitosamente',
+                message: 'Usuario agregado exitosamente',
             }),
             {
                 status: 201,
@@ -62,9 +49,9 @@ export async function POST(request) {
             }
         );
     } catch (error) {
-        console.error('Error al agregar el proveedor:', error);
+        console.error('Error al agregar el usuario:', error);
         return new Response(
-            JSON.stringify({ error: 'Error al agregar el proveedor' }),
+            JSON.stringify({ error: 'Error al agregar el usuario' }),
             {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' },

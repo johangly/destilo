@@ -16,14 +16,14 @@ function ListaClientes() {
 	// Obtener clientes desde Firebase
 	const getCustomers = async () => {
 		try {
-			if (!user || !user.uid) {
+			if (!user || !user.role) {
 				throw new Error('No hay sesión activa');
 			}
 
 			const response = await fetch('/api/getCustomers', {
 				method: 'GET',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			}
 			});
@@ -43,14 +43,14 @@ function ListaClientes() {
 			return;
 
 		try {
-			if (!user || !user.uid) {
+			if (!user || !user.role) {
 				throw new Error('No hay sesión activa');
 			}
 
 			const response = await fetch('/api/deleteCustomer', {
 				method: 'DELETE',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			},
 				body: JSON.stringify({ id }),

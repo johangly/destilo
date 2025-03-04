@@ -74,7 +74,7 @@ export function AuthProvider({ children }) {
 
                 // Aquí podrías hacer una llamada a tu API para obtener los datos del usuario
                 const decoded = jwtDecode(token);
-                setUser({ ...decoded, token,uid:decoded.user_id });
+                setUser({ ...decoded, token });
             } catch (err) {
                 setError('Error al inicializar la autenticación');
                 console.error('Error en initAuth:', err);

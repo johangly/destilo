@@ -2,15 +2,15 @@ import { api } from '@/lib/apiClient';
 
 export async function PUT(request) {
     try {
-        const userId = request.headers.get('X-User-Id');
-        if (!userId) {
+        const userRole = request.headers.get('X-User-Role');
+        if (!userRole) {
             return new Response(
-                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                JSON.stringify({ error: 'Rol no proporcionado o formato inválido' }),
                 {
                     status: 401,
                     headers: { 'Content-Type': 'application/json' },
                 }
-            );
+            );  
         }
 
         const body = await request.json();
@@ -25,7 +25,7 @@ export async function PUT(request) {
 
         // Actualizar el producto
         try {
-            await api.updateStockById(userId,id, {
+            await api.updateStockById(userRole,id, {
                 producto,
                 cantidad,
                 precioUnitario,

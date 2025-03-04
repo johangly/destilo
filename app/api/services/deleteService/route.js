@@ -3,12 +3,12 @@ import { api } from '@/lib/apiClient';
 
 export async function DELETE(request) {
 	try {
-		const userId = request.headers.get('X-User-Id');
+		const userRole = request.headers.get('X-User-Role');
 		const body = await request.json();
 		const { id } = body;
-		if (!userId) {
+		if (!userRole) {
 			return new Response(
-				JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+				JSON.stringify({ error: 'Rol no proporcionado o formato inválido' }),
 				{
 					status: 401,
 					headers: { 'Content-Type': 'application/json' },
@@ -24,7 +24,7 @@ export async function DELETE(request) {
 		}
 
 		// Eliminar el servicio usando la nueva API
-		await api.deleteService(userId,id);
+		await api.deleteService(userRole,id);
 
 		return new Response(
 			JSON.stringify({

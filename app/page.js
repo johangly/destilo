@@ -7,7 +7,7 @@ import Image from 'next/image';
 import styles from './page.module.css';
 import { useAuth } from '@/context/AuthContext';
 export default function Login() {
-	const [email, setEmail] = useState('');
+	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [message, setMessage] = useState('');
 	const router = useRouter();
@@ -18,18 +18,16 @@ export default function Login() {
 		setMessage('');
 
 		try {
-			const response = await fetch('/api/auth', {
+			const response = await fetch('/api/login', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, password, action: 'login' }),
+				body: JSON.stringify({ username, password }),
 			});
-			
 			const data = await response.json();
-			if (!response.ok) throw new Error(data.error);
 			console.log('Login usuario', data)
+			if (!response.ok) throw new Error(data.error);
 			// 🔥 Guardar token en cookies para persistencia
-			login(data.user.stsTokenManager.accessToken, data.user);
-			// document.cookie = `token=${data.user.uid}; path=/; secure; samesite=strict`;
+			login(data.token, data.user);
 
 			setMessage('Inicio de sesión exitoso.');
 			// router.push('/home'); // 🔥 Redirigir a /home tras el login
@@ -50,11 +48,11 @@ export default function Login() {
 				/>
 				<form onSubmit={handleLogin}>
 					<div>
-						<label>Email:</label>
+						<label>Usuario:</label>
 						<input
-							type='email'
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
+							type='text'
+							value={username}
+							onChange={(e) => setUsername(e.target.value)}
 							required
 						/>
 					</div>

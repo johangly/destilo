@@ -17,14 +17,14 @@ function VentasFiltradas() {
 	// Obtener todas las ventas desde Firebase
 	const obtenerVentas = async () => {
 		try {
-			if (!user || !user.uid) {
+			if (!user || !user.role) {
 				throw new Error('No hay sesión activa');
 			}
 
 			const response = await fetch('/api/getSellsData', {
 				method: 'GET',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			}
 			});

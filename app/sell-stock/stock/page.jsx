@@ -9,14 +9,14 @@ import { useAuth } from '@/context/AuthContext';
 // Función para eliminar un producto en Firestore
 async function eliminarProducto(id,user) {
 	try {
-		if (!user || !user.uid) {
+		if (!user || !user.role) {
 			throw new Error('No hay sesión activa');
 		}
 
 		const response = await fetch('/api/deleteData', {
 			method: 'DELETE',
 			headers: {
-				'X-User-Id': user.uid ? user.uid.toString() : '',
+				'X-User-Role': user.role ? user.role.toString() : '',
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({ id }),
@@ -44,14 +44,14 @@ function Page() {
 	const obtenerVentas = async () => {
 		try {
 
-			if (!user || !user.uid) {
+			if (!user || !user.role) {
 				throw new Error('No hay sesión activa');
 			}
 
 			const response = await fetch('/api/getStocksData', {
 				method: 'GET',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			}
 			});

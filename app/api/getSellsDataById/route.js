@@ -3,13 +3,10 @@ import { api } from '@/lib/apiClient';
 export async function GET(request) {
 	const { searchParams } = new URL(request.url);
 	const id = searchParams.get('id');
-	// console.log('request',request)
-	// const { id } = request.query;
-	console.log('sell id desde la api:',id)
-	const userId = request.headers.get('X-User-Id');
-	if (!userId) {
+	const userRole = request.headers.get('X-User-Role');
+	if (!userRole) {
 			return new Response(
-					JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+					JSON.stringify({ error: 'Rol no proporcionado o formato inválido' }),
 					{
 							status: 401,
 							headers: { 'Content-Type': 'application/json' },
@@ -29,7 +26,7 @@ export async function GET(request) {
 
 	try {
 		// Obtener todas las ventas usando la nueva API
-		const ventas = await api.getSellsById(userId,id);
+		const ventas = await api.getSellsById(userRole,id);
 		// Verificar si se obtuvieron las ventas correctamente
 		if (!ventas) {
 			return new Response(

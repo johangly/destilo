@@ -2,10 +2,10 @@ import { api } from '@/lib/apiClient';
 
 export async function GET(request) {
     try {
-        const userId = request.headers.get('X-User-Id');
-        if (!userId) {
+        const userRole = request.headers.get('X-User-Role');
+        if (!userRole) {
             return new Response(
-                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                JSON.stringify({ error: 'Rol no proporcionado o formato inválido' }),
                 {
                     status: 401,
                     headers: { 'Content-Type': 'application/json' },
@@ -13,7 +13,7 @@ export async function GET(request) {
             );
         }
         // Obtener todos los proveedores usando la nueva API
-        const proveedores = await api.getSuppliers(userId);
+        const proveedores = await api.getSuppliers(userRole);
 
         // Verificar si se obtuvieron los proveedores correctamente
         if (!proveedores) {

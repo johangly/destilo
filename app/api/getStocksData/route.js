@@ -4,10 +4,10 @@ import { api } from '@/lib/apiClient';
 export async function GET(req) {
 	try {
 		
-		const userId = req.headers.get('X-User-Id');
-		if (!userId) {
+		const userRole = req.headers.get('X-User-Role');
+		if (!userRole) {
 			return new Response(
-				JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+				JSON.stringify({ error: 'Rol no proporcionado o formato inválido' }),
 				{
 					status: 401,
 					headers: { 'Content-Type': 'application/json' },
@@ -16,7 +16,7 @@ export async function GET(req) {
 		}
 	
 		// Obtener todos los stocks usando la nueva API
-		const stocks = await api.getStocks(userId);
+		const stocks = await api.getStocks(userRole);
 
 		// Verificar si se obtuvieron los stocks correctamente
 		if (!stocks) {

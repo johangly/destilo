@@ -6,23 +6,17 @@ import { useAuth } from '@/context/AuthContext';
 function RevenueDashboard() {
 	const [ventas, setVentas] = useState([]); // Define el estado en el componente
 	const { user } = useAuth();
-	// console.log('userrrr',user)
-	// console.log('Información del usuario antes de la petición:', {
-	// 	userObject: user,
-	// 	userId: user ? user.uid.toString() : '',
-	// 	userIdType: user ? typeof user.uid : '' 
-	// });
-	// console.log('user: RevenueDashboard:',user)
+
 	const obtenerVentas = async () => {
 		try {
-			if (!user || !user.uid) {
+			if (!user || !user.role) {
 				throw new Error('No hay sesión activa');
 			}
 
 			const response = await fetch('/api/getSellsData', {
 				method: 'GET',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			}
 			});

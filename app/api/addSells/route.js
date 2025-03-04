@@ -2,10 +2,10 @@ import { api } from '@/lib/apiClient';
 
 export async function POST(req) {
     try {
-        const userId = req.headers.get('X-User-Id');
-		if (!userId) {
+        const userRole = req.headers.get('X-User-Role');
+		if (!userRole) {
 			return new Response(
-				JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+				JSON.stringify({ error: 'Rol no proporcionado o formato inválido' }),
 				{
 					status: 401,
 					headers: { 'Content-Type': 'application/json' },
@@ -14,7 +14,7 @@ export async function POST(req) {
 		}
 
         const body = await req.json();
-        const result = await api.createSell(userId,body);
+        const result = await api.createSell(userRole,body);
 
         return new Response(
             JSON.stringify({

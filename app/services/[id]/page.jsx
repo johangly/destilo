@@ -9,14 +9,14 @@ import { useAuth } from '@/context/AuthContext';
 
 async function obtenerProductos(user) {
 	try {
-		if (!user || !user.uid) {
+		if (!user || !user.role) {
 			throw new Error('No hay sesión activa');
 		}
 
 		const response = await fetch('/api/getServices', {
 			method: 'GET',
 			headers: {
-				'X-User-Id': user.uid ? user.uid.toString() : '',
+				'X-User-Role': user.role ? user.role.toString() : '',
 				'Content-Type': 'application/json'
 			}
 		});
@@ -32,13 +32,13 @@ async function obtenerProductos(user) {
 
 async function editarProducto(id, producto, user) {
 	try {
-		if (!user || !user.uid) {
+		if (!user || !user.role) {
 			throw new Error('No hay sesión activa');
 		}
 		const response = await fetch('/api/services/editService', {
 			method: 'PUT',
 			headers: {
-				'X-User-Id': user.uid ? user.uid.toString() : '',
+				'X-User-Role': user.role ? user.role.toString() : '',
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({ id, ...producto }),

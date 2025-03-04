@@ -1,57 +1,14 @@
-// // /api/deleteData/route.js
-// import { db } from '@/lib/firebase';
-// import { doc, deleteDoc } from 'firebase/firestore';
-
-// export async function DELETE(request) {
-// 	try {
-// 		const body = await request.json();
-// 		const { id } = body;
-
-// 		if (!id) {
-// 			return new Response(JSON.stringify({ error: 'ID no proporcionado' }), {
-// 				status: 400,
-// 				headers: { 'Content-Type': 'application/json' },
-// 			});
-// 		}
-
-// 		// Referencia al documento específico en Firestore
-// 		const documentRef = doc(db, 'stocks', id);
-
-// 		// Eliminar el documento de Firestore
-// 		await deleteDoc(documentRef);
-
-// 		return new Response(
-// 			JSON.stringify({
-// 				message: `Producto con ID ${id} eliminado correctamente.`,
-// 			}),
-// 			{
-// 				status: 200,
-// 				headers: { 'Content-Type': 'application/json' },
-// 			}
-// 		);
-// 	} catch (error) {
-// 		console.error('Error eliminando documento de Firestore:', error);
-// 		return new Response(
-// 			JSON.stringify({ error: 'Error al eliminar el documento' }),
-// 			{
-// 				status: 500,
-// 				headers: { 'Content-Type': 'application/json' },
-// 			}
-// 		);
-// 	}
-// }
-
 import { api } from '@/lib/apiClient';
 
 export async function DELETE(request) {
     try {
         const body = await request.json();
         const { id } = body;
-        const userId = request.headers.get('X-User-Id');
+        const userRole = request.headers.get('X-User-Role');
 
-        if (!userId) {
+        if (!userRole) {
                return new Response(
-                   JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                   JSON.stringify({ error: 'Rol no proporcionado o formato inválido' }),
                    {
                        status: 401,
                        headers: { 'Content-Type': 'application/json' },
@@ -67,7 +24,7 @@ export async function DELETE(request) {
         }
 
         // Eliminar usando la nueva API
-        await api.deleteData(userId,id);
+        await api.deleteData(userRole,id);
 
         return new Response(
             JSON.stringify({ 

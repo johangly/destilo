@@ -16,14 +16,14 @@ function ListaCompras() {
 	const obtenerStock = async () => {
 		try {
 
-			if (!user || !user.uid) {
+			if (!user || !user.role) {
 				throw new Error('No hay sesión activa');
 			}
 
 			const response = await fetch('/api/getStocksData', {
 				method: 'GET',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			}
 			});
@@ -125,7 +125,7 @@ function ListaCompras() {
 			const response = await fetch('/api/addSells', {
 				method: 'POST',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			},
 				body: JSON.stringify(compra),

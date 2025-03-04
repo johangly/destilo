@@ -62,7 +62,7 @@ function FormularioProveedor() {
 			const response = await fetch('/api/addSupplier', {
 				method: 'POST',
 				headers: {
-					'X-User-Id': user.uid ? user.uid.toString() : '',
+					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
     			},
 				body: JSON.stringify(formData),

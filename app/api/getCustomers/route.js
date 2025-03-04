@@ -2,18 +2,18 @@ import { api } from '@/lib/apiClient';
 
 export async function GET(request) {
     try {
-        const userId = request.headers.get('X-User-Id');
+        const userRole = request.headers.get('X-User-Role');
 
-        if (!userId) {
+        if (!userRole) {
             return new Response(
-                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                JSON.stringify({ error: 'Rol no proporcionado o formato inválido' }),
                 {
                     status: 401,
                     headers: { 'Content-Type': 'application/json' },
                 }
             );
         }
-        const ventas = await api.getCustomers(userId);
+        const ventas = await api.getCustomers(userRole);
         return new Response(JSON.stringify(ventas), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },

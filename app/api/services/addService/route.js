@@ -4,10 +4,10 @@ export async function POST(request) {
     try {
         const body = await request.json();
         const { servicio, descripcion, precio } = body;
-        const userId = request.headers.get('X-User-Id');
-        if (!userId) {
+        const userRole = request.headers.get('X-User-Role');
+        if (!userRole) {
             return new Response(
-                JSON.stringify({ error: 'UID no proporcionado o formato inválido' }),
+                JSON.stringify({ error: 'Rol no proporcionado o formato inválido' }),
                 {
                     status: 401,
                     headers: { 'Content-Type': 'application/json' },
@@ -23,7 +23,7 @@ export async function POST(request) {
         }
 
         // Crear el servicio usando la nueva API
-        const result = await api.createService(userId,{
+        const result = await api.createService(userRole,{
             servicio,
             descripcion,
             precio: parseFloat(precio),
