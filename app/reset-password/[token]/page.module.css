@@ -4,9 +4,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f7f7f7;
-    padding: 20px;
+    padding: 40px;
+    border-radius: 8px;
+    max-width: 600px;
+    min-height: calc(100vh - 76px);
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .formWrapper
@@ -98,7 +103,7 @@
     color: #d9534f;
     font-size: 1rem;
     font-weight: 600;
-    margin: 15px 0;
+    /* margin: 15px 0; */
 }
 
 .success
@@ -106,5 +111,5 @@
     color: #4caf50;
     font-size: 1rem;
     font-weight: 600;
-    margin-top: 15px;
+    /* margin-top: 15px; */
 }

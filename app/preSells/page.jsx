@@ -12,6 +12,55 @@ function ListaCompras() {
 	const [stock, setStock] = useState([]);
 	const [tasa, setTasa] = useState(''); // Estado para la tasa de cambio
 	const { user,loading } = useAuth();
+	const [empresa, setEmpresa] = useState(false);
+	const [clientData, setClientData] = useState({
+		cliente: '',
+		cedula: '',
+		telefono: '',
+		email: '',
+		direccion: '',
+		nrocasa: '',
+		ciudad: '',
+		provincia: '',
+		pais: '',
+		empresa: '',
+		rif: '',
+	});
+	const [allCustomers, setAllCustomers] = useState([]); // Todos los clientes
+	const [selectedCustomer, setSelectedCustomer] = useState({
+		id: 0,});
+
+	const handleChange = (e) => {
+		const { id, value } = e.target;
+		let newValue = value;
+
+		// Restringir el campo "cliente" a solo letras y espacios
+		if (id === 'cliente') {
+			newValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+		}
+
+		setClientData((prevData) => ({
+			...prevData,
+			[id]: newValue, // Asignamos el valor filtrado
+		}));
+	};
+
+	const handleChangeTelefono = (e) => {
+		let value = e.target.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
+
+		// Aplica el formato (0XXX)XXXXXXX
+		if (value.length >= 4) {
+			value = `(${value.slice(0, 4)})${value.slice(4, 11)}`;
+		}
+
+		// Limita la cantidad de caracteres a 13
+		if (value.length > 13) {
+			value = value.slice(0, 13);
+		}
+
+		setClientData({ ...clientData, telefono: value });
+	};
+	
 	// Obtener la lista de inventario desde Firestore
 	const obtenerStock = async () => {
 		try {
@@ -36,9 +85,33 @@ function ListaCompras() {
 		}
 	};
 
+	const getCustomers = async () => {
+		try {
+			if (!user || !user.role) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getCustomers', {
+				method: 'GET',
+				headers: {
+					'X-User-Role': user.role ? user.role.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
+
+			if (!response.ok) throw new Error('Error al obtener los clientes');
+			const { data } = await response.json();
+			console.log('customers',data)
+			setAllCustomers(data);
+		} catch (error) {
+			console.error(error.message);
+		}
+	};
+
 	useEffect(() => {
 		if(user){
 			obtenerStock();
+			getCustomers();
 		}
 	}, [user]);
 	// Calcular el total final en USD
@@ -75,6 +148,7 @@ function ListaCompras() {
 
 	// Función para procesar la compra
 	const procesarCompra = async () => {
+
 		if (listaCompras.length === 0) {
 			alert('No hay productos en la lista para procesar.');
 			return;
@@ -115,11 +189,20 @@ function ListaCompras() {
 		}
 
 		try {
+			// crea un nuevo cliente si no existe
+			const clientId = await crearClienteSiNoExiste();
+
+			if(!clientId) {
+				alert('Ocurrió un error al crear el cliente.');
+				return;
+			}
+
 			// Crear un objeto que agrupe toda la lista de compras
 			const compra = {
 				fecha: new Date().toISOString(),
 				id_factura: Math.floor(Math.random() * 100000000000),
 				productos: listaCompras,
+				customer_id: clientId
 			};
 			// Enviar el objeto completo a la API
 			const response = await fetch('/api/addSells', {
@@ -219,6 +302,65 @@ function ListaCompras() {
 		);
 	}
 
+	const crearClienteSiNoExiste = async () => {
+		
+		const dataToSend = {
+			...clientData,
+			empresa: empresa ? clientData.empresa : 'Sin empresa', // Asignar valor por defecto a empresa
+			nrocasa: clientData.nrocasa || '', // Asegura que los campos opcionales no sean undefined
+			ciudad: clientData.ciudad || '',
+			provincia: clientData.provincia || '',
+			pais: clientData.pais || '',
+		};
+
+		try {
+
+			if (!user || !user.role) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/addCustomer', {
+				method: 'POST',
+				headers: {
+					'X-User-Role': user.role ? user.role.toString() : '',
+					'Content-Type': 'application/json'
+    			},
+				body: JSON.stringify(dataToSend), // Enviar todos los campos
+			});
+
+			if (!response.ok) {
+				throw new Error('Error al agregar el cliente.');
+			}
+
+			const data = await response.json();
+			return data.id;
+		} catch (error) {
+			console.error('Error al agregar el cliente:', error);
+			return null;
+		}
+	}
+
+	const handleCustomerChange = (e) => {
+		const { id, value } = e.target;
+		const selectedOption = allCustomers.find((customer) => customer.id.toString() === value.toString());
+		setSelectedCustomer({ [id]: value });
+		if(selectedOption.empresa) {
+			setEmpresa(true);
+		}
+		setClientData({ 
+			cliente: selectedOption?.cliente || '',
+			cedula: selectedOption?.cedula || '',
+			telefono: selectedOption?.telefono || '',
+			email: selectedOption?.email || '',
+			direccion: selectedOption?.direccion || '',
+			nrocasa: selectedOption?.nrocasa || '',
+			ciudad: selectedOption?.ciudad || '',
+			provincia: selectedOption?.provincia || '',
+			pais: selectedOption?.pais || '',
+			empresa: selectedOption?.empresa || '',
+			rif: selectedOption?.rif || '',
+		 });
+	};
 	return (
 		<div className={styles.container}>
 			<Link href='/home'>
@@ -282,6 +424,171 @@ function ListaCompras() {
 					</div>
 				))}
 			</div>
+			<hr style={{opacity:'0.3',marginBottom:'20px'}}/>
+			<div>
+				<h2>Datos del Cliente</h2>
+				<label htmlFor='selectedCustomer'>Seleccionar cliente:</label>
+				<select
+					value={selectedCustomer.id}
+					onChange={handleCustomerChange}
+					id='selectedCustomer'
+					style={{
+						width: '100%',
+						maxWidth: '313px',
+						border: '1px solid #ccc',
+						borderRadius: '4px',
+						padding: '8px',
+						boxSizing: 'border-box',
+					}}
+				>
+					<option value="">Selecciona un cliente</option>
+					{allCustomers.map((customer) => (
+						<option key={customer.id} value={customer.id}>
+							{customer.cliente}
+						</option>
+					))}
+				</select>
+				<div
+				className={styles.form}
+			>
+				<div className={styles.formGroup}>
+					<label htmlFor='cliente'>Nombre del Cliente*:</label>
+					<input
+						type='text'
+						id='cliente'
+						value={clientData.cliente}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div className={styles.formGroup}>
+					<label htmlFor='cedula'>Cédula*:</label>
+					<input
+						type='number'
+						id='cedula'
+						value={clientData.cedula}
+						onChange={(e) => {
+							const value = e.target.value;
+							if (
+								value === '' ||
+								(Number(value) <= 99999999 && Number(value) >= 0)
+							) {
+								handleChange(e);
+							}
+						}}
+						max={99999999}
+						required
+					/>
+				</div>
+				<div className={styles.formGroup}>
+					<label htmlFor='telefono'>Teléfono:</label>
+					<input
+						type='text'
+						id='telefono'
+						value={clientData.telefono}
+						onChange={handleChangeTelefono}
+						required
+						placeholder='(0424)1234567'
+					/>
+				</div>
+				<div className={styles.formGroup}>
+					<label htmlFor='email'>Email*:</label>
+					<input
+						type='email'
+						id='email'
+						value={clientData.email}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div className={styles.formGroup}>
+					<label htmlFor='direccion'>Dirección:</label>
+					<input
+						type='text'
+						id='direccion'
+						value={clientData.direccion}
+						onChange={handleChange}
+						required
+						placeholder='Calle, Avenida, Carretera...'
+					/>
+				</div>
+				<div className={styles.formGroup}>
+					<label htmlFor='nrocasa'>Número:</label>
+					<input
+						type='text'
+						id='nrocasa'
+						value={clientData.nrocasa}
+						onChange={handleChange}
+						placeholder='Casa, Apartamento, Local...'
+					/>
+				</div>
+				<div className={styles.formGroup}>
+					<label htmlFor='ciudad'>Ciudad:</label>
+					<input
+						type='text'
+						id='ciudad'
+						value={clientData.ciudad}
+						onChange={handleChange}
+						placeholder='Ciudad...'
+					/>
+				</div>
+				<div className={styles.formGroup}>
+					<label htmlFor='provincia'>Provincia:</label>
+					<input
+						type='text'
+						id='provincia'
+						value={clientData.provincia}
+						onChange={handleChange}
+						placeholder='Provincia...'
+					/>
+				</div>
+				<div className={styles.formGroup}>
+					<label htmlFor='pais'>País:</label>
+					<input
+						type='text'
+						id='pais'
+						value={clientData.pais}
+						onChange={handleChange}
+						placeholder='País...'
+					/>
+				</div>
+				<div className={styles.checkBox}>
+					<input
+						type='checkbox'
+						id='empresa'
+						checked={empresa}
+						onChange={() => setEmpresa(!empresa)}
+					/>
+					<label htmlFor='empresa'>
+						¿Tiene empresa?
+						<span className={styles.switch}></span>
+					</label>
+				</div>
+
+				{empresa && (
+					<div className={styles.formGroup}>
+						<label htmlFor='empresa'>Empresa:</label>
+						<input
+							type='text'
+							id='empresa'
+							value={clientData.empresa}
+							onChange={handleChange}
+							required
+						/>
+						<label htmlFor='rif'>RIF:</label>
+						<input
+							type='text'
+							id='rif'
+							value={clientData.rif}
+							onChange={handleChange}
+							placeholder='J-12345678'
+						/>
+					</div>
+				)}
+				
+			</div>
+			</div>
+			<hr style={{opacity:'0.3',marginBottom:'20px'}}/>
 			<div className={styles.total}>
 				<h3>Total Final (USD): ${totalFinalFormateado}</h3>
 				<h3>Total Final (Bs): Bs {totalFinalBs}</h3>
@@ -305,3 +612,4 @@ function ListaCompras() {
 }
 
 export default ListaCompras;
+	

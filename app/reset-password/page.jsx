@@ -12,14 +12,14 @@ export default function ResetPassword() {
 		setMessage('');
 
 		try {
-			const response = await fetch('/api/auth', {
+			const response = await fetch('/api/requestResetPassword', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, action: 'reset' }),
-			});
+				body: JSON.stringify({ email }),
+			}); 
 
 			const data = await response.json();
-			if (!response.ok) throw new Error(data.error);
+			if (!response.ok) throw new Error(data.message);
 
 			setMessage('Correo de recuperación enviado.');
 		} catch (error) {
@@ -43,7 +43,7 @@ export default function ResetPassword() {
 					</div>
 					<button type='submit'>Enviar Correo</button>
 				</form>
-				{message && <p className={styles.message}>{message}</p>}
+				{message && <p className={message.toLowerCase().includes('error') ? styles.error : styles.success}>{message}</p>}
 			</div>
 		</div>
 	);

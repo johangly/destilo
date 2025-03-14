@@ -24,7 +24,6 @@ export default function Login() {
 				body: JSON.stringify({ username, password }),
 			});
 			const data = await response.json();
-			console.log('Login usuario', data)
 			if (!response.ok) throw new Error(data.error);
 			// 🔥 Guardar token en cookies para persistencia
 			login(data.token, data.user);

@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 function AddCustomerForm() {
 	const [formData, setFormData] = useState({
 		username: '',
+		email: '',
 		password: '',
 		role: '',
 	});
@@ -17,14 +18,10 @@ function AddCustomerForm() {
 	const [message, setMessage] = useState(null);
 
 	const { user } = useAuth();
+
 	const handleChange = (e) => {
 		const { id, value } = e.target;
 		let newValue = value;
-
-		// Restringir el campo "cliente" a solo letras y espacios
-		if (id === 'cliente') {
-			newValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
-		}
 
 		if (id === 'role') {
 			setFormData((prevData) => ({
@@ -40,29 +37,13 @@ function AddCustomerForm() {
 		}));
 	};
 
-	const handleChangeTelefono = (e) => {
-		let value = e.target.value.replace(/\D/g, ''); // Elimina caracteres no numéricos
-
-		// Aplica el formato (0XXX)XXXXXXX
-		if (value.length >= 4) {
-			value = `(${value.slice(0, 4)})${value.slice(4, 11)}`;
-		}
-
-		// Limita la cantidad de caracteres a 13
-		if (value.length > 13) {
-			value = value.slice(0, 13);
-		}
-
-		setFormData({ ...formData, teléfono: value });
-	};
-	
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 		setMessage(null);
 
 		// Validaciones de campos vacíos
-		if (!formData.username || !formData.password || !formData.role) {
+		if (!formData.username || !formData.email || !formData.password || !formData.role) {
 			setMessage('Por favor, complete todos los campos.');
 			setLoading(false);
 			return;
@@ -82,6 +63,14 @@ function AddCustomerForm() {
 			return;
 		}
 
+		// Validación del correo electrónico
+		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailPattern.test(formData.email)) {
+			setMessage('Por favor, ingrese un correo electrónico válido.');
+			setLoading(false);
+			return;
+		}
+
 		// Validación del rol
 		if (!['admin', 'employee'].includes(formData.role)) {
 			setMessage('Por favor, seleccione un rol válido.');
@@ -91,6 +80,7 @@ function AddCustomerForm() {
 
 		const dataToSend = {
 			username: formData.username.trim(),
+			email: formData.email.trim(),
 			password: formData.password,
 			role: formData.role,
 		};
@@ -118,6 +108,7 @@ function AddCustomerForm() {
 			setMessage(data.message);
 			setFormData({
 				username: '',
+				email: '',
 				password: '',
 				role: '',
 			});
@@ -153,6 +144,16 @@ function AddCustomerForm() {
 						type='text'
 						id='username'
 						value={formData.username}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div className={styles.formGroup}>
+					<label htmlFor='email'>Correo Electrónico:</label>
+					<input
+						type='email'
+						id='email'
+						value={formData.email}
 						onChange={handleChange}
 						required
 					/>

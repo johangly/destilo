@@ -15,15 +15,16 @@ export async function POST(request) {
         const body = await request.json();
         const {
             username,
+            email,
             password,
             role    
         } = body;
 
         // Validación de campos obligatorios
-        if (!username || !password || !role) {
+        if (!username || !email || !password || !role) {
             return new Response(
                 JSON.stringify({
-                    error: 'Faltan campos obligatorios (nombre de usuario, contraseña, rol).',
+                    error: 'Faltan campos obligatorios (nombre de usuario, correo electrónico, contraseña, rol).',
                 }),
                 {
                     status: 400,
@@ -34,6 +35,7 @@ export async function POST(request) {
 
         const result = await api.createUser(userRole,{
             username,
+            email,
             password,
             role
         });
@@ -41,7 +43,7 @@ export async function POST(request) {
         return new Response(
             JSON.stringify({
                 id: result.id,
-                message: 'Usuario agregado exitosamente',
+                message: 'Usuario creado exitosamente. Por favor, revisa tu correo electrónico para activar tu cuenta.',
             }),
             {
                 status: 201,

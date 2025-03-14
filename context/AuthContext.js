@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useState, useEffect, useContext } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter,usePathname } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
@@ -14,7 +14,15 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const router = useRouter();
-
+    const pathname = usePathname();
+    const publicRoutes = ['/', '/reset-password', '/about', '/contact','/activar-cuenta/:token','/reset-password/:token'];
+    const isPublicRoute = publicRoutes.some((route) => {
+        if (route.includes(':token')) {
+            const routePattern = new RegExp(`^${route.replace(':token', '[^/]+')}$`);
+            return routePattern.test(pathname);
+        }
+        return route === pathname;
+    });
     const isTokenExpired = (token) => {
         try {
             const decoded = jwtDecode(token);
@@ -55,7 +63,9 @@ export function AuthProvider({ children }) {
         try {
             document.cookie = `${TOKEN_NAME}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
             setUser(null);
-            router.push('/');
+            if(!isPublicRoute){
+                router.push('/');
+            }
         } catch (err) {
             console.error('Error en logout:', err);
         }

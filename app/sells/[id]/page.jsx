@@ -36,8 +36,11 @@ function ProductPage({ params }) {
 					throw new Error(`Error: ${response.status} - ${response.statusText}`);
 			}
 			const data = await response.json();
-			console.log('datos en sells',data)
 			setProduct(data);
+			if(data.customer){
+				setNombre(data.customer.cliente)
+				setCedula(data.customer.cedula)
+			}
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -49,13 +52,6 @@ function ProductPage({ params }) {
 			obtenerProducto(); 
 		}
 	}, [id,user]);
-
-	// Calcular la suma total de la compra
-	// const totalCompra = product
-	// 	? product.items.reduce((total, prod) => {
-	// 			return total + prod.cantidad * parseFloat(prod.precioUnitario);
-	// 	  }, 0)
-	// 	: 0;
 
 	const totalCompra = product ? product.items.reduce(
 		(total, producto) => {

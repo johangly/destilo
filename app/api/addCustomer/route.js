@@ -40,7 +40,6 @@ export async function POST(request) {
                 }
             );
         }
-
         const result = await api.createCustomer(userRole,{
             ...body,
             fechaRegistro: new Date().toISOString(),

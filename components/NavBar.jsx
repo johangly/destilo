@@ -7,7 +7,6 @@ import { useAuth } from '@/context/AuthContext';
 
 function NavBar() {
 	const { user,loading } = useAuth();
-	console.log('user desde el navbar',user)
 	const [username, setUsername] = useState('');
 	useEffect(() => {
 		if(user){
@@ -49,23 +48,24 @@ function NavBar() {
 							👀 Quienes somos?
 						</Link>
 						)}
+						{username && 
 						<Link
-							href='/user'
-							style={{
-								display: 'flex',
-								flexDirection: 'row',
-								alignItems: 'center',
-								gap: '0.5rem',
-							}}
-						>
+						href='/user'
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							alignItems: 'center',
+							gap: '0.5rem',
+						}}>	
 							<span>{username}</span>
 							<Image
 								src='https://cdn-icons-png.flaticon.com/512/456/456212.png'
 								alt='user'
 								width={30}
-								height={30}
-							/>
+							height={30}
+						/>
 						</Link>
+					}
 					</div>
 				</nav>
 			</div>

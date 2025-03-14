@@ -143,6 +143,9 @@ function ListaClientes() {
 								<strong>Nombre de usuario:</strong> {user.username}
 							</p>
 							<p className={styles.detail}>
+								<strong>Correo Electronico:</strong> {user.email}
+							</p>
+							<p className={styles.detail}>
 								<strong>Rol:</strong> {user.role}
 							</p>
 							<div style={{ display: 'flex', gap: '10px' }}>

@@ -94,10 +94,33 @@ CREATE TABLE stocks (
     proveedor VARCHAR(100) NOT NULL         -- Nombre del proveedor (string)
 );
 
+-- Tabla users
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role ENUM('admin', 'employee') NOT NULL DEFAULT 'employee',
+  createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- comando para agregar status y email a la tabal users
+ALTER TABLE users
+ADD COLUMN status ENUM('pending', 'validated') NOT NULL DEFAULT 'pending',
+ADD COLUMN email VARCHAR(255) NOT NULL;
+
 -- para agregar service_id a productos_vendidos
--- ALTER TABLE productos_vendidos
--- ADD COLUMN service_id INT,
--- ADD CONSTRAINT fk_service_id
--- FOREIGN KEY (service_id)
--- REFERENCES servicios_vendidos(id)
--- ON DELETE CASCADE;
+
+ALTER TABLE productos_vendidos
+ADD COLUMN service_id INT,
+ADD CONSTRAINT fk_service_id
+FOREIGN KEY (service_id)
+REFERENCES servicios_vendidos(id)
+ON DELETE CASCADE;
+
+CREATE TABLE activation_tokens (
+  id INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único del token
+  token VARCHAR(255) NOT NULL, -- Token único para la activación
+  expiration DATETIME NOT NULL, -- Fecha y hora de expiración del token
+  user_id INT NOT NULL, -- Clave foránea que referencia al usuario
+  FOREIGN KEY (user_id) REFERENCES users(id) -- Relación con la tabla users
+);
