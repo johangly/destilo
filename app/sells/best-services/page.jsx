@@ -27,7 +27,11 @@ function BestServices() {
             
             const { datos } = await response.json();
             console.log('bestServices',datos)
-            setServicios(datos);
+            if(!datos){
+                setServicios([]);
+            } else {
+                setServicios(datos);
+            }
         } catch (error) {
             console.error('Error:', error);
         }
