@@ -12,7 +12,7 @@ export async function GET(request) {
         }
         const data = await api.getBestServices(userRole);
         return new Response(
-            JSON.stringify({ data }),
+            JSON.stringify(data),
             { status: 200 }
         );
     } catch (error) {
