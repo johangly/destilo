@@ -35,14 +35,19 @@ async function editarProducto(id, producto, user) {
 			throw new Error('No hay sesión activa');
 		}	
 
+		if(!producto.proveedor_id){
+			throw new Error('Por favor, selecciona un proveedor.');
+		}
+
+		const {proveedor, ...productoSinProveedor} = producto;
+		
 		const response = await fetch('/api/editData', {
 			method: 'PUT',
 			headers: {
 				'X-User-Role': user.role ? user.role.toString() : '',
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ id, ...producto }),
-
+			body: JSON.stringify({ id, ...productoSinProveedor }),
 		});
 
 		if (!response.ok) {
@@ -63,29 +68,55 @@ function EditProduct({ params }) {
 	const { id } = React.use(params);
 	const { user,loading } = useAuth();
 
+	const [suppliers,setSuppliers] = useState([])
+	const [selectedSupplier, setSelectedSupplier] = useState(null);
+
+	const getSuppliers = async () => {
+		try {
+
+			if (!user || !user.role) {
+				throw new Error('No hay sesión activa');
+			}
+
+			const response = await fetch('/api/getSuppliers', {
+				method: 'GET',
+				headers: {
+					'X-User-Role': user.role ? user.role.toString() : '',
+					'Content-Type': 'application/json'
+    			}
+			});
+			if (!response.ok) throw new Error('Error al obtener los proveedores');
+			const { data } = await response.json();
+			setSuppliers(data); // Actualiza el estado con los datos filtrados
+			return(data)
+		} catch (error) {
+			console.error(error.message);
+			alert('Error al obtener los proveedores.');
+		}
+	};
+
 	const [productos, setProductos] = useState([]);
 	const [producto, setProducto] = useState({
 		producto: '',
 		cantidad: '',
 		precioUnitario: '',
 		codigo: '',
-		proveedor: '',
+		proveedor_id: '',
 	});
 
 	useEffect(() => {
 		if(user){
 			obtenerProductos(user).then((data) => {
-				console.log('data',data)
-				console.log('id',id)
 				setProductos(data);
 				const productoEncontrado = data.find((p) => p.id.toString() === id.toString());
 				if (productoEncontrado) {
-					console.log('productoEncontrado',productoEncontrado,id)
 					setProducto(productoEncontrado);
+					setSelectedSupplier(productoEncontrado.proveedor_id);
+					getSuppliers();
 				}
 			});
 		}
-	}, [user,id]);
+	}, [user, id]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -95,10 +126,24 @@ function EditProduct({ params }) {
 		}));
 	};
 
+	const handleSupplierChange = (e) => {
+		const value = e.target.value;
+		setSelectedSupplier(value);
+		setProducto(prev => ({
+			...prev,
+			proveedor_id: value
+		}));
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (Object.values(producto).some((value) => !value)) {
 			alert('Por favor, completa todos los campos.');
+			return;
+		}
+
+		if (!producto.proveedor_id) {
+			alert('Por favor, selecciona un proveedor.');
 			return;
 		}
 
@@ -120,7 +165,7 @@ function EditProduct({ params }) {
 			</Link>
 			<h1>Editar Producto</h1>
 			<form onSubmit={handleSubmit}>
-				{['producto', 'cantidad', 'precioUnitario', 'codigo', 'proveedor'].map(
+				{['producto', 'cantidad', 'precioUnitario', 'codigo'].map(
 					(field) => (
 						<div
 							className={styles.formGroup}
@@ -143,6 +188,31 @@ function EditProduct({ params }) {
 						</div>
 					)
 				)}
+				<div>
+					<label htmlFor='selectedCustomer'>Seleccionar cliente:</label>
+					<select
+						value={selectedSupplier || ''}
+						onChange={handleSupplierChange}
+						id='selectedCustomer'
+						style={{
+							width: '100%',
+							maxWidth: '313px',
+							border: '1px solid #ccc',
+							borderRadius: '4px',
+							padding: '8px',
+							boxSizing: 'border-box',
+						}}>
+						<option value="">Selecciona un cliente</option>
+						{suppliers.map((supplier) => (
+							<option
+								key={supplier.id}
+								value={supplier.id}
+							>
+								{supplier.nombre}
+							</option>
+						))}
+					</select>
+				</div>
 				<button type='submit'>Actualizar Producto</button>
 			</form>
 			<Link

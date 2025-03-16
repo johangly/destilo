@@ -80,9 +80,20 @@ function Page() {
 			</Link>
 			<h1 className={styles.heading}>Control de Facturación</h1>
 
-			<Link href='/sells/extracto-ventas'>
-				<button className={styles.actionButton}>Ver Extracto de Ventas</button>
-			</Link>
+			<div style={{ display: 'flex', gap: '10px' }}>
+				<Link href='/sells/extracto-ventas'>
+					<button style={{ backgroundColor: '#007bff'}} className={styles.actionButton}>Ver Extracto de Ventas</button>
+				</Link>
+				<Link href='/sells/week-sells'>
+					<button style={{ backgroundColor: '#ff9800'}} className={styles.actionButton}>Ver Ventas de la semana</button>
+				</Link>
+				<Link href='/sells/best-sells'>
+					<button style={{ backgroundColor: '#00e676'}} className={styles.actionButton}>Ver Productos mas vendidos</button>
+				</Link>
+				<Link href='/sells/best-services'>
+					<button style={{ backgroundColor: '#4b9efb'}} className={styles.actionButton}>Ver Servicios mas vendidos</button>
+				</Link>
+			</div>
 
 			{/* Buscador de facturas */}
 			<input

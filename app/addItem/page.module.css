@@ -27,7 +27,8 @@
     color: #333;
 }
 
-.container input
+.container input,
+.container select
 {
     width: 100%;
     padding: 10px;

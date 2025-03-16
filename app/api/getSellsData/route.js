@@ -15,7 +15,6 @@ export async function GET(request) {
 	try {
 		// Obtener todas las ventas usando la nueva API
 		const ventas = await api.getSells(userRole);
-		console.log(ventas)
 		// Verificar si se obtuvieron las ventas correctamente
 		if (!ventas) {
 			return new Response(

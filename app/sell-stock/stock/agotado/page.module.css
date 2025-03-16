@@ -1,3 +1,10 @@
+.page
+{
+    width: 100%;
+    background-color: #f9f9f9;
+    height: 100vh;
+}
+
 .container
 {
     padding: 20px;
@@ -35,6 +42,7 @@
 {
     background-color: #4caf50;
     color: white;
+    text-transform: uppercase;
 }
 
 .table tr:nth-child(even)
@@ -44,10 +52,21 @@
 
 .table tr:hover
 {
-    background-color: #e0f7fa;
+    background-color: #e3f2fd;
 }
 
-.actionButton
+.table td
+{
+    font-size: 0.9rem;
+}
+
+.table td:first-child
+{
+    font-weight: bold;
+}
+
+
+.addButton
 {
     background-color: #2196f3;
     color: white;
@@ -58,13 +77,50 @@
     transition: background-color 0.3s ease;
 }
 
-.actionButton:hover
+.actionButton
 {
-    background-color: #1976d2;
+    border: none;
+    background-color: transparent;
 }
 
-@media print{
-    .hideOnPrint{
+.actionButton:hover
+{
+    color: #2196f3;
+    cursor: pointer;
+}
+
+.actionButtonsContainer
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.stockWarning
+{
+    color: #f44336;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+@media print
+{
+    .itemContainer
+    {
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+        border: none;
+    }
+    .label,.input{
+        display: none;
+    }
+    .button
+    {
+        display: none;
+    }
+
+    .linkContainer
+    {
         display: none;
     }
 }

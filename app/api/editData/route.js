@@ -14,7 +14,7 @@ export async function PUT(request) {
         }
 
         const body = await request.json();
-        const { id, producto, cantidad, precioUnitario, codigo, proveedor } = body;
+        const { id, producto, cantidad, precioUnitario, codigo, proveedor_id } = body;
 
         if (!id) {
             return new Response(
@@ -30,7 +30,7 @@ export async function PUT(request) {
                 cantidad,
                 precioUnitario,
                 codigo,
-                proveedor,
+                proveedor_id,
             });
         } catch (error) {
             console.error('Error al actualizar el producto:', error);

@@ -117,6 +117,15 @@ FOREIGN KEY (service_id)
 REFERENCES servicios_vendidos(id)
 ON DELETE CASCADE;
 
+-- Tabla password_reset_tokens
+CREATE TABLE password_reset_tokens (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  token VARCHAR(255) NOT NULL,
+  expiration DATETIME NOT NULL,
+  user_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE activation_tokens (
   id INT AUTO_INCREMENT PRIMARY KEY, -- Identificador único del token
   token VARCHAR(255) NOT NULL, -- Token único para la activación
