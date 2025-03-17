@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './page.module.css';
-import { HomeIcon } from '@/components/Icons';
 import { useAuth } from '@/context/AuthContext';
+import BackButton from '@/components/BackButton';
 
 function SellStockPage() {
 	const [ventas, setVentas] = useState([]);
@@ -76,9 +76,11 @@ function SellStockPage() {
 
 	return (
 		<div className={styles.toSellContainer} style={{display:'flex',flexDirection:'column',gap:'25px'}}>
-			<Link href='/home'>
-				<HomeIcon />
-			</Link>
+			<BackButton
+				href='/home'
+				text='Volver'
+				iconSrc='/backIcon.svg'
+			/>
 			<h1 className={styles.title}>Productos a la Venta</h1>
 
 			{/* Input de búsqueda */}

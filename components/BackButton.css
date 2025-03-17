@@ -1,0 +1,11 @@
+
+.hideOnPrint{
+    display: flex;
+}
+
+@media print
+{
+    .hideOnPrint{
+        display: none;
+    }
+}

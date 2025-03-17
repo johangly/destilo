@@ -2,9 +2,8 @@
 import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
-import { HomeIcon } from '@/components/Icons';
 import { useAuth } from '@/context/AuthContext';
-
+import BackButton from '@/components/BackButton';
 function Page() {
 	const [services, setServices] = useState([]);
 	const [newService, setNewService] = useState({
@@ -108,12 +107,11 @@ function Page() {
 
 	return (
 		<div className={styles.serviceContainer}>
-			<Link
+			<BackButton
 				href='/home'
-				className={styles.homeLink}
-			>
-				<HomeIcon /> <p>Ir a inicio</p>
-			</Link>
+				text='Volver'
+				iconSrc='/backIcon.svg'
+			/>
 
 			<h1 className={styles.title}>Gestión de Servicios</h1>
 

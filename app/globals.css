@@ -36,3 +36,21 @@ a
     color-scheme: dark;
   }
 }
+
+.hideOnPrint{
+  display: flex;
+}
+
+.showOnPrint{
+  display: none;
+}
+
+@media print
+{
+  .hideOnPrint{
+      display: none;
+  }
+  .showOnPrint{
+    display: flex;
+  }
+}

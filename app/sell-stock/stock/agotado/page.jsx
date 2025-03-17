@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import styles from './page.module.css';
-import Link from 'next/link';
-import { DeleteIcon, EditIcon, HomeIcon } from '@/components/Icons';
 import { useAuth } from '@/context/AuthContext';
-
+import BackButton from '@/components/BackButton';
+import PrintHeader from '@/components/PrintHeader';
 // Función para eliminar un producto en Firestore
 async function eliminarProducto(id,user) {
 	try {
@@ -58,7 +57,7 @@ function Page() {
 
 			if (!response.ok) throw new Error('Error al obtener las ventas');
 			const {datos} = await response.json();
-
+			console.log(datos);
 			// Ordenar los productos alfabéticamente antes de guardarlos en el estado
 			const ventasOrdenadas = datos.sort((a, b) =>
 				a.producto.localeCompare(b.producto)
@@ -88,15 +87,12 @@ function Page() {
 		<div className={styles.page}>
 			<div className={styles.container}>
 				<div>
-					<div className={styles.button}>
-						<Link
-							href='/home'
-							style={{ display: 'flex', alignItems: 'center' }}
-							
-						>
-							<HomeIcon /> <p style={{ marginLeft: '10px' }}>Ir a inicio</p>
-						</Link>
-					</div>
+					<BackButton
+						href='/sell-stock/stock'
+						text='Volver'
+						iconSrc='/backIcon.svg'
+					/>
+					<PrintHeader />
 					<h1 className={styles.heading}>Lista de Productos agotados</h1>
 					<button className={styles.button} style={{padding:'10px 20px',fontWeight:'400',backgroundColor:'#48e', border:'none',borderRadius:'4px'}} onClick={()=>{ window.print() }}>Imprimir reporte</button>
 					<div>

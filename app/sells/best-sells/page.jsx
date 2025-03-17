@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { HomeIcon } from '@/components/Icons';
 import { useAuth } from '@/context/AuthContext';
 import styles from '../page.module.css';
+import BackButton from '@/components/BackButton';
+import PrintHeader from '@/components/PrintHeader';
 
 function BestSells() {
     const [productos, setProductos] = useState([]);
@@ -41,11 +41,13 @@ function BestSells() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.hideOnPrint}>
-                <Link href='/sells' style={{ display: 'flex', alignItems: 'center' }}>
-                    <HomeIcon /> <p style={{ marginLeft: '5px' }}>Volver a Ventas</p>
-                </Link>
-            </div>
+
+            <BackButton
+                    href='/sells'
+                    text='Volver'
+                    iconSrc='/backIcon.svg'
+                />
+            <PrintHeader />
             <h1 className={styles.heading}>Productos Más Vendidos</h1>
             <div className={styles.hideOnPrint}>
                 <button style={{ padding: '8px 12px', backgroundColor: '#2196f3', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', transition: 'background-color 0.3s ease' }} onClick={() => {window.print()}}>Imprimir Reporte</button>

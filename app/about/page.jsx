@@ -1,23 +1,15 @@
 import React from 'react';
 import styles from './page.module.css';
-import Link from 'next/link';
-import { HomeIcon } from '@/components/Icons';
+import BackButton from '@/components/BackButton';
 
 const AboutUs = () => {
 	return (
 		<section className={styles.aboutUs}>
-			<Link
-				href='/home'
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					marginBottom: '30px',
-					width: '100%',
-					justifyContent: 'flex-start',
-				}}
-			>
-				<HomeIcon /> <p style={{ marginLeft: '10px' }}>Ir a inicio</p>
-			</Link>
+			<BackButton
+                    href='/sells'
+                    text='Volver'
+                    iconSrc='/backIcon.svg'
+                />
 			<h2 className={styles.sectionTitle}>Sobre D’Estilo Plus</h2>
 
 			<div className={styles.content}>

@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
-import { HomeIcon } from '@/components/Icons';
 import React from 'react';
 import { useAuth } from '@/context/AuthContext';
+import BackButton from '@/components/BackButton';
 
 async function obtenerProductos(user) {
 	try {
@@ -107,12 +107,11 @@ function EditProduct({ params }) {
 
 	return (
 		<div className={styles.container}>
-			<Link
-				href='/home'
-				className={styles.homeLink}
-			>
-				<HomeIcon /> Ir a inicio
-			</Link>
+			<BackButton
+				href='/services'
+				text='Volver'
+				iconSrc='/backIcon.svg'
+			/>
 			<h1>Editar Servicio</h1>
 			<form onSubmit={handleSubmit}>
 				{['servicio', 'descripcion', 'precio'].map((field) => (

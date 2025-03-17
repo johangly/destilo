@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
-import { DeleteIcon, HomeIcon } from '@/components/Icons';
+import { DeleteIcon } from '@/components/Icons';
 import { useAuth } from '@/context/AuthContext';
-
+import BackButton from '@/components/BackButton';
 
 function ListaClientes() {
 	const [customers, setCustomers] = useState([]); // Clientes filtrados
@@ -98,12 +98,11 @@ function ListaClientes() {
 
 	return (
 		<div className={styles.customersContainer}>
-			<Link
+			<BackButton
 				href='/home'
-				style={{ display: 'flex', alignItems: 'center' }}
-			>
-				<HomeIcon /> <p style={{ marginLeft: '10px' }}>Ir a inicio</p>
-			</Link>
+				text='Volver'
+				iconSrc='/backIcon.svg'
+			/>
 			<h1 className={styles.title}>Lista de Clientes</h1>
 
 			<div className={styles.searchContainer}>

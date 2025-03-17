@@ -2,7 +2,7 @@
 {
     width: 100%;
     background-color: #f9f9f9;
-    height: 100vh;
+    height: calc(100vh - 76px);
 }
 
 .container

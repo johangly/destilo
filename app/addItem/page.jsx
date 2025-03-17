@@ -3,8 +3,8 @@
 import { useState,useEffect } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
-import { HomeIcon } from '@/components/Icons';
 import { useAuth } from '@/context/AuthContext';
+import BackButton from '@/components/BackButton';
 
 async function agregarVenta(venta,user) {
 	try {
@@ -119,9 +119,11 @@ function AddVentaComponent() {
 			style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}
 		>
 			<div className={styles.container}>
-				<Link href='/home'>
-					<HomeIcon />
-				</Link>
+				<BackButton
+					href='/home'
+					text='Volver'
+					iconSrc='/backIcon.svg'
+				/>
 				<h1>Agregar nuevo producto</h1>
 				<div className={styles.formGroup}>
 					<label htmlFor='producto'>Producto:</label>

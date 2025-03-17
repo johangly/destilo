@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import styles from './page.module.css';
 import Link from 'next/link';
-import { HomeIcon } from '@/components/Icons';
 import { useAuth } from '@/context/AuthContext';
+import BackButton from '@/components/BackButton';
 
 function AddCustomerForm() {
 	const [formData, setFormData] = useState({
@@ -122,17 +122,11 @@ function AddCustomerForm() {
 
 	return (
 		<div className={styles.formContainer}>
-			<Link
-				href='/home'
-				style={{
-					textDecoration: 'none',
-					display: 'flex',
-					alignItems: 'center',
-					marginBottom: '30px',
-				}}
-			>
-				<HomeIcon /> <p style={{ marginLeft: '10px' }}>Ir a inicio</p>
-			</Link>
+			<BackButton
+				href='/users'
+				text='Volver'
+				iconSrc='/backIcon.svg'
+			/>
 			<h2 className={styles.title}>Agregar Nuevo Usuario</h2>
 			{message && <p className={styles.message}>{message}</p>}
 			<form

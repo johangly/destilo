@@ -3,9 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import styles from './page.module.css';
-import Link from 'next/link';
-import { HomeIcon } from '@/components/Icons';
 import { useAuth } from '@/context/AuthContext';
+import BackButton from '@/components/BackButton';
 
 function VentasFiltradas() {
 	const [ventas, setVentas] = useState([]); // Estado para todas las ventas
@@ -123,9 +122,11 @@ function VentasFiltradas() {
 
 	return (
 		<div className={styles.container}>
-			<Link href='/home'>
-				<HomeIcon />
-			</Link>
+			<BackButton
+				href='/home'
+				text='Volver'
+				iconSrc='/backIcon.svg'
+			/>
 			<h2 className={styles.heading}>Filtrar Ventas por Fecha</h2>
 			<div className={styles.filters}>
 				<label>Fecha Inicio:</label>

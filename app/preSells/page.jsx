@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { useListaCompras } from '@/context/sellsContext';
 import styles from './page.module.css';
 import Link from 'next/link';
-import { HomeIcon } from '@/components/Icons';
 import { useAuth } from '@/context/AuthContext';
+import BackButton from '@/components/BackButton';
 
 function ListaCompras() {
 	const { listaCompras, eliminarProducto, limpiarLista } = useListaCompras();
@@ -294,9 +294,11 @@ function ListaCompras() {
 	if (listaCompras.length === 0) {
 		return (
 			<div className={styles.WithoutItemsContainer}>
-				<Link href='/home'>
-					<HomeIcon />
-				</Link>
+				<BackButton
+					href='/home'
+					text='Volver'
+					iconSrc='/backIcon.svg'
+				/>
 				<p>No hay productos en la lista de compras.</p>
 			</div>
 		);
@@ -363,9 +365,11 @@ function ListaCompras() {
 	};
 	return (
 		<div className={styles.container}>
-			<Link href='/home'>
-				<HomeIcon />
-			</Link>
+			<BackButton
+				href='/home'
+				text='Volver'
+				iconSrc='/backIcon.svg'
+			/>
 			<h2 className={styles.heading}>Lista de Compras</h2>
 			<div className={styles.tasaUsdBs}>
 				<label htmlFor='tasa'>Tasa USD/Bs:</label>

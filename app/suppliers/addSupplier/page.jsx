@@ -5,7 +5,7 @@ import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { HomeIcon } from '@/components/Icons';
+import BackButton from '@/components/BackButton';
 
 function FormularioProveedor() {
 	const [formData, setFormData] = useState({
@@ -91,19 +91,11 @@ function FormularioProveedor() {
 
 	return (
 		<div className={styles.formContainer}>
-			<Link
-				href='/home'
-				style={{
-					textDecoration: 'none',
-					color: 'inherit',
-					display: 'flex',
-					alignItems: 'center',
-					marginBottom: '30px',
-				}}
-			>
-				<HomeIcon />
-				<p style={{ marginLeft: '10px' }}>Volver a Inicio</p>
-			</Link>
+			<BackButton
+					href='/suppliers'
+					text='Volver'
+					iconSrc='/backIcon.svg'
+				/>
 			<h1 className={styles.title}>Agregar Proveedor</h1>
 			<form onSubmit={handleSubmit}>
 				<h3>Proveedor:</h3>
