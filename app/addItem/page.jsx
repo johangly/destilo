@@ -160,7 +160,7 @@ function AddVentaComponent() {
 					/>
 				</div>
 				<div className={styles.formGroup}>
-					<label htmlFor='selectedCustomer'>Seleccionar cliente:</label>
+					<label htmlFor='selectedCustomer'>Seleccionar proveedor:</label>
 					<select
 					value={selectedSupplier.id}
 					onChange={handleSupplierChange}
