@@ -57,8 +57,9 @@ function AddCustomerForm() {
 		}
 
 		// Validación de contraseña
-		if (formData.password.length < 6) {
-			setMessage('La contraseña debe tener al menos 6 caracteres.');
+		const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[0-9a-zA-Z]).{8,16}$/;
+		if (!passwordRegex.test(formData.password)) {
+			setMessage('La contraseña debe tener entre 8 y 16 caracteres, incluir al menos una letra mayúscula y un carácter especial.');
 			setLoading(false);
 			return;
 		}
