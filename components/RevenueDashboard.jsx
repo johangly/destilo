@@ -44,6 +44,7 @@ function RevenueDashboard() {
 
 	return (
 		<div className={styles.revenueDashboard}>
+			<Image src='/navbar-icon.svg' alt='logo' width={150} height={40}/>
 			<h2>Consolidado de Ventas</h2>
 			<span>
 				<p>

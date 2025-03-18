@@ -19,7 +19,7 @@ function NavBar() {
 				<nav>
 					<Link href='/'>
 						<Image
-							src='/navbar-icon.svg'
+							src='/logo-group-1.svg'
 							alt='logo'
 							width={150}
 							height={40}
