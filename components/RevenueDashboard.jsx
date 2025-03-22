@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 function RevenueDashboard() {
 	const [ventas, setVentas] = useState([]); // Define el estado en el componente
-	const { user } = useAuth();
+	const { user, loading } = useAuth();
 
 	const obtenerVentas = async () => {
 		try {
@@ -21,7 +21,7 @@ function RevenueDashboard() {
     			}
 			});
 			const data = await response.json();
-			setVentas(data.datos); // Actualiza el estado con los datos obtenidos
+			setVentas(data.datos || []); // Actualiza el estado con los datos obtenidos
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -32,15 +32,14 @@ function RevenueDashboard() {
 			obtenerVentas();
 		}
 	}, [user]);
-	console.log('ventas',ventas)
 	// Sumar el precio total de cada venta
-	const sumaPrecioTotal = ventas.reduce((acumulador, venta) => {
+	const sumaPrecioTotal = ventas?.length > 0 ? ventas.reduce((acumulador, venta) => {
 		// Sumar el precio total de todos los productos dentro de una venta
 		const totalVenta = venta.items.reduce((total, producto) => {
 			return total + parseFloat(producto.precioTotal);
 		}, 0);
 		return acumulador + totalVenta;
-	}, 0);
+	}, 0) : 0;
 
 	return (
 		<div className={styles.revenueDashboard}>
@@ -51,7 +50,7 @@ function RevenueDashboard() {
 					<strong>Fecha de corte:</strong> 2025/02/19
 				</p>
 				<p>
-					<strong>Total de ventas:</strong> $ {sumaPrecioTotal.toFixed(2)}
+					<strong>Total de ventas:</strong> $ {sumaPrecioTotal ? sumaPrecioTotal.toFixed(2) : 0}
 				</p>
 			</span>
 			{/* <Image

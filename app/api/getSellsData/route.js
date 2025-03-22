@@ -16,16 +16,6 @@ export async function GET(request) {
 		// Obtener todas las ventas usando la nueva API
 		const ventas = await api.getSells(userRole);
 		// Verificar si se obtuvieron las ventas correctamente
-		if (!ventas) {
-			return new Response(
-				JSON.stringify({ error: 'No se pudieron obtener las ventas' }),
-				{
-					status: 404,
-					headers: { 'Content-Type': 'application/json' },
-				}
-			);
-		}
-
 		return new Response(JSON.stringify(ventas), {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' },
