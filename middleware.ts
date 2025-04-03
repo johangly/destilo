@@ -21,7 +21,7 @@ export function middleware(req: NextRequest) {
 	}
 
 	// 🔥 Rutas públicas
-	const publicRoutes = ['/', '/reset-password', '/about', '/contact','/activar-cuenta/:token', '/reset-password/:token'];
+	const publicRoutes = ['/','/soporte','/reset-password', '/about', '/contact','/activar-cuenta/:token', '/reset-password/:token'];
 
 	const isPublicRoute = publicRoutes.some((route) => {
         if (route.includes(':token')) {

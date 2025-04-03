@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
     const [error, setError] = useState(null);
     const router = useRouter();
     const pathname = usePathname();
-    const publicRoutes = ['/', '/reset-password', '/about', '/contact','/activar-cuenta/:token','/reset-password/:token'];
+    const publicRoutes = ['/','/soporte', '/reset-password', '/about', '/contact','/activar-cuenta/:token','/reset-password/:token'];
     const isPublicRoute = publicRoutes.some((route) => {
         if (route.includes(':token')) {
             const routePattern = new RegExp(`^${route.replace(':token', '[^/]+')}$`);

@@ -1,16 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './page.module.css';
 import { useAuth } from '@/context/AuthContext';
+
 export default function Login() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [message, setMessage] = useState('');
-	const router = useRouter();
+	// const router = useRouter();
 	const { login } = useAuth();
 
 	const handleLogin = async (e) => {
@@ -64,7 +65,7 @@ export default function Login() {
 							required
 						/>
 					</div>
-					<button type='submit'>Iniciar Sesión</button>
+					<button type='submit' suppressHydrationWarning>Iniciar Sesión</button>
 				</form>
 				{message && <p className={styles.message}>{message}</p>}
 				<Link
@@ -74,6 +75,7 @@ export default function Login() {
 					¿Olvidaste tu contraseña?
 				</Link>
 			</div>
+			<Link className={styles.link} style={{fontSize:'0.9rem',color:'#007bff', position:'fixed',bottom:`${0 + 25}px`}} href="/soporte">Soporte Tecnico</Link>
 		</div>
 	);
 }
