@@ -121,7 +121,7 @@ function AddCustomerForm() {
 	};
 
 	return (
-		<div className={styles.formContainer}>
+		<div className={`${styles.formContainer} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}>
 			<BackButton
 				href='/users'
 				text='Volver'
@@ -171,9 +171,9 @@ function AddCustomerForm() {
 						onChange={handleChange}
 						required
 					>
-						<option value="">Seleccione un rol</option>
-						<option value="admin">Administrador</option>
-						<option value="employee">Empleado</option>
+						<option className={`bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100`} value="">Seleccione un rol</option>
+						<option className={`bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100`} value="admin">Administrador</option>
+						<option className={`bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100`} value="employee">Empleado</option>
 					</select>
 				</div>
 				<button

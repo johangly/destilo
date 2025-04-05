@@ -104,15 +104,15 @@ function ListaProveedores() {
 	}, [user]);
 
 	return (
-		<div className={styles.suppliersContainer}>
+		<div className={`${styles.suppliersContainer} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 [&_input]:border-1 [&_input]:border-slate-400 [&_select]:border-1 [&_select]:border-slate-400`}>
 			<BackButton
 				href='/home'
 				text='Volver'
 				iconSrc='/backIcon.svg'
 			/>
-			<h1 className={styles.title}>Lista de Proveedores</h1>
-			<div className={styles.searchContainer}>
-				<label className={styles.searchLabel}>
+			<h1 className={`${styles.title} text-slate-800 dark:text-slate-100`}>Lista de Proveedores</h1>
+			<div className={`${styles.searchContainer} text-slate-800 dark:text-slate-100`}>
+				<label className={`${styles.searchLabel} text-slate-800 dark:text-slate-100`}>
 					<strong>Buscar:</strong>
 				</label>
 				<input
@@ -130,8 +130,8 @@ function ListaProveedores() {
 					marginBottom: '1rem',
 					display: 'block',
 					textAlign: 'center',
-					color: '#1a73e8',
 				}}
+				className="bg-blue-600 w-fit p-3 rounded mx-auto text-white"
 			>
 				Agregar Proveedor
 			</Link>
@@ -142,9 +142,9 @@ function ListaProveedores() {
 				{suppliers.map((supplier) => (
 					<div
 						key={supplier.id}
-						className={styles.supplierCard}
+						className={`${styles.supplierCard} bg-slate-100 border-t-4 border-slate-300 dark:bg-slate-600 text-slate-800 dark:text-slate-100 `}
 					>
-						<h2 className={styles.supplierName}>{supplier.nombre}</h2>
+						<h2 className={`${styles.supplierName} text-slate-800 dark:text-slate-100`}>{supplier.nombre}</h2>
 						<p className={styles.detail}>
 							<strong>Razón Social:</strong> {supplier.razonSocial}
 						</p>

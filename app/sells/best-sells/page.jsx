@@ -40,7 +40,7 @@ function BestSells() {
     }, [user]);
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}>
 
             <BackButton
                     href='/sells'
@@ -54,7 +54,7 @@ function BestSells() {
             </div>
             <table className={styles.table}>
                 <thead>
-                    <tr>
+                    <tr className='bg-slate-400 dark:bg-slate-600 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 [&>th]:border-1 [&>th]:border-slate-300 dark:[&>th]:border-slate-500'>
                         <th>ID del Producto</th>
                         <th>Nombre del Producto</th>
                         <th>Cantidad Vendida</th>
@@ -64,7 +64,7 @@ function BestSells() {
                 </thead>
                 <tbody>
                     {productos.map((producto,index) => (
-                        <tr key={index}>
+                        <tr className='text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 [&>td]:border-1 [&>td]:border-slate-300 dark:[&>td]:border-slate-500' key={index}>
                             <td>{producto.producto_id}</td>
                             <td>{producto.nombre}</td>
                             <td>{producto.totalVendido}</td>

@@ -298,6 +298,7 @@ function ListaCompras() {
 					href='/home'
 					text='Volver'
 					iconSrc='/backIcon.svg'
+					className='mb-5'
 				/>
 				<p>No hay productos en la lista de compras.</p>
 			</div>
@@ -344,46 +345,65 @@ function ListaCompras() {
 
 	const handleCustomerChange = (e) => {
 		const { id, value } = e.target;
-		const selectedOption = allCustomers.find((customer) => customer.id.toString() === value.toString());
-		setSelectedCustomer({ [id]: value });
-		if(selectedOption.empresa) {
-			setEmpresa(true);
+		if(value !== ''){
+			const selectedOption = allCustomers.find((customer) => customer.id.toString() === value.toString());
+			setSelectedCustomer({ [id]: value });
+			if(selectedOption.empresa) {
+				setEmpresa(true);
+			}
+			setClientData({ 
+				cliente: selectedOption?.cliente || '',
+				cedula: selectedOption?.cedula || '',
+				telefono: selectedOption?.telefono || '',
+				email: selectedOption?.email || '',
+				direccion: selectedOption?.direccion || '',
+				nrocasa: selectedOption?.nrocasa || '',
+				ciudad: selectedOption?.ciudad || '',
+				provincia: selectedOption?.provincia || '',
+				pais: selectedOption?.pais || '',
+				empresa: selectedOption?.empresa || '',
+				rif: selectedOption?.rif || '',
+			 });
+		} else {
+			setClientData({ 
+				cliente: '',
+				cedula: '',
+				telefono: '',
+				email: '',
+				direccion: '',
+				nrocasa: '',
+				ciudad: '',
+				provincia: '',
+				pais: '',
+				empresa: '',
+				rif: '',
+			 });
+			 setEmpresa(false);
 		}
-		setClientData({ 
-			cliente: selectedOption?.cliente || '',
-			cedula: selectedOption?.cedula || '',
-			telefono: selectedOption?.telefono || '',
-			email: selectedOption?.email || '',
-			direccion: selectedOption?.direccion || '',
-			nrocasa: selectedOption?.nrocasa || '',
-			ciudad: selectedOption?.ciudad || '',
-			provincia: selectedOption?.provincia || '',
-			pais: selectedOption?.pais || '',
-			empresa: selectedOption?.empresa || '',
-			rif: selectedOption?.rif || '',
-		 });
 	};
 	return (
-		<div className={styles.container}>
+		<div className={`${styles.container} text-slate-700 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 `}>
 			<BackButton
-				href='/home'
+				href='/sell-stock/sell'
 				text='Volver'
 				iconSrc='/backIcon.svg'
+				className='mb-5'
 			/>
 			<h2 className={styles.heading}>Lista de Compras</h2>
-			<div className={styles.tasaUsdBs}>
+			<div className="flex justify-start items-center text-slate-800 dark:text-slate-100 gap-3">
 				<label htmlFor='tasa'>Tasa USD/Bs:</label>
 				<input
 					id='tasa'
 					type='number'
 					value={tasa}
+					className='bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 rounded-md px-2 py-1'
 					onChange={handleTasaChange} // Actualiza la tasa con el valor del input
 					min='0.01' // Prevenir valores negativos o cero
 					step='any' // Permitir decimales
 				/>
 			</div>
 			<div className={styles.gridContainer}>
-				<div className={styles.gridRow}>
+				<div className={`${styles.gridRow} [&>div]:bg-slate-300 dark:[&>div]:bg-slate-600`}>
 					<div className={styles.gridHeader}>Producto</div>
 					<div className={styles.gridHeader}>Tipo</div>
 					<div className={styles.gridHeader}>Cantidad</div>
@@ -409,13 +429,13 @@ function ListaCompras() {
 							</div>
 						</div>
 						{producto.productosAsociado && producto.productosAsociado.map((asociado, sub_index) => (
-							<div className={styles.gridSubRow} key={sub_index}>
-								<div className={styles.gridSubItem} style={{ backgroundColor: '#f0f0f0' }}>{asociado.producto}</div>
-								<div className={styles.gridSubItem} style={{ backgroundColor: '#f0f0f0' }}>{asociado.type}</div>
-								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0' }}>{asociado.cantidadInput}</div>
-								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0' }}>${asociado.precioUnitario}</div>
-								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0' }}>${Number(asociado.cantidadInput) * Number(asociado.precioUnitario)}</div>
-								<div className={styles.gridItem} style={{ backgroundColor: '#f0f0f0', borderRight:'1px solid #ddd'}}>
+							<div className={`${styles.gridSubRow} border-l-5 border-slate-400 dark:border-slate-200`} key={sub_index}>
+								<div className={styles.gridSubItem}>{asociado.producto}</div>
+								<div className={styles.gridSubItem}>{asociado.type}</div>
+								<div className={styles.gridItem}>{asociado.cantidadInput}</div>
+								<div className={styles.gridItem}>${asociado.precioUnitario}</div>
+								<div className={styles.gridItem}>${Number(asociado.cantidadInput) * Number(asociado.precioUnitario)}</div>
+								<div className={styles.gridItem} style={{borderRight:'1px solid #ddd'}}>
 									<button
 										className={styles.deleteButton}
 										onClick={() => eliminarProducto(index, sub_index)}
@@ -428,10 +448,10 @@ function ListaCompras() {
 					</div>
 				))}
 			</div>
-			<hr style={{opacity:'0.3',marginBottom:'20px'}}/>
+			<hr style={{opacity:'0.2',marginBottom:'20px'}}/>
 			<div>
 				<h2>Datos del Cliente</h2>
-				<label htmlFor='selectedCustomer'>Seleccionar cliente:</label>
+				<label htmlFor='selectedCustomer' className="mr-4">Seleccionar cliente:</label>
 				<select
 					value={selectedCustomer.id}
 					onChange={handleCustomerChange}
@@ -445,9 +465,9 @@ function ListaCompras() {
 						boxSizing: 'border-box',
 					}}
 				>
-					<option value="">Selecciona un cliente</option>
+					<option value="" className='text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-slate-700'>Selecciona un cliente</option>
 					{allCustomers.map((customer) => (
-						<option key={customer.id} value={customer.id}>
+						<option className='text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-slate-700' key={customer.id} value={customer.id}>
 							{customer.cliente}
 						</option>
 					))}
@@ -556,7 +576,7 @@ function ListaCompras() {
 						placeholder='País...'
 					/>
 				</div>
-				<div className={styles.checkBox}>
+				<div className={`${styles.checkBox} flex justify-center items-center`}>
 					<input
 						type='checkbox'
 						id='empresa'
@@ -570,23 +590,29 @@ function ListaCompras() {
 				</div>
 
 				{empresa && (
-					<div className={styles.formGroup}>
-						<label htmlFor='empresa'>Empresa:</label>
-						<input
-							type='text'
-							id='empresa'
-							value={clientData.empresa}
-							onChange={handleChange}
-							required
-						/>
-						<label htmlFor='rif'>RIF:</label>
-						<input
-							type='text'
-							id='rif'
-							value={clientData.rif}
-							onChange={handleChange}
-							placeholder='J-12345678'
-						/>
+					<div className={`flex justify-center items-start max-w-[626px] w-full col-span-2 gap-[10px]`}>
+						<div className="flex flex-col justify-center items-start w-full">
+							<label htmlFor='empresa'>Empresa:</label>
+							<input
+								type='text'
+								id='empresa'
+								value={clientData.empresa}
+								onChange={handleChange}
+								required
+								className="w-full p-[10px] border-1 border-[#ddd] rounded-[4px] mt-[10px]"
+							/>
+						</div>
+						<div className="flex flex-col justify-center items-start w-full">
+							<label htmlFor='rif'>RIF:</label>
+							<input
+								type='text'
+								id='rif'
+								value={clientData.rif}
+								onChange={handleChange}
+								placeholder='J-12345678'
+								className="w-full p-[10px] border-1 border-[#ddd] rounded-[4px] mt-[10px]"
+							/>
+						</div>
 					</div>
 				)}
 				

@@ -90,13 +90,13 @@ function FormularioProveedor() {
 	};
 
 	return (
-		<div className={styles.formContainer}>
+		<div className={`${styles.formContainer} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 [&_input]:border-1 [&_input]:border-slate-400 [&_select]:border-1 [&_select]:border-slate-400`}>
 			<BackButton
 					href='/suppliers'
 					text='Volver'
 					iconSrc='/backIcon.svg'
 				/>
-			<h1 className={styles.title}>Agregar Proveedor</h1>
+			<h1 className={`${styles.title} text-slate-800 dark:text-slate-100`}>Agregar Proveedor</h1>
 			<form onSubmit={handleSubmit}>
 				<h3>Proveedor:</h3>
 				<input

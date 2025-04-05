@@ -95,7 +95,7 @@ function ListaClientes() {
 	};
 
 	return (
-		<div className={styles.customersContainer}>
+		<div className={`${styles.customersContainer} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}>
 			<BackButton
 				href='/home'
 				text='Volver'
@@ -135,7 +135,7 @@ function ListaClientes() {
 					users.map((user) => (
 						<div
 							key={user.id}
-							className={styles.customerCard}
+							className={`${styles.customerCard} bg-white dark:bg-slate-600 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}
 						>
 							{/* <h2 className={styles.customerName}>{user.username}</h2> */}
 							<p className={styles.detail}>

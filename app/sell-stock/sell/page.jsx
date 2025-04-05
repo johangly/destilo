@@ -75,7 +75,7 @@ function SellStockPage() {
 	);
 
 	return (
-		<div className={styles.toSellContainer} style={{display:'flex',flexDirection:'column',gap:'25px'}}>
+		<div className={`${styles.toSellContainer} dark:bg-slate-700 bg-white text-slate-800 dark:text-slate-100`} style={{display:'flex',flexDirection:'column',gap:'25px'}}>
 			<BackButton
 				href='/home'
 				text='Volver'
@@ -110,20 +110,20 @@ function SellStockPage() {
 									className={styles.productLink}
 								>
 									<div
-										className={styles.productToSell}
+										className={`${styles.productToSell} dark:bg-slate-600 bg-white text-slate-800 dark:text-slate-100 border-1 border-slate-800 dark:border-slate-100`}
 										style={{
-											backgroundColor: product.cantidad > 4 ? "#ccc" : "#e65272",
+											backgroundColor: product.cantidad <= 4 && "#e65272",
 										}}
 									>
-										<h4 className={styles.productName} style={{color: product.cantidad > 4 ? "#333" : "#fff"}}>{product.producto}</h4>
-										<p className={styles.productPrice} style={{color: product.cantidad > 4 ? "#333" : "#fff", marginBottom:'5px'}}>
+										<h4 className={styles.productName} style={{color: product.cantidad <= 4 && "#fff"}}>{product.producto}</h4>
+										<p className={styles.productPrice} style={{color: product.cantidad <= 4 && "#fff", marginBottom:'5px'}}>
 											Precio unitario:{' '}
-											<strong style={{color: product.cantidad > 4 ? "#333" : "#fff"}}>
+											<strong style={{color: product.cantidad <= 4 && "#fff"}}>
 												${parseFloat(product.precioUnitario).toFixed(2)}
 											</strong>
 										</p>
-										<p className={styles.productPrice} style={{color: product.cantidad > 4 ? "#333" : "#fff"}}>Cantidad en inventario: 
-											<strong style={{color: product.cantidad > 4 ? "#333" : "#fff"}}>
+										<p className={styles.productPrice} style={{color: product.cantidad <= 4 && "#fff"}}>Cantidad en inventario: 
+											<strong style={{color: product.cantidad <= 4 && "#fff"}}>
 												{product.cantidad}
 											</strong>
 										</p>
@@ -149,15 +149,12 @@ function SellStockPage() {
 									className={styles.productLink}
 								>
 									<div
-										className={styles.productToSell}
-										style={{
-											backgroundColor: "#ccc",
-										}}
+										className={`${styles.productToSell} dark:bg-slate-600 bg-white text-slate-800 dark:text-slate-100 border-1 border-slate-800 dark:border-slate-100`}
 									>
-										<h4 className={styles.productName} style={{color: "#333"}}>{servicio.servicio}</h4>
-										<p className={styles.productPrice} style={{color: "#333"}}>
+										<h4 className={styles.productName}>{servicio.servicio}</h4>
+										<p className={styles.productPrice}>
 											Precio unitario:{' '}
-											<strong style={{color: "#333"}}>
+											<strong>
 												${parseFloat(servicio.precio).toFixed(2)}
 											</strong>
 										</p>

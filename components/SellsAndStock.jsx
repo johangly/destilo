@@ -48,16 +48,16 @@ function SellsAndStock() {
 	}
 
 	return (
-		<div className={styles.sellsAndStock}>
+		<div className={`${styles.sellsAndStock} bg-white dark:bg-slate-700 border-t-4 border-slate-600 rounded-xl`}>
 			<div className={styles.sellsAndStock__links}>
 				<Link href='/sell-stock/sell'>
-					<h2>Vender</h2>
+					<h2 className="bg-blue-600 text-white">Vender</h2>
 				</Link>
 				{/* <Link href='/sell-stock/stock'>
 					<h2>Inventario</h2>
 				</Link> */}
 			</div>
-			<div>
+			<div className="dark:text-slate-100 text-slate-800">
 				<h3>Ventas recientes</h3>
 				<ul>
 					{productosLimitados.map((producto, index) => (
@@ -73,15 +73,24 @@ function SellsAndStock() {
 					))}
 				</ul>
 			</div>
-			<div style={{ flex:'none',display: 'flex', alignItems: 'center',justifyContent:'end',gap:'5px',marginTop:'auto' }} className={styles.sellsAndStock__logo}>
+			<div style={{ flex:'none',display: 'flex', alignItems: 'center',justifyContent:'end',gap:'5px',marginTop:'auto' }} className={`${styles.sellsAndStock__logo} text-slate-800 dark:text-slate-100`}>
 				<Image
 					src='/logo-group-1.svg'
 					alt='Logo software'
 					width={115}
 					height={30}
 					style={{marginBottom:'3px'}}
+					className="dark:hidden block"
 				/>
-				<p>v1.0</p>
+				<Image
+					src='/stockvenLigth.svg'
+					alt='Logo software'
+					width={115}
+					height={30}
+					style={{marginBottom:'3px'}}
+					className="dark:block hidden"
+				/>
+				<p className="text-xs">v1.1</p>
 			</div>
 		</div>
 	);

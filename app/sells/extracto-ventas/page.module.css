@@ -2,18 +2,16 @@
 .container
 {
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 40px auto 0 auto;
 }
 
 .heading
 {
     font-size: 1.8rem;
     margin-bottom: 20px;
-    color: #333;
     text-align: center;
 }
 
@@ -28,7 +26,6 @@
 .filters label
 {
     font-size: 1rem;
-    color: #333;
 }
 
 .filters input[type="date"]
@@ -37,7 +34,6 @@
     font-size: 1rem;
     border: 1px solid #ddd;
     border-radius: 4px;
-    background-color: #fff;
 }
 
 .filters input[type="date"]:focus
@@ -74,23 +70,6 @@
 {
     text-align: left;
     padding: 12px;
-    border: 1px solid #ddd;
-}
-
-.table th
-{
-    background-color: #4caf50;
-    color: white;
-}
-
-.table tr:nth-child(even)
-{
-    background-color: #f2f2f2;
-}
-
-.table tr:hover
-{
-    background-color: #e0f7fa;
 }
 
 .totalGeneral

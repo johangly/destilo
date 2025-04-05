@@ -4,10 +4,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
-    margin-right: 10px;
-    background-color: #fff;
-    border-radius: 7px;
+    width: 100%;
 }
 
 .revenueDashboard img

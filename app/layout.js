@@ -21,11 +21,10 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 	return (
-		<html lang='en'>
+		<html lang='en' className="dark:bg-slate-800">
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<AuthProvider>
 					{' '}
-					{/* 🔥 Envuelve la app en AuthProvider */}
 					<ListaComprasProvider>
 						<NavBar />
 						{children}

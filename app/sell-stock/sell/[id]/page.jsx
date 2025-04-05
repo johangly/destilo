@@ -98,7 +98,7 @@ function ProductPage({ params }) {
 	};
 
 	return (
-		<div className={styles.itemContainer}>
+		<div className={`${styles.itemContainer} bg-white dark:bg-slate-600 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}>
 			<h1 className={styles.title}>Detalles del Producto</h1>
 			<h3 className={styles.productName}>
 				Producto: <span>{product.producto}</span>

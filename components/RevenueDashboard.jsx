@@ -42,23 +42,18 @@ function RevenueDashboard() {
 	}, 0) : 0;
 
 	return (
-		<div className={styles.revenueDashboard}>
-			<Image src='/navbar-icon.svg' alt='logo' width={220} height={80}/>
+		<div className={`${styles.revenueDashboard} bg-white border-t-4 rounded-xl border-slate-600 dark:bg-slate-700 text-slate-800 dark:text-slate-100`}>
+			<Image src='/navbar-icon.svg' className="dark:hidden block" alt='logo' width={220} height={80}/>
+			<Image src='/logoDarkMode.svg' className="hidden dark:block" alt='logo' width={220} height={80}/>
 			<h2>Consolidado de Ventas</h2>
-			<span>
-				<p>
+			<p className="flex flex-col justify-center items-center gap-3">
+				<span>
 					<strong>Fecha de corte:</strong> 2025/02/19
-				</p>
-				<p>
+				</span>
+				<span>
 					<strong>Total de ventas:</strong> $ {sumaPrecioTotal ? sumaPrecioTotal.toFixed(2) : 0}
-				</p>
-			</span>
-			{/* <Image
-				src='/slogan.jpeg'
-				alt='slogan'
-				width={250}
-				height={250}
-			/> */}
+				</span>
+			</p>
 		</div>
 	);
 }

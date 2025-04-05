@@ -118,11 +118,12 @@ function AddVentaComponent() {
 		<div
 			style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}
 		>
-			<div className={styles.container}>
+			<div className={`bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 [&_input]:border-1 [&_input]:border-slate-400 [&_select]:border-1 [&_select]:border-slate-400 ${styles.container}`}>
 				<BackButton
-					href='/home'
+					href='/sell-stock/stock'
 					text='Volver'
 					iconSrc='/backIcon.svg'
+					className='mb-5'
 				/>
 				<h1>Agregar nuevo producto</h1>
 				<div className={styles.formGroup}>
@@ -170,9 +171,10 @@ function AddVentaComponent() {
 					style={{
 						width: '100%',
 					}}>
-						<option value="">Selecciona un cliente</option>
+
+						<option className="text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-slate-600" value="">Selecciona un proveedor</option>
 						{suppliers.map((supplier) => (
-							<option key={supplier.id} value={supplier.id}>
+							<option className="text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-slate-600" key={supplier.id} value={supplier.id}>
 								{supplier.nombre}
 							</option>
 						))}
@@ -188,14 +190,14 @@ function AddVentaComponent() {
 				
 				<button onClick={handleAddVenta}>Agregar Producto</button>
 				<Link href='/sell-stock/stock'>
-					<button
+					{/* <button
 						style={{
 							backgroundColor: '#2196F3',
 							color: 'white',
 						}}
 					>
 						Volver
-					</button>
+					</button> */}
 				</Link>
 			</div>
 		</div>

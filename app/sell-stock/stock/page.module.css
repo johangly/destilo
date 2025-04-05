@@ -1,25 +1,22 @@
 .page
 {
     width: 100%;
-    background-color: #f9f9f9;
     height: calc(100vh - 76px);
 }
 
 .container
 {
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 40px auto 0 auto;
 }
 
 .heading
 {
     font-size: 1.8rem;
     margin-bottom: 20px;
-    color: #333;
     text-align: center;
 }
 
@@ -35,24 +32,19 @@
 {
     text-align: left;
     padding: 12px;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
 }
 
 .table th
 {
-    background-color: #4caf50;
-    color: white;
+    /* background-color: #4caf50; */
+    /* color: white; */
     text-transform: uppercase;
 }
 
 .table tr:nth-child(even)
 {
-    background-color: #f2f2f2;
-}
-
-.table tr:hover
-{
-    background-color: #e3f2fd;
+    /* background-color: #f2f2f2; */
 }
 
 .table td
@@ -68,8 +60,6 @@
 
 .addButton
 {
-    background-color: #2196f3;
-    color: white;
     border: none;
     padding: 8px 12px;
     cursor: pointer;
@@ -85,7 +75,6 @@
 
 .actionButton:hover
 {
-    color: #2196f3;
     cursor: pointer;
 }
 

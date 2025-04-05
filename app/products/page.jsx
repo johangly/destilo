@@ -46,7 +46,7 @@ function Page() {
 		.sort((a, b) => a.producto.localeCompare(b.producto));
 
 	return (
-		<div className={styles.productsContainer}>
+		<div className={`${styles.productsContainer} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}>
 			<BackButton
 				href='/home'
 				text='Volver'
@@ -65,7 +65,7 @@ function Page() {
 
 			<table className={styles.table}>
 				<thead>
-					<tr>
+					<tr className='bg-slate-400 dark:bg-slate-600 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 [&>th]:border-1 [&>th]:border-slate-300 dark:[&>th]:border-slate-500'>
 						<th>Producto</th>
 						<th>Precio Unitario</th>
 					</tr>
@@ -76,7 +76,7 @@ function Page() {
 						const precioUnitario = parseFloat(product.precioUnitario) || 0;
 
 						return (
-							<tr key={index}>
+							<tr key={index} className='text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 [&>td]:border-1 [&>td]:border-slate-300 dark:[&>td]:border-slate-500'>
 								<td>{product.producto}</td>
 								<td>${precioUnitario.toFixed(2)}</td>
 							</tr>

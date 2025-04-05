@@ -178,7 +178,7 @@ function ProductPage({ params }) {
 		alert('Producto agregado a la lista de compras');
 	};
 	return (
-		<div className={styles.itemContainer}>
+		<div className={`${styles.itemContainer} dark:bg-slate-700 bg-white text-slate-800 dark:text-slate-100`}>
 			<h1 className={styles.title}>Detalles del Servicio</h1>
 			<h3 className={styles.productName}>
 				Servicio: <span>{product.servicio}</span>
@@ -265,9 +265,10 @@ function ProductPage({ params }) {
 							border: '1px solid #ccc'
 						}}
 					>
-						<option value="">Seleccione un producto</option>
+						<option className="text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-slate-600" value="">Seleccione un producto</option>
 						{ventas.map((producto) => (
 							<option 
+								className="text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-slate-600" 
 								key={producto.id} 
 								value={producto.id}
 								disabled={productosAsociados.some(p => p.id === producto.id && productosAsociados[index].id !== producto.id)}

@@ -106,14 +106,14 @@ function Page() {
 	};
 
 	return (
-		<div className={styles.serviceContainer}>
+		<div className={`${styles.serviceContainer} dark:bg-slate-700 bg-white text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-400`}>
 			<BackButton
 				href='/home'
 				text='Volver'
 				iconSrc='/backIcon.svg'
 			/>
 
-			<h1 className={styles.title}>Gestión de Servicios</h1>
+			<h1 className={`${styles.title} text-slate-800 dark:text-slate-100`}>Gestión de Servicios</h1>
 
 			{/* Botón para mostrar/ocultar el formulario */}
 			<button
@@ -163,7 +163,7 @@ function Page() {
 			{/* Tabla de servicios */}
 			<table className={styles.table}>
 				<thead>
-					<tr>
+					<tr className="bg-slate-200 dark:bg-slate-600 [&>th]:border-1 [&>th]:border-slate-400 dark:[&>th]:border-slate-400 [&>th]:text-slate-800 dark:[&>th]:text-slate-100">
 						<th>Servicio</th>
 						<th>Descripción</th>
 						<th>Precio</th>

@@ -106,17 +106,17 @@ function EditProduct({ params }) {
 	};
 
 	return (
-		<div className={styles.container}>
+		<div className={`${styles.container} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}>
 			<BackButton
 				href='/services'
 				text='Volver'
 				iconSrc='/backIcon.svg'
 			/>
 			<h1>Editar Servicio</h1>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} className='w-full'>
 				{['servicio', 'descripcion', 'precio'].map((field) => (
-					<div key={field}>
-						<label htmlFor={field}>{field}</label>
+					<div key={field} className='mb-4'>
+						<label htmlFor={field} className='font-bold'>{field}:</label>
 						<input
 							type='text'
 							id={field}

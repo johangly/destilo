@@ -69,9 +69,9 @@ function Page() {
 	const ventasFiltradas = ventas.filter((venta) =>
 		venta.id_factura.toString().includes(busqueda.trim())
 	);
-	console.log(ventasFiltradas)
+	
 	return (
-		<div className={styles.container}>
+		<div className={`${styles.container} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}>
 			<BackButton
 				href='/home'
 				text='Volver'
@@ -113,7 +113,7 @@ function Page() {
 
 			<table className={styles.table}>
 				<thead>
-					<tr>
+					<tr className="bg-slate-400 dark:bg-slate-600 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 [&>th]:border-1 [&>th]:border-slate-300 dark:[&>th]:border-slate-500">
 						<th>ID de la Compra</th>
 						<th>Fecha y Hora</th>
 						<th>Monto Total</th>
@@ -124,7 +124,7 @@ function Page() {
 					{ventasFiltradas.map((venta) => {
 						const fechaFormateada = new Date(venta.fecha).toLocaleString();
 						return (
-							<tr key={venta.id}>
+							<tr key={venta.id} className='text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 [&>td]:border-1 [&>td]:border-slate-300 dark:[&>td]:border-slate-500'>
 								<td>{venta.id_factura}</td>
 								<td>{fechaFormateada}</td>
 								<td>${calcularMontoTotal(venta.items).toFixed(2)}</td>

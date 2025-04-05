@@ -1,22 +1,27 @@
 "use client"
-import styles from './page.module.css';
+// import styles from './page.module.css';
 import UserPanel from '@/components/UserPanel';
 import RevenueDashboard from '@/components/RevenueDashboard';
 import SellsAndStock from '@/components/SellsAndStock';
+import Container from '@/components/Container';
 
 export default function Home() {
 
 	return (
-		<div className={styles.page}>
-			<div className={styles.contentMain}>
-				<UserPanel />
-				<div className={styles.initialContent}>
-					<RevenueDashboard />
-					<SellsAndStock />
+		<Container>
+			<div className="w-full max-w-[1200px]">
+				<div className="flex gap-3 justify-center">
+					<UserPanel />
+					<div className="w-full flex gap-3">
+						<RevenueDashboard />
+						<SellsAndStock />
+					</div>
 				</div>
+				<main className=""></main>
+				<footer className=""></footer>
 			</div>
-			<main className={styles.main}></main>
-			<footer className={styles.footer}></footer>
-		</div>
+			{/* <div className={styles.page}> */}
+			{/* </div> */}
+		</Container>
 	);
 }

@@ -116,7 +116,7 @@ function AddCustomerForm() {
 	};
 
 	return (
-		<div className={styles.formContainer}>
+		<div className={`${styles.formContainer} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}>
 			<BackButton
 				href='/customers'
 				text='Volver'
@@ -174,6 +174,7 @@ function AddCustomerForm() {
 						type='email'
 						id='email'
 						value={formData.email}
+						placeholder="correo@gmail.com"
 						onChange={handleChange}
 						required
 					/>

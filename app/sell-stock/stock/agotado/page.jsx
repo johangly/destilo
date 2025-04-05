@@ -5,39 +5,11 @@ import styles from './page.module.css';
 import { useAuth } from '@/context/AuthContext';
 import BackButton from '@/components/BackButton';
 import PrintHeader from '@/components/PrintHeader';
-// Función para eliminar un producto en Firestore
-async function eliminarProducto(id,user) {
-	try {
-		if (!user || !user.role) {
-			throw new Error('No hay sesión activa');
-		}
-
-		const response = await fetch('/api/deleteData', {
-			method: 'DELETE',
-			headers: {
-				'X-User-Role': user.role ? user.role.toString() : '',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ id }),
-		});
-
-		if (!response.ok) {
-			const errorText = await response.text();
-			throw new Error(`Error del servidor: ${errorText}`);
-		}
-
-		console.log(`Producto con ID ${id} eliminado exitosamente.`);
-		return true;
-	} catch (error) {
-		console.error('Error al eliminar producto:', error);
-		return false;
-	}
-}
 
 function Page() {
 	const [ventas, setVentas] = useState([]);
 	const [busqueda, setBusqueda] = useState('');
-	const { user,loading } = useAuth();
+	const { user } = useAuth();
 
 	// Obtener la lista de ventas desde Firestore
 	const obtenerVentas = async () => {
@@ -85,7 +57,7 @@ function Page() {
 
 	return (
 		<div className={styles.page}>
-			<div className={styles.container}>
+			<div className={`bg-white dark:bg-slate-700 ${styles.container}`}>
 				<div>
 					<BackButton
 						href='/sell-stock/stock'
@@ -93,9 +65,9 @@ function Page() {
 						iconSrc='/backIcon.svg'
 					/>
 					<PrintHeader />
-					<h1 className={styles.heading}>Lista de Productos agotados</h1>
-					<button className={styles.button} style={{padding:'10px 20px',fontWeight:'400',backgroundColor:'#48e', border:'none',borderRadius:'4px'}} onClick={()=>{ window.print() }}>Imprimir reporte</button>
-					<div>
+					<h1 className={`text-slate-800 dark:text-slate-100 ${styles.heading}`}>Lista de Productos agotados</h1>
+					<button className={`${styles.button} hideOnPrint mb-2`} style={{padding:'10px 20px',fontWeight:'400',backgroundColor:'#48e', border:'none',borderRadius:'4px'}} onClick={()=>{ window.print() }}>Imprimir reporte</button>
+					<div className="hideOnPrint flex items-center text-slate-800 dark:text-slate-100">
 						<label className={styles.label} htmlFor='buscar'>Buscar producto</label>
 						<input
 							type='text'
@@ -104,7 +76,7 @@ function Page() {
 							placeholder='Buscar por nombre o código'
 							value={busqueda}
 							onChange={(e) => setBusqueda(e.target.value)}
-							className={styles.input}
+							className={`text-slate-800 dark:text-slate-100`}
 							style={{
 								padding: '8px',
 								borderRadius: '5px',
@@ -119,7 +91,7 @@ function Page() {
 				</div>
 				<table className={styles.table}>
 					<thead>
-						<tr>
+						<tr className="bg-slate-200 dark:bg-slate-600 [&>th]:border-1 [&>th]:border-slate-400 dark:[&>th]:border-slate-400 [&>th]:text-slate-800 dark:[&>th]:text-slate-100">
 							<th>Producto</th>
 							<th>Cantidad</th>
 							<th>Precio Unitario</th>

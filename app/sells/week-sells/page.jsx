@@ -60,7 +60,7 @@ function WeekSells() {
     }, [user]);
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}>
             <BackButton
                     href='/sells'
                     text='Volver'
@@ -73,7 +73,7 @@ function WeekSells() {
             </div>
             <table className={styles.table}>
                 <thead>
-                    <tr>
+                    <tr className='bg-slate-400 dark:bg-slate-600 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 [&>th]:border-1 [&>th]:border-slate-300 dark:[&>th]:border-slate-500'>
                         <th>ID de la Compra</th>
                         <th>Cliente</th>
                         <th>Monto Total</th>
@@ -85,7 +85,7 @@ function WeekSells() {
 						const fechaFormateada = new Date(sell.fecha).toLocaleString();
 
                         return(
-                            <tr key={sell.id}>
+                            <tr key={sell.id} className='text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 [&>td]:border-1 [&>td]:border-slate-300 dark:[&>td]:border-slate-500'>
                             <td>{sell.id_factura}</td>
                             <td>{sell.customer.cliente}</td>
                             <td>${calcularMontoTotal(sell.items).toFixed(2)}</td>

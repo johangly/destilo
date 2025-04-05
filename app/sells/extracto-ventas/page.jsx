@@ -121,24 +121,26 @@ function VentasFiltradas() {
 	};
 
 	return (
-		<div className={styles.container}>
+		<div className={`${styles.container} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500`}>
 			<BackButton
 				href='/home'
 				text='Volver'
 				iconSrc='/backIcon.svg'
 			/>
 			<h2 className={styles.heading}>Filtrar Ventas por Fecha</h2>
-			<div className={styles.filters}>
+			<div className={`${styles.filters} flex justify-center items-center`}>
 				<label>Fecha Inicio:</label>
 				<input
 					type='date'
 					value={fechaInicio}
 					onChange={(e) => setFechaInicio(e.target.value)}
+					className='bg-slate-100 text-slate-800 border-1 border-slate-500'
 				/>
 				<label>Fecha Fin:</label>
 				<input
 					type='date'
 					value={fechaFin}
+					className='bg-slate-100 text-slate-800 border-1 border-slate-500'
 					onChange={(e) => setFechaFin(e.target.value)}
 				/>
 				<button
@@ -155,9 +157,9 @@ function VentasFiltradas() {
 				</button>
 			</div>
 
-			<table className={styles.table}>
-				<thead>
-					<tr>
+			<table className={`${styles.table}`}>
+				<thead className="bg-slate-400 dark:bg-slate-600 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500">
+					<tr className='[&>th]:border-1 [&>th]:border-slate-300 dark:[&>th]:border-slate-500'>
 						<th>ID Factura</th>
 						<th>Fecha</th>
 						<th>Productos</th>
@@ -167,7 +169,9 @@ function VentasFiltradas() {
 				<tbody>
 					{ventasFiltradas.length > 0 ? (
 						ventasFiltradas.map((venta) => (
-							<tr key={venta.id_factura}>
+							<tr
+								className='[&>td]:border-1 [&>td]:border-slate-300 dark:[&>td]:border-slate-500'
+								key={venta.id_factura}>
 								<td>{venta.id_factura}</td>
 								<td>{new Date(venta.fecha).toLocaleDateString()}</td>
 								<td>

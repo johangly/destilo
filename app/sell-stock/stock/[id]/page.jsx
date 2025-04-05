@@ -155,14 +155,15 @@ function EditProduct({ params }) {
 	};
 
 	return (
-		<div className={styles.container}>
+		<div className={`bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 [&_input]:border-1 [&_input]:border-slate-400 [&_select]:border-1 [&_select]:border-slate-400 ${styles.container}`}>
 			<BackButton
 				href='/sell-stock/stock'
 				text='Volver'
 				iconSrc='/backIcon.svg'
+				className='mb-5'
 			/>
 			<h1>Editar Producto</h1>
-			<form onSubmit={handleSubmit}>
+			<form className="w-full" onSubmit={handleSubmit}>
 				{['producto', 'cantidad', 'precioUnitario', 'codigo'].map(
 					(field) => (
 						<div
@@ -194,15 +195,14 @@ function EditProduct({ params }) {
 						id='selectedCustomer'
 						style={{
 							width: '100%',
-							maxWidth: '313px',
-							border: '1px solid #ccc',
 							borderRadius: '4px',
 							padding: '8px',
 							boxSizing: 'border-box',
 						}}>
-						<option value="">Selecciona un cliente</option>
+						<option className="text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-slate-600" value="">Selecciona un cliente</option>
 						{suppliers.map((supplier) => (
 							<option
+							className="text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-slate-600"
 								key={supplier.id}
 								value={supplier.id}
 							>

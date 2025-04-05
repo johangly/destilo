@@ -101,25 +101,25 @@ function Page() {
 	}, [user]);
 
 	return (
-		<div className={styles.page}>
-			<div className={styles.container}>
+		<div className={`${styles.page} bg-white dark:bg-slate-800`}>
+			<div className={`${styles.container} bg-white dark:bg-slate-700 mt-10`}>
 				<div>
 					<BackButton
 						href='/home'
 						text='Volver'
 						iconSrc='/backIcon.svg'
 					/>
-					<h1 className={styles.heading}>Lista de Inventario</h1>
+					<h1 className={`${styles.heading} text-slate-800 dark:text-slate-100`}>Lista de Inventario</h1>
 					<div style={{display:'flex',gap:'0.5rem'}}>
 						<Link href='/addItem'>
-							<button className={styles.addButton}>Agregar nuevo producto</button>
+							<button className={`${styles.addButton} bg-green-500 dark:bg-green-600 text-slate-100`}>Agregar nuevo producto</button>
 						</Link>
 						<Link href='/sell-stock/stock/agotado'>
-							<button className={styles.addButton} style={{backgroundColor:'#d00'}}>Productos proximos a agotarse</button>
+							<button className={`${styles.addButton} bg-red-500 dark:bg-red-600 text-slate-100`}>Productos proximos a agotarse</button>
 						</Link>
 					</div>
-					<div>
-						<label htmlFor='buscar'>Buscar producto</label>
+					<div className="mt-4">
+						<label htmlFor='buscar' className="text-slate-800 dark:text-slate-100">Buscar producto</label>
 						<input
 							type='text'
 							id='buscar'
@@ -127,15 +127,7 @@ function Page() {
 							placeholder='Buscar por nombre o código'
 							value={busqueda}
 							onChange={(e) => setBusqueda(e.target.value)}
-							style={{
-								padding: '8px',
-								borderRadius: '5px',
-								border: '1px solid #ccc',
-								outline: 'none',
-								width: '250px',
-								marginLeft: '10px',
-								marginTop: '10px',
-							}}
+							className="ml-4 p-2 border rounded-md w-64 dark:bg-slate-700 dark:text-slate-100"
 						/>
 					</div>
 				</div>
@@ -153,7 +145,7 @@ function Page() {
 				</div>
 				<table className={styles.table}>
 					<thead>
-						<tr>
+						<tr className="bg-slate-200 dark:bg-slate-600 [&>th]:border-1 [&>th]:border-slate-400 dark:[&>th]:border-slate-400 [&>th]:text-slate-800 dark:[&>th]:text-slate-100">
 							<th>Producto</th>
 							<th>Cantidad</th>
 							<th>Precio Unitario</th>
@@ -164,7 +156,7 @@ function Page() {
 					</thead>
 					<tbody>
 						{productosFiltrados.map((venta) => (
-							<tr key={venta.id}>
+							<tr key={venta.id} className="text-slate-800 dark:text-slate-100 [&>td]:border-1 [&>td]:border-slate-300 dark:[&>td]:border-slate-500">
 								<td>{venta.producto}</td>
 								<td>{venta.cantidad}</td>
 								<td>${venta.precioUnitario}</td>
