@@ -47,7 +47,7 @@ export default function Login() {
 	return (
 		<div className="flex flex-col items-center justify-center min-h-[calc(100vh-76px)] bg-gray-100 dark:bg-slate-800 p-5">
 			<div className="bg-white dark:bg-slate-700 p-8 rounded-lg shadow-md w-full max-w-[400px] text-center mb-[76px]">
-				<h1 className="text-black dark:text-white text-[2rem] mb-[20px]">Inicio de Sesión</h1>
+				<h1 className="text-slate-800 dark:text-slate-100 text-[2rem] mb-[20px]">Inicio de Sesión</h1>
 				<Image
 					src='logoDarkMode.svg'
 					alt='Logo'
@@ -93,18 +93,27 @@ export default function Login() {
 				</form>
 				{message && <p className="mt-4 text-sm text-red-500">{message}</p>}
 				<Link
-					href='/reset-password'
+					href='/recuperar-cuenta'
 					className="mt-4 block text-sm text-blue-500 hover:underline"
 				>
 					¿Olvidaste tu contraseña?
 				</Link>
 			</div>
-			<Link 
-				href="/soporte" 
-				className="text-sm text-blue-500 hover:underline fixed bottom-6"
-			>
-				Soporte Tecnico
-			</Link>
+			<div className='fixed bottom-6 flex gap-5 justify-center items-center'>
+				<Link 
+					href="/soporte" 
+					className="text-sm text-blue-500 hover:underline"
+				>
+					Soporte Tecnico
+				</Link>
+				<span className='font-light text-xl text-center'>|</span>
+				<Link 
+					href="/manual" 
+					className="text-sm text-blue-500 hover:underline"
+				>
+					Manual de Usuario
+				</Link>
+			</div>
 		</div>
 	);
 }

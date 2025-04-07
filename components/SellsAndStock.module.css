@@ -46,22 +46,3 @@
     width: 100%;
     gap: 10px;
 }
-
-.sellsAndStock__logo
-{
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    justify-content: flex-end;
-    align-items: flex-end;
-    font-weight: 500;
-    width: 100%;
-    flex: 1;
-}
-
-.sellsAndStock__logo p
-{
-    display: flex;
-    align-items: flex-end;
-    margin-right: 5px;
-}

@@ -73,24 +73,32 @@ function SellsAndStock() {
 					))}
 				</ul>
 			</div>
-			<div style={{ flex:'none',display: 'flex', alignItems: 'center',justifyContent:'end',gap:'5px',marginTop:'auto' }} className={`${styles.sellsAndStock__logo} text-slate-800 dark:text-slate-100`}>
-				<Image
-					src='/logo-group-1.svg'
-					alt='Logo software'
-					width={115}
-					height={30}
-					style={{marginBottom:'3px'}}
-					className="dark:hidden block"
-				/>
-				<Image
-					src='/stockvenLigth.svg'
-					alt='Logo software'
-					width={115}
-					height={30}
-					style={{marginBottom:'3px'}}
-					className="dark:block hidden"
-				/>
-				<p className="text-xs">v1.1</p>
+			<div className={`mt-auto flex justify-between items-end text-slate-800 dark:text-slate-100`}>
+				<Link 
+					href="/soporte" 
+					className="text-sm text-blue-500 hover:underline text-center flex justify-start items-end"
+				>
+					Soporte Tecnico
+				</Link>
+				<div className='flex justify-end items-end'>
+					<Image
+						src='/logo-group-1.svg'
+						alt='Logo software'
+						width={115}
+						height={30}
+						style={{marginBottom:'-5px'}}
+						className="dark:hidden block"
+					/>
+					<Image
+						src='/stockvenLigth.svg'
+						alt='Logo software'
+						width={115}
+						height={30}
+						style={{marginBottom:'-5px'}}
+						className="dark:block hidden"
+					/>
+					<p className="text-xs ml-2">v1.1</p>
+				</div>
 			</div>
 		</div>
 	);

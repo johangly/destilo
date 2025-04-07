@@ -16,13 +16,19 @@ function Page() {
 			<div className={styles.linkContainer}>
 				<Link
 					href='/'
-					className={styles.link}
+					className={`${styles.link} bg-blue-600 px-4 py-2 text-slate-100`}
 				>
 					Iniciar Sesión
 				</Link>
 				<Link
+					href='/user/security-questions'
+					className={`${styles.link} bg-green-600 px-4 py-2 text-slate-100`}
+				>
+					Preguntas de seguridad
+				</Link>
+				<Link
 					href='/reset-password'
-					className={styles.link}
+					className={`${styles.link} bg-purple-600 px-4 py-2 text-slate-100`}
 				>
 					Cambiar Contraseña
 				</Link>

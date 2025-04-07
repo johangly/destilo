@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import styles from './page.module.css';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function ResetPassword({ params }) {
 	const { token } = React.use(params);
-
+	const router = useRouter();
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [message, setMessage] = useState('');
@@ -30,7 +31,10 @@ export default function ResetPassword({ params }) {
 
 			if (!response.ok) throw new Error(data.error);
 
-			setMessage('Contraseña restablecida con éxito.');
+			setMessage('Contraseña restablecida con éxito, redirigiendo al login...');
+			setTimeout(() => {
+				router.push('/');
+			}, 3000);
 		} catch (error) {
 			setMessage('Error al restablecer la contraseña');
 		}

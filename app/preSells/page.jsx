@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useListaCompras } from '@/context/sellsContext';
 import styles from './page.module.css';
-import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import BackButton from '@/components/BackButton';
 
@@ -29,6 +28,14 @@ function ListaCompras() {
 	const [allCustomers, setAllCustomers] = useState([]); // Todos los clientes
 	const [selectedCustomer, setSelectedCustomer] = useState({
 		id: 0,});
+
+	useEffect(() => {
+		// Cargar la última tasa usada del localStorage
+		const lastUsedTasa = localStorage.getItem('lastUsedTasa');
+		if (lastUsedTasa) {
+			setTasa(lastUsedTasa);
+		}
+	}, []);
 
 	const handleChange = (e) => {
 		const { id, value } = e.target;
@@ -218,7 +225,8 @@ function ListaCompras() {
 				const errorData = await response.json();
 				throw new Error(errorData.error || 'Error al procesar la compra');
 			}
-
+			// guardar la tasa en el localStorage
+			localStorage.setItem('lastUsedTasa', tasa);
 			alert('Compra procesada con éxito.');
 
 			// Llamar a la función para actualizar las cantidades en stock
@@ -381,6 +389,8 @@ function ListaCompras() {
 			 setEmpresa(false);
 		}
 	};
+
+
 	return (
 		<div className={`${styles.container} text-slate-700 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 `}>
 			<BackButton

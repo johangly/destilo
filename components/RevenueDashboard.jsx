@@ -42,7 +42,8 @@ function RevenueDashboard() {
 	}, 0) : 0;
 
 	return (
-		<div className={`${styles.revenueDashboard} bg-white border-t-4 rounded-xl border-slate-600 dark:bg-slate-700 text-slate-800 dark:text-slate-100`}>
+		<div className={`${styles.revenueDashboard} bg-white border-t-4 rounded-xl border-slate-600 dark:bg-slate-700 text-slate-800 dark:text-slate-100 relative`}>
+			<span className="text-3xl font-bold absolute top-10 left-1/2 transform -translate-x-1/2">¡Bienvenido!</span>
 			<Image src='/navbar-icon.svg' className="dark:hidden block" alt='logo' width={220} height={80}/>
 			<Image src='/logoDarkMode.svg' className="hidden dark:block" alt='logo' width={220} height={80}/>
 			<h2>Consolidado de Ventas</h2>
