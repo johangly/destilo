@@ -11,7 +11,7 @@ function ListaClientes() {
 	const [users, setUsers] = useState([]); // Clientes filtrados
 	const [allUsers, setAllUsers] = useState([]); // Todos los clientes
 	const [message, setMessage] = useState(null);
-	const { user,loading } = useAuth();
+	const { user } = useAuth();
 
 	// Obtener clientes desde Firebase
 	const getUsers = async () => {
@@ -30,7 +30,6 @@ function ListaClientes() {
 
 			if (!response.ok) throw new Error('Error al obtener los usuarios');
 			const data = await response.json();
-			console.log("getUsers:",data)
 			const newUsers = data.filter((newUser) => Number(newUser.id) !== Number(user.id));
 			setUsers(newUsers);
 			setAllUsers(newUsers);
@@ -143,6 +142,12 @@ function ListaClientes() {
 							</p>
 							<p className={styles.detail}>
 								<strong>Correo Electronico:</strong> {user.email}
+							</p>
+							<p className={styles.detail}>
+								<strong>Verificado:</strong>
+								<span className='text-green-500 ml-2 font-bold'>
+								{user.status === 'validated'? 'Si' : 'No'}
+								</span>
 							</p>
 							<p className={styles.detail}>
 								<strong>Rol:</strong> {user.role}

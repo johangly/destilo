@@ -5,6 +5,7 @@ import Link from 'next/link';
 import styles from './page.module.css';
 import { useAuth } from '@/context/AuthContext'; // 🔥 Importa el contexto de autenticación
 import Container from '@/components/Container';
+import BackButton from '@/components/BackButton';
 
 function Page() {
 	const { logout } = useAuth(); // 🔥 Usa la función de logout del contexto
@@ -12,6 +13,13 @@ function Page() {
 	return (
 		<Container>
 		<div className={`${styles.container} bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-1 border-slate-300 dark:border-slate-500 rounded`}>
+			<div className='flex items-center justify-start w-full mb-4'>
+			<BackButton
+				href='/home'
+				text='Volver'
+				iconSrc='/backIcon.svg'
+			/>
+			</div>
 			<h1>Opciones de usuario</h1>
 			<div className={styles.linkContainer}>
 				<Link

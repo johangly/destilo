@@ -67,6 +67,14 @@ export default function Login() {
             />
           </div>
         </div>
+        <div className="flex items-center justify-start w-full mb-2 px-6">
+        <Link
+          href="/"
+          className="text-sm text-blue-500 hover:underline mx-auto mt-5"
+        >
+          Volver al inicio de sesión
+        </Link>
+        </div>
       </div>
     </div>
   );

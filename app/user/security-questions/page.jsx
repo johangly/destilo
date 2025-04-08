@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Container from "@/components/Container"
 import { useAuth } from "@/context/AuthContext"
+import BackButton from "@/components/BackButton"
 
 const predefinedQuestions = [
     "¿Cuál es el nombre de tu primera mascota?",
@@ -125,6 +126,13 @@ export default function SecurityQuestionsForm() {
     return (
         <Container>
             <Card className="w-full rounded max-w-lg mx-auto my-[40px] dark:bg-slate-700 text-slate-800 dark:text-slate-100">
+                <div className='flex items-center justify-start w-full mb-2 px-6'>
+                <BackButton
+                    href='/user'
+                    text='Volver'
+                    iconSrc='/backIcon.svg'
+                />
+                </div>
                 <CardHeader>
                     <CardTitle>Preguntas de seguridad</CardTitle>
                     <CardDescription>

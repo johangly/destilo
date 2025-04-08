@@ -5,6 +5,7 @@ import styles from './page.module.css';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import BackButton from '@/components/BackButton';
+import { Checkbox } from "@/components/ui/checkbox";
 
 function AddCustomerForm() {
 	const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ function AddCustomerForm() {
 		email: '',
 		password: '',
 		role: '',
+		requireEmailValidation: true
 	});
 
 	const [loading, setLoading] = useState(false);
@@ -84,6 +86,7 @@ function AddCustomerForm() {
 			email: formData.email.trim(),
 			password: formData.password,
 			role: formData.role,
+			requireEmailValidation: formData.requireEmailValidation
 		};
 
 		try {
@@ -97,7 +100,7 @@ function AddCustomerForm() {
 				headers: {
 					'X-User-Role': user.role ? user.role.toString() : '',
 					'Content-Type': 'application/json'
-    			},
+				},
 				body: JSON.stringify(dataToSend), // Enviar todos los campos
 			});
 
@@ -112,7 +115,9 @@ function AddCustomerForm() {
 				email: '',
 				password: '',
 				role: '',
+				requireEmailValidation: true
 			});
+			setLoading(false);
 		} catch (error) {
 			setMessage('Error al agregar el usuario. Intenta nuevamente.');
 		} finally {
@@ -176,12 +181,26 @@ function AddCustomerForm() {
 						<option className={`bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100`} value="employee">Empleado</option>
 					</select>
 				</div>
+				<div className={`flex justify-start items-center gap-3 mt-2 mb-3`}>
+					<Checkbox
+						id="requireEmailValidation"
+						checked={formData.requireEmailValidation}
+						onCheckedChange={(checked) => setFormData(prev => ({ ...prev, requireEmailValidation: checked }))}
+					/>
+					<label
+						className="text-[15px] leading-none text-slate-800 dark:text-slate-100 m-0 p-0 select-none"
+						style={{marginBottom:'0.2rem'}}
+						htmlFor="requireEmailValidation"
+					>
+						Requerir verificación por correo electrónico
+					</label>
+				</div>
 				<button
 					type='submit'
 					className={styles.submitButton}
 					disabled={loading}
 				>
-					{loading ? 'Creando...' : 'Creando Usuario'}
+					{loading ? 'Creando...' : 'Crear Usuario'}
 				</button>
 			</form>
 			<Link
@@ -190,8 +209,8 @@ function AddCustomerForm() {
 					marginTop: '1rem',
 					display: 'block',
 					textAlign: 'center',
-					color: '#1a73e8',
 				}}
+				className='text-blue-400'
 			>
 				Regresar a la lista de usuarios
 			</Link>

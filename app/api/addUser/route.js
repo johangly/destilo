@@ -17,7 +17,8 @@ export async function POST(request) {
             username,
             email,
             password,
-            role    
+            role,
+            requireEmailValidation
         } = body;
 
         // Validación de campos obligatorios
@@ -37,13 +38,14 @@ export async function POST(request) {
             username,
             email,
             password,
-            role
+            role,
+            requireEmailValidation
         });
 
         return new Response(
             JSON.stringify({
                 id: result.id,
-                message: 'Usuario creado exitosamente. Por favor, revisa tu correo electrónico para activar tu cuenta.',
+                ...result
             }),
             {
                 status: 201,
