@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { DeleteIcon } from '@/components/Icons';
 import { useAuth } from '@/context/AuthContext';
 import BackButton from '@/components/BackButton';
+import { clsx } from 'clsx';
 
 function ListaClientes() {
 	const [users, setUsers] = useState([]); // Clientes filtrados
@@ -145,7 +146,10 @@ function ListaClientes() {
 							</p>
 							<p className={styles.detail}>
 								<strong>Verificado:</strong>
-								<span className='text-green-500 ml-2 font-bold'>
+								<span className={clsx('ml-2 font-bold', {
+									'text-green-500': user.status === 'validated',
+									'text-red-500': user.status !== 'validated'
+								})}>
 								{user.status === 'validated'? 'Si' : 'No'}
 								</span>
 							</p>
