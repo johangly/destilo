@@ -12,7 +12,7 @@ export default function page() {
         <BackButton
           text='Volver'
           iconSrc='/backIcon.svg'
-          onClick={() => router.back()}
+          href='/'
         />
       </div>  
       <div className="w-full max-w-[1200px]">
