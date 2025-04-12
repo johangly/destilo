@@ -10,7 +10,7 @@ const PrintHeader = () => {
     }, []);
 
     return (
-        <div className="showOnPrint" style={{justifyContent:'space-between',alignItems:'center',marginBottom:'20px'}}>
+        <div className="hidden print:flex!" style={{justifyContent:'space-between',alignItems:'center',marginBottom:'20px'}}>
             <Image
                 src='/navbar-icon.svg'
                 alt='Logo'
