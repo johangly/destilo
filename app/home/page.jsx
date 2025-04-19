@@ -19,8 +19,6 @@ export default function Home() {
 				<main className=""></main>
 				<footer className=""></footer>
 			</div>
-			{/* <div className={styles.page}> */}
-			{/* </div> */}
 		</Container>
 	);
 }
