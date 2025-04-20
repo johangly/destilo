@@ -52,14 +52,14 @@ function ProductPage({ params }) {
 			obtenerProducto(); 
 		}
 	}, [id,user]);
-
+	console.log('product',product)
 	const totalCompra = product ? product.items.reduce(
 		(total, producto) => {
 			if (producto.type === 'stock') {
 				return parseFloat(total) + parseFloat(producto.precioTotal);
 			} else if (producto.type === 'service') {
 				if (!producto.items || producto.items.length === 0) {
-					return total;
+					return parseFloat(total) + parseFloat(producto.precioTotal);
 				}
 
 				const totalItems = parseFloat(total) + producto.items.reduce((subTotal, item) => parseFloat(subTotal) + parseFloat(item.precioTotal), 0);
@@ -70,7 +70,7 @@ function ProductPage({ params }) {
 		},
 		0
 	) : 0;
-
+	console.log('totalCompra',totalCompra)
 	if(loading){
 		return <div style={{width:'100%',minHeight:'80vh',display:'flex',justifyContent:'center',alignItems:'center'}}>
 			<p>Cargando...</p>
