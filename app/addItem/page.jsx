@@ -89,7 +89,7 @@ function AddVentaComponent() {
 		}
 		
 		await agregarVenta(venta,user); // Llama a la función para agregar la venta
-		alert('Venta agregada con éxito');
+		alert('Producto agregado con éxito');
 		setSelectedSupplier({ id: 0 });
 		setVenta({
 			producto: '',
