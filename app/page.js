@@ -49,14 +49,14 @@ export default function Login() {
 			<div className="bg-white dark:bg-slate-700 p-8 rounded-lg shadow-md w-full max-w-[400px] text-center mb-[76px]">
 				<h1 className="text-slate-800 dark:text-slate-100 text-[2rem] mb-[20px]">Inicio de Sesión</h1>
 				<Image
-					src='logoDarkMode.svg'
+					src='/logoDarkMode.png'
 					alt='Logo'
 					width={200}
 					height={70}
 					className="hidden dark:inline mb-5"
 				/>
 				<Image
-					src='/navbar-icon.svg'
+					src='/navbar-icon.png'
 					alt='Logo'
 					width={200}
 					height={70}
