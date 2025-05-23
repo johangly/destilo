@@ -133,12 +133,19 @@ function Page() {
 				</div>
 				<div>
 					{/* Aviso de poco stock */}
-					{ventas.some((venta) => venta.cantidad < 3) && (
+					{ventas.some((venta) => venta && venta.cantidad < 3) && (
 						<p className={styles.stockWarning}>
 							<strong>Productos con stock menor a 3 unidades:</strong>{' '}
 							{ventas
-								.filter((venta) => venta.cantidad <= 3)
-								.map((venta) => venta.producto + ' (' + venta.proveedor.nombre + ')')
+								.filter((venta) => venta && venta.cantidad <= 3)
+								.map((venta) => 
+									venta && venta.producto + ' (' + 
+									(
+										venta.proveedor && venta.proveedor.nombre
+											? venta.proveedor.nombre
+											: 'Sin proveedor'
+									) + ')'
+								)
 								.join(', ')}
 						</p>
 					)}
@@ -156,21 +163,25 @@ function Page() {
 					</thead>
 					<tbody>
 						{productosFiltrados.map((venta) => (
-							<tr key={venta.id} className="text-slate-800 dark:text-slate-100 [&>td]:border-1 [&>td]:border-slate-300 dark:[&>td]:border-slate-500">
-								<td>{venta.producto}</td>
-								<td>{venta.cantidad}</td>
-								<td>${venta.precioUnitario}</td>
-								<td>{venta.codigo || 'Sin código'}</td>
-								<td>{venta.proveedor.nombre || 'Sin proveedor'}</td>
+							<tr key={venta?.id} className="text-slate-800 dark:text-slate-100 [&>td]:border-1 [&>td]:border-slate-300 dark:[&>td]:border-slate-500">
+								<td>{venta?.producto || 'Sin producto'}</td>
+								<td>{venta?.cantidad ?? 'Sin cantidad'}</td>
+								<td>${venta?.precioUnitario ?? 'Sin precio'}</td>
+								<td>{venta?.codigo || 'Sin código'}</td>
+								<td>
+									{venta?.proveedor && venta.proveedor.nombre
+										? venta.proveedor.nombre
+										: 'Sin proveedor'}
+								</td>
 								<td className={styles.actionButtonsContainer}>
-									<Link href={`/sell-stock/stock/${venta.id}`}>
+									<Link href={`/sell-stock/stock/${venta?.id}`}>
 										<button className={styles.actionButton}>
 											<EditIcon />
 										</button>
 									</Link>
 									<button
 										className={styles.actionButton}
-										onClick={() => handleEliminar(venta.id)}
+										onClick={() => venta && handleEliminar(venta.id)}
 									>
 										<DeleteIcon />
 									</button>
